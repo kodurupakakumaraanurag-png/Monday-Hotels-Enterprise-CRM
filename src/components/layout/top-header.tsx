@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   Search,
   Bell,
@@ -11,8 +12,13 @@ import {
   LogOut,
   Shield,
   Sparkles,
+  ChevronDown,
+  RefreshCw,
 } from "lucide-react";
 import { PropertySelector } from "./property-selector";
+import { useAuth } from "@/context/auth-context";
+import { getRoleBadgeStyle, DEMO_ACCOUNTS } from "@/lib/auth/rbac";
+import { UserRole } from "@/types/auth";
 
 interface TopHeaderProps {
   onToggleMobileSidebar: () => void;
@@ -20,9 +26,28 @@ interface TopHeaderProps {
 }
 
 export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProps) {
+  const router = useRouter();
+  const { user, role, signOut, signInAsDemoRole } = useAuth();
+
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  const roleBadge = getRoleBadgeStyle(role || "VIEWER");
+
+  const getInitials = (name: string) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push("/login");
+  };
 
   return (
     <header className="sticky top-0 z-30 h-16 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-6 flex items-center justify-between gap-4 transition-all">
@@ -59,16 +84,17 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
 
       {/* Right: Quick Action, Notifications & User Avatar */}
       <div className="flex items-center gap-2.5">
-        {/* Quick New Lead Button */}
+        {/* Quick Action */}
         <button
           type="button"
+          onClick={() => router.push("/leads")}
           className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-semibold text-xs rounded-lg shadow-sm transition-all active:scale-[0.98]"
         >
           <Plus className="w-4 h-4" />
           <span>New Lead</span>
         </button>
 
-        {/* Notifications Icon Dropdown */}
+        {/* Notifications Dropdown */}
         <div className="relative">
           <button
             type="button"
@@ -87,7 +113,7 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
               <div className="fixed inset-0 z-30" onClick={() => setShowNotifications(false)} />
               <div className="absolute right-0 mt-2 w-80 z-40 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl p-3 animate-in fade-in zoom-in-95 duration-150">
                 <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                  <span className="text-xs font-semibold text-slate-200">Notifications</span>
+                  <span className="text-xs font-semibold text-slate-200">System Notifications</span>
                   <span className="text-[10px] text-amber-400 hover:underline cursor-pointer">Mark all read</span>
                 </div>
                 <div className="divide-y divide-slate-800/60 text-xs py-1">
@@ -107,7 +133,7 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
           )}
         </div>
 
-        {/* User Profile Avatar Menu */}
+        {/* User Profile Avatar & Menu */}
         <div className="relative">
           <button
             type="button"
@@ -115,36 +141,65 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
             className="flex items-center gap-2 pl-2 pr-2 sm:pr-3 py-1 rounded-lg bg-slate-900/60 border border-slate-800 hover:bg-slate-800/80 transition-all"
           >
             <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 text-slate-950 font-bold text-xs flex items-center justify-center shadow-inner shrink-0">
-              VS
+              {user ? getInitials(user.fullName) : "EX"}
             </div>
             <div className="text-left hidden md:block">
-              <div className="text-xs font-semibold text-slate-200 leading-tight">Victoria Sterling</div>
-              <div className="text-[10px] text-amber-400/90 font-medium leading-none">VP Hospitality Sales</div>
+              <div className="text-xs font-semibold text-slate-200 leading-tight">
+                {user ? user.fullName : "Guest User"}
+              </div>
+              <div className="text-[10px] text-amber-400/90 font-semibold leading-none flex items-center gap-1 mt-0.5">
+                <span>{roleBadge.label}</span>
+              </div>
             </div>
+            <ChevronDown className="w-3.5 h-3.5 text-slate-400 hidden sm:block" />
           </button>
 
           {showUserMenu && (
             <>
               <div className="fixed inset-0 z-30" onClick={() => setShowUserMenu(false)} />
-              <div className="absolute right-0 mt-2 w-56 z-40 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl p-2 text-xs divide-y divide-slate-800/80 animate-in fade-in zoom-in-95 duration-150">
-                <div className="px-3 py-2">
-                  <div className="font-semibold text-slate-100">Victoria Sterling</div>
-                  <div className="text-slate-400 text-[11px]">v.sterling@mondayhotels.com</div>
-                  <div className="mt-1 inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-medium">
-                    <Shield className="w-3 h-3" /> Enterprise Admin
+              <div className="absolute right-0 mt-2 w-64 z-40 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl p-2 text-xs divide-y divide-slate-800/80 animate-in fade-in zoom-in-95 duration-150">
+                <div className="px-3 py-2 space-y-1">
+                  <div className="font-semibold text-slate-100">{user?.fullName}</div>
+                  <div className="text-slate-400 text-[11px] truncate">{user?.email}</div>
+                  <div className="pt-1">
+                    <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded border font-bold ${roleBadge.badgeClass}`}>
+                      <Shield className="w-3 h-3" /> {roleBadge.label}
+                    </span>
                   </div>
                 </div>
-                <div className="py-1">
-                  <button className="w-full text-left px-3 py-1.5 text-slate-300 hover:bg-slate-800 hover:text-slate-100 rounded flex items-center gap-2">
-                    <User className="w-3.5 h-3.5 text-slate-400" /> Staff Profile
-                  </button>
-                  <button className="w-full text-left px-3 py-1.5 text-slate-300 hover:bg-slate-800 hover:text-slate-100 rounded flex items-center gap-2">
-                    <Sparkles className="w-3.5 h-3.5 text-slate-400" /> Preferences
-                  </button>
+
+                {/* Switch Role Quick Test Options */}
+                <div className="py-2 px-3 space-y-1.5">
+                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 text-amber-400" /> Switch Active Role Profile:
+                  </div>
+                  <div className="space-y-1 max-h-36 overflow-y-auto">
+                    {DEMO_ACCOUNTS.map((acc) => (
+                      <button
+                        key={acc.role}
+                        onClick={() => {
+                          signInAsDemoRole(acc.role);
+                          setShowUserMenu(false);
+                        }}
+                        className={`w-full text-left px-2 py-1 rounded text-[11px] flex items-center justify-between ${
+                          role === acc.role
+                            ? "bg-amber-500/20 text-amber-300 font-bold"
+                            : "text-slate-300 hover:bg-slate-800"
+                        }`}
+                      >
+                        <span className="truncate">{acc.role}</span>
+                        <span className="text-[9px] text-slate-500">{acc.name.split(" ")[0]}</span>
+                      </button>
+                    ))}
+                  </div>
                 </div>
+
                 <div className="pt-1">
-                  <button className="w-full text-left px-3 py-1.5 text-rose-400 hover:bg-rose-500/10 rounded flex items-center gap-2">
-                    <LogOut className="w-3.5 h-3.5" /> Sign Out
+                  <button
+                    onClick={handleSignOut}
+                    className="w-full text-left px-3 py-2 text-rose-400 hover:bg-rose-500/10 rounded flex items-center gap-2 font-medium transition-colors"
+                  >
+                    <LogOut className="w-3.5 h-3.5" /> Sign Out of Enterprise CRM
                   </button>
                 </div>
               </div>
