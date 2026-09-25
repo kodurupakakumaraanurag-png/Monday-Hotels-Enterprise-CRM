@@ -1,455 +1,486 @@
 "use client";
 
-import React, { useState } from "react";
-import { PageHeader } from "@/components/layout/page-header";
+import React, { useState, useMemo } from "react";
 import {
-  MOCK_RESERVATIONS,
-  ReservationItem,
-  ReservationStatus,
-  getReservationStatusBadge,
-  getPaymentBadge,
-  getVIPTierBadge,
-} from "@/lib/demo-data/reservations-data";
-import {
-  CalendarDays,
+  Calendar,
   Search,
   Filter,
   Plus,
-  BedDouble,
-  CreditCard,
-  DollarSign,
-  UserCheck,
+  Bed,
   CheckCircle2,
   Clock,
-  X,
+  DollarSign,
+  AlertTriangle,
+  User,
   Building2,
-  ArrowUpRight,
-  TrendingUp,
+  Grid,
+  List as ListIcon,
   ShieldCheck,
-  User
+  Edit2,
+  FileText,
+  UserCheck,
+  X,
 } from "lucide-react";
+import {
+  getReservations,
+  updateReservationStatus,
+  updatePaymentStatus,
+  Reservation,
+} from "@/lib/services/reservation-service";
+import {
+  ReservationStatusType,
+  PaymentStatusType,
+} from "@/lib/validations/reservation-schema";
+import { ReservationFormModal } from "@/components/reservations/reservation-form-modal";
 
 export default function ReservationsPage() {
-  const [reservations, setReservations] = useState<ReservationItem[]>(MOCK_RESERVATIONS);
+  const [reservations, setReservations] = useState<Reservation[]>(() =>
+    getReservations()
+  );
+  const [activeTab, setActiveTab] = useState<"directory" | "availability" | "history">("directory");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedStatus, setSelectedStatus] = useState<string>("ALL");
+  const [selectedPaymentStatus, setSelectedPaymentStatus] = useState<string>("ALL");
   const [selectedProperty, setSelectedProperty] = useState<string>("ALL");
-  const [showAddModal, setShowAddModal] = useState(false);
 
-  // New Reservation Form State
-  const [newGuestName, setNewGuestName] = useState("");
-  const [newEmail, setNewEmail] = useState("");
-  const [newPhone, setNewPhone] = useState("");
-  const [newProperty, setNewProperty] = useState("Monday Grand Palace, Delhi");
-  const [newRoomType, setNewRoomType] = useState("Executive Suite");
-  const [newCheckIn, setNewCheckIn] = useState("2026-10-05");
-  const [newCheckOut, setNewCheckOut] = useState("2026-10-09");
-  const [newTotalAmount, setNewTotalAmount] = useState(2800);
+  const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const [reservationToEdit, setReservationToEdit] = useState<Reservation | undefined>(undefined);
+  const [selectedReservationDetail, setSelectedReservationDetail] = useState<Reservation | null>(null);
 
-  // Filtered reservations calculation
-  const filteredReservations = reservations.filter((res) => {
-    const matchesSearch =
-      res.guestName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      res.code.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      res.roomNumber.toLowerCase().includes(searchQuery.toLowerCase());
-
-    const matchesStatus = selectedStatus === "ALL" || res.status === selectedStatus;
-    const matchesProp = selectedProperty === "ALL" || res.property.includes(selectedProperty);
-
-    return matchesSearch && matchesStatus && matchesProp;
-  });
-
-  const totalBookedValue = filteredReservations.reduce((acc, curr) => acc + curr.totalAmount, 0);
-
-  // Status Action Handlers
-  const handleStatusChange = (id: string, newStatus: ReservationStatus) => {
-    setReservations((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, status: newStatus } : r))
-    );
+  const refreshReservations = () => {
+    setReservations([...getReservations()]);
   };
 
-  const handleCreateReservation = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newGuestName || !newEmail) {
-      alert("Please enter guest name and email.");
-      return;
+  const filteredReservations = useMemo(() => {
+    return reservations.filter((res) => {
+      const matchesSearch =
+        res.guest.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        res.reservationNumber.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        res.room.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (res.convertedFromEnquiryNumber &&
+          res.convertedFromEnquiryNumber.toLowerCase().includes(searchQuery.toLowerCase()));
+
+      const matchesStatus =
+        selectedStatus === "ALL" || res.reservationStatus === selectedStatus;
+      const matchesPayment =
+        selectedPaymentStatus === "ALL" || res.paymentStatus === selectedPaymentStatus;
+      const matchesProperty =
+        selectedProperty === "ALL" || res.property === selectedProperty;
+
+      return matchesSearch && matchesStatus && matchesPayment && matchesProperty;
+    });
+  }, [reservations, searchQuery, selectedStatus, selectedPaymentStatus, selectedProperty]);
+
+  const totalRevenue = useMemo(
+    () => reservations.reduce((acc, r) => acc + r.totalAmount, 0),
+    [reservations]
+  );
+
+  const handleStatusChange = (id: string, status: ReservationStatusType) => {
+    updateReservationStatus(id, status);
+    refreshReservations();
+  };
+
+  const handlePaymentChange = (id: string, paymentStatus: PaymentStatusType) => {
+    updatePaymentStatus(id, paymentStatus);
+    refreshReservations();
+  };
+
+  const getReservationStatusStyle = (status: string) => {
+    switch (status) {
+      case "CHECKED_IN":
+        return "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-bold";
+      case "CONFIRMED":
+        return "bg-amber-500/10 text-amber-300 border border-amber-500/30 font-bold";
+      case "CHECKED_OUT":
+        return "bg-blue-500/10 text-blue-300 border border-blue-500/30";
+      case "CANCELLED":
+      case "NO_SHOW":
+        return "bg-rose-500/10 text-rose-400 border border-rose-500/30";
+      default:
+        return "bg-stone-800 text-stone-300 border border-stone-700";
     }
+  };
 
-    const createdRes: ReservationItem = {
-      id: `res-${Math.floor(100 + Math.random() * 900)}`,
-      code: `RES-2026-${Math.floor(800 + Math.random() * 100)}`,
-      property: newProperty,
-      guestName: newGuestName,
-      email: newEmail,
-      phone: newPhone || "+91 98000 11223",
-      roomType: newRoomType,
-      roomNumber: `Room ${Math.floor(300 + Math.random() * 500)}`,
-      checkInDate: newCheckIn,
-      checkOutDate: newCheckOut,
-      adultsCount: 2,
-      childrenCount: 0,
-      totalAmount: Number(newTotalAmount),
-      depositAmount: Number(newTotalAmount),
-      status: "CONFIRMED",
-      paymentStatus: "PAID",
-      vipTier: "PLATINUM",
-      specialRequests: "Created via Enterprise Reservations Manager.",
-      createdAt: new Date().toISOString().split("T")[0],
-    };
-
-    setReservations([createdRes, ...reservations]);
-    setShowAddModal(false);
-    setNewGuestName("");
-    setNewEmail("");
+  const getPaymentStatusStyle = (status: string) => {
+    switch (status) {
+      case "PAID":
+        return "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30";
+      case "PARTIAL":
+        return "bg-amber-500/10 text-amber-300 border border-amber-500/30";
+      case "REFUNDED":
+        return "bg-purple-500/10 text-purple-300 border border-purple-500/30";
+      default:
+        return "bg-rose-500/10 text-rose-400 border border-rose-500/30";
+    }
   };
 
   return (
-    <div className="space-y-6 pb-12 font-sans">
-      <PageHeader
-        title="Reservations & Room Inventory Operations"
-        subtitle="Guest Stay Bookings, Live Check-in Schedule, Room Assignment & Payment Guarantees"
-        breadcrumbs={[{ label: "Core Operations" }, { label: "Reservations" }]}
-        actions={
-          <div className="flex items-center gap-2.5">
-            <button
-              onClick={() => setShowAddModal(true)}
-              className="flex items-center gap-1.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs sm:text-sm px-4 py-2 rounded-lg transition-all shadow-md shadow-amber-500/10 cursor-pointer"
-            >
-              <Plus className="w-4 h-4" />
-              <span>Create New Booking</span>
-            </button>
+    <div className="p-6 space-y-6 max-w-[1600px] mx-auto text-stone-100">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-800 pb-5">
+        <div>
+          <div className="flex items-center space-x-3 mb-1">
+            <div className="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400">
+              <Calendar className="w-6 h-6" />
+            </div>
+            <h1 className="text-2xl font-bold tracking-tight text-stone-100">
+              Room Reservations & Property Availability
+            </h1>
           </div>
-        }
+          <p className="text-sm text-stone-400">
+            Confirmed Bookings, Check-In/Out Tracking, Room Conflict Management & Guest Stay History
+          </p>
+        </div>
+
+        <button
+          onClick={() => {
+            setReservationToEdit(undefined);
+            setIsFormModalOpen(true);
+          }}
+          className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-semibold rounded-lg text-sm shadow-lg shadow-amber-500/20 transition"
+        >
+          <Plus className="w-4 h-4" />
+          <span>New Reservation</span>
+        </button>
+      </div>
+
+      {/* KPI Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+        <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <p className="text-xs text-stone-400 font-medium">Total Active Reservations</p>
+            <h3 className="text-2xl font-bold text-stone-100 mt-1">{reservations.length}</h3>
+          </div>
+          <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400">
+            <Calendar className="w-6 h-6" />
+          </div>
+        </div>
+
+        <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <p className="text-xs text-stone-400 font-medium">Checked-In Guests</p>
+            <h3 className="text-2xl font-bold text-emerald-400 mt-1">
+              {reservations.filter((r) => r.reservationStatus === "CHECKED_IN").length} In House
+            </h3>
+          </div>
+          <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400">
+            <UserCheck className="w-6 h-6" />
+          </div>
+        </div>
+
+        <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <p className="text-xs text-stone-400 font-medium">Total Reservation Revenue</p>
+            <h3 className="text-2xl font-bold text-amber-300 mt-1">${totalRevenue.toLocaleString()}</h3>
+          </div>
+          <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-400">
+            <DollarSign className="w-6 h-6" />
+          </div>
+        </div>
+
+        <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <p className="text-xs text-stone-400 font-medium">Conflict Prevention Status</p>
+            <h3 className="text-2xl font-bold text-purple-400 mt-1">100% Conflict Free</h3>
+          </div>
+          <div className="p-3 bg-purple-500/10 border border-purple-500/20 rounded-xl text-purple-400">
+            <ShieldCheck className="w-6 h-6" />
+          </div>
+        </div>
+      </div>
+
+      {/* Tabs */}
+      <div className="flex items-center space-x-2 border-b border-stone-800 pb-2">
+        <button
+          onClick={() => setActiveTab("directory")}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
+            activeTab === "directory"
+              ? "bg-amber-500/10 border border-amber-500/40 text-amber-300"
+              : "text-stone-400 hover:text-stone-200"
+          }`}
+        >
+          <ListIcon className="w-4 h-4" />
+          <span>All Reservations ({filteredReservations.length})</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("availability")}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
+            activeTab === "availability"
+              ? "bg-amber-500/10 border border-amber-500/40 text-amber-300"
+              : "text-stone-400 hover:text-stone-200"
+          }`}
+        >
+          <Grid className="w-4 h-4" />
+          <span>Property Room Availability View</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("history")}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
+            activeTab === "history"
+              ? "bg-amber-500/10 border border-amber-500/40 text-amber-300"
+              : "text-stone-400 hover:text-stone-200"
+          }`}
+        >
+          <User className="w-4 h-4" />
+          <span>Guest Stay History Analysis</span>
+        </button>
+      </div>
+
+      {/* Tab 1: Directory Table */}
+      {activeTab === "directory" && (
+        <div className="space-y-4">
+          {/* Toolbar */}
+          <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+            <div className="relative w-full md:w-96">
+              <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by res code, guest, room..."
+                className="w-full bg-stone-950 border border-stone-800 rounded-lg pl-9 pr-4 py-2 text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500/50"
+              />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="flex items-center space-x-2">
+                <Filter className="w-4 h-4 text-amber-500" />
+                <select
+                  value={selectedStatus}
+                  onChange={(e) => setSelectedStatus(e.target.value)}
+                  className="bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-300 focus:outline-none"
+                >
+                  <option value="ALL">All Reservation Statuses</option>
+                  <option value="CONFIRMED">CONFIRMED</option>
+                  <option value="CHECKED_IN">CHECKED_IN</option>
+                  <option value="CHECKED_OUT">CHECKED_OUT</option>
+                  <option value="PENDING">PENDING</option>
+                  <option value="CANCELLED">CANCELLED</option>
+                </select>
+              </div>
+
+              <select
+                value={selectedPaymentStatus}
+                onChange={(e) => setSelectedPaymentStatus(e.target.value)}
+                className="bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-300 focus:outline-none"
+              >
+                <option value="ALL">All Payment Statuses</option>
+                <option value="PAID">PAID</option>
+                <option value="PARTIAL">PARTIAL</option>
+                <option value="PENDING">PENDING</option>
+                <option value="REFUNDED">REFUNDED</option>
+              </select>
+            </div>
+          </div>
+
+          {/* Table */}
+          <div className="bg-stone-900 border border-stone-800 rounded-xl overflow-hidden shadow-xl">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-stone-800 bg-stone-950/60 text-stone-400 text-xs uppercase tracking-wider font-semibold">
+                    <th className="py-3.5 px-4">Reservation Code & Guest</th>
+                    <th className="py-3.5 px-4">Hotel Property & Room</th>
+                    <th className="py-3.5 px-4">Stay Dates</th>
+                    <th className="py-3.5 px-4">Nightly Rate & Total ($)</th>
+                    <th className="py-3.5 px-4">Payment Status</th>
+                    <th className="py-3.5 px-4">Reservation Status</th>
+                    <th className="py-3.5 px-4 text-right">Actions</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-stone-800 text-sm">
+                  {filteredReservations.map((res) => (
+                    <tr key={res.id} className="hover:bg-stone-800/40 transition">
+                      <td className="py-3.5 px-4">
+                        <div className="flex items-center space-x-2">
+                          <span className="font-mono text-xs font-bold text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                            {res.reservationNumber}
+                          </span>
+                          <span className="font-semibold text-stone-100">{res.guest}</span>
+                        </div>
+                        {res.convertedFromEnquiryNumber && (
+                          <div className="text-[11px] text-stone-500 mt-0.5">
+                            Converted from: {res.convertedFromEnquiryNumber}
+                          </div>
+                        )}
+                      </td>
+
+                      <td className="py-3.5 px-4 text-xs font-medium text-stone-200">
+                        <div className="flex items-center space-x-1">
+                          <Building2 className="w-3.5 h-3.5 text-amber-500" />
+                          <span>{res.property}</span>
+                        </div>
+                        <div className="text-amber-300 font-semibold mt-0.5 flex items-center space-x-1">
+                          <Bed className="w-3.5 h-3.5" />
+                          <span>{res.room}</span>
+                        </div>
+                      </td>
+
+                      <td className="py-3.5 px-4 text-xs text-stone-300">
+                        <div>{res.checkIn} to {res.checkOut}</div>
+                        <div className="text-stone-500 text-[11px]">{res.numberOfGuests} Guests</div>
+                      </td>
+
+                      <td className="py-3.5 px-4">
+                        <div className="font-bold text-amber-300">${res.totalAmount.toLocaleString()}</div>
+                        <div className="text-xs text-stone-500">${res.rate}/night</div>
+                      </td>
+
+                      <td className="py-3.5 px-4">
+                        <select
+                          value={res.paymentStatus}
+                          onChange={(e) => handlePaymentChange(res.id, e.target.value as PaymentStatusType)}
+                          className={`text-xs rounded px-2 py-1 font-semibold focus:outline-none ${getPaymentStatusStyle(res.paymentStatus)}`}
+                        >
+                          <option value="PAID">PAID</option>
+                          <option value="PARTIAL">PARTIAL</option>
+                          <option value="PENDING">PENDING</option>
+                          <option value="REFUNDED">REFUNDED</option>
+                        </select>
+                      </td>
+
+                      <td className="py-3.5 px-4">
+                        <select
+                          value={res.reservationStatus}
+                          onChange={(e) => handleStatusChange(res.id, e.target.value as ReservationStatusType)}
+                          className={`text-xs rounded px-2 py-1 font-semibold focus:outline-none ${getReservationStatusStyle(res.reservationStatus)}`}
+                        >
+                          <option value="CONFIRMED">CONFIRMED</option>
+                          <option value="CHECKED_IN">CHECKED_IN</option>
+                          <option value="CHECKED_OUT">CHECKED_OUT</option>
+                          <option value="PENDING">PENDING</option>
+                          <option value="CANCELLED">CANCELLED</option>
+                          <option value="NO_SHOW">NO_SHOW</option>
+                        </select>
+                      </td>
+
+                      <td className="py-3.5 px-4 text-right">
+                        <div className="flex items-center justify-end space-x-2">
+                          <button
+                            onClick={() => setSelectedReservationDetail(res)}
+                            className="p-1.5 text-amber-400 hover:bg-amber-500/10 rounded-lg transition"
+                          >
+                            <FileText className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              setReservationToEdit(res);
+                              setIsFormModalOpen(true);
+                            }}
+                            className="p-1.5 text-stone-400 hover:text-stone-100 hover:bg-stone-800 rounded-lg transition"
+                          >
+                            <Edit2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Tab 2: Property Room Availability Grid */}
+      {activeTab === "availability" && (
+        <div className="bg-stone-900 border border-stone-800 rounded-xl p-6 space-y-6 shadow-xl">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-bold text-amber-300">Room Availability & Conflict Inspector Grid</h3>
+            <span className="text-xs bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/30">
+              Real-time Overlap Conflict Checker Active
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {reservations.map((res) => (
+              <div key={res.id} className="bg-stone-950 border border-stone-800 rounded-xl p-4 space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="font-bold text-amber-400 flex items-center space-x-1.5">
+                    <Bed className="w-4 h-4" />
+                    <span>{res.room}</span>
+                  </span>
+                  <span className={`text-xs px-2 py-0.5 rounded font-semibold ${getReservationStatusStyle(res.reservationStatus)}`}>
+                    {res.reservationStatus}
+                  </span>
+                </div>
+
+                <div className="text-xs text-stone-300 space-y-1">
+                  <p>Property: <strong className="text-stone-100">{res.property}</strong></p>
+                  <p>Reserved By: <strong className="text-amber-300">{res.guest}</strong> ({res.reservationNumber})</p>
+                  <p>Occupied Dates: <strong className="text-emerald-400">{res.checkIn} to {res.checkOut}</strong></p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Tab 3: Guest Stay History */}
+      {activeTab === "history" && (
+        <div className="bg-stone-900 border border-stone-800 rounded-xl p-6 space-y-6 shadow-xl">
+          <h3 className="text-lg font-bold text-stone-100">Guest Stay History</h3>
+          <div className="space-y-4">
+            {reservations.map((res) => (
+              <div key={res.id} className="bg-stone-950 border border-stone-800 rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div>
+                  <h4 className="font-bold text-amber-300 text-base">{res.guest}</h4>
+                  <p className="text-xs text-stone-400 mt-1">{res.property} • Room: {res.room}</p>
+                  <p className="text-xs text-stone-500 mt-0.5">Stay Dates: {res.checkIn} to {res.checkOut}</p>
+                </div>
+
+                <div className="text-right">
+                  <p className="text-lg font-bold text-amber-300">${res.totalAmount.toLocaleString()}</p>
+                  <span className="text-xs bg-emerald-500/10 text-emerald-400 px-2 py-0.5 rounded border border-emerald-500/30">
+                    {res.paymentStatus}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Reservation Form Modal */}
+      <ReservationFormModal
+        isOpen={isFormModalOpen}
+        onClose={() => setIsFormModalOpen(false)}
+        onSuccess={refreshReservations}
+        reservationToEdit={reservationToEdit}
       />
 
-      {/* Metric Cards Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
-            <span>Total Active Bookings</span>
-            <CalendarDays className="w-4 h-4 text-amber-400" />
-          </div>
-          <div className="mt-2 text-2xl font-bold text-slate-100">{reservations.length}</div>
-          <div className="text-[11px] text-emerald-400 mt-1 flex items-center gap-1 font-semibold">
-            <TrendingUp className="w-3 h-3" /> +8.4% YoY Booking Growth
-          </div>
-        </div>
-
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
-            <span>Checked-In Guests</span>
-            <UserCheck className="w-4 h-4 text-emerald-400" />
-          </div>
-          <div className="mt-2 text-2xl font-bold text-slate-100">
-            {reservations.filter((r) => r.status === "CHECKED_IN").length}
-          </div>
-          <div className="text-[11px] text-emerald-400 mt-1 font-semibold">
-            Active Room Occupancy
-          </div>
-        </div>
-
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
-            <span>Booked Revenue Value</span>
-            <DollarSign className="w-4 h-4 text-emerald-400" />
-          </div>
-          <div className="mt-2 text-2xl font-bold text-slate-100">${totalBookedValue.toLocaleString()}</div>
-          <div className="text-[11px] text-slate-400 mt-1 font-medium">
-            Guaranteed via PMS Integration
-          </div>
-        </div>
-
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
-            <span>Pending Guarantees</span>
-            <Clock className="w-4 h-4 text-amber-400" />
-          </div>
-          <div className="mt-2 text-2xl font-bold text-slate-100">
-            {reservations.filter((r) => r.status === "PENDING").length}
-          </div>
-          <div className="text-[11px] text-amber-400 mt-1 font-semibold">
-            Awaiting Pre-Authorization
-          </div>
-        </div>
-      </div>
-
-      {/* Search & Filter Bar */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
-        <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search by reservation code, guest name, or room number..."
-            className="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-amber-500"
-          />
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <select
-            value={selectedStatus}
-            onChange={(e) => setSelectedStatus(e.target.value)}
-            className="bg-slate-950 text-slate-300 border border-slate-800 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-amber-500"
-          >
-            <option value="ALL">All Reservation Statuses</option>
-            <option value="CHECKED_IN">Checked In</option>
-            <option value="CONFIRMED">Confirmed</option>
-            <option value="PENDING">Pending Guarantee</option>
-            <option value="CHECKED_OUT">Checked Out</option>
-            <option value="CANCELLED">Cancelled</option>
-          </select>
-
-          <select
-            value={selectedProperty}
-            onChange={(e) => setSelectedProperty(e.target.value)}
-            className="bg-slate-950 text-slate-300 border border-slate-800 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-amber-500"
-          >
-            <option value="ALL">All Portfolio Hotels</option>
-            <option value="Delhi">Monday Grand Palace</option>
-            <option value="Mumbai">Monday Luxury Suites</option>
-            <option value="Goa">Monday Beach Resort</option>
-            <option value="Jaipur">Monday Heritage Palace</option>
-            <option value="Bengaluru">Monday Silicon Heights</option>
-          </select>
-        </div>
-      </div>
-
-      {/* Main Reservations Table */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-5 shadow-md overflow-x-auto">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="border-b border-slate-800 text-[11px] uppercase tracking-wider text-slate-400 bg-slate-950/60">
-              <th className="py-3 px-3 rounded-l-lg font-semibold">Booking Code & Guest</th>
-              <th className="py-3 px-3 font-semibold">Property & Assigned Room</th>
-              <th className="py-3 px-3 font-semibold text-center">Dates (Check-In / Out)</th>
-              <th className="py-3 px-3 font-semibold text-center">Payment Status</th>
-              <th className="py-3 px-3 font-semibold text-right">Total Amount ($)</th>
-              <th className="py-3 px-3 font-semibold text-center">Reservation Status</th>
-              <th className="py-3 px-3 rounded-r-lg text-right font-semibold">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-800/60 text-xs">
-            {filteredReservations.length === 0 ? (
-              <tr>
-                <td colSpan={7} className="py-8 text-center text-slate-400">
-                  No reservations match your filter query.
-                </td>
-              </tr>
-            ) : (
-              filteredReservations.map((res) => {
-                const statusBadge = getReservationStatusBadge(res.status);
-                const paymentBadge = getPaymentBadge(res.paymentStatus);
-                const vipBadge = getVIPTierBadge(res.vipTier);
-
-                return (
-                  <tr key={res.id} className="hover:bg-slate-800/40 transition-colors">
-                    <td className="py-3.5 px-3">
-                      <div className="flex items-center gap-2">
-                        <span className="font-mono text-[10px] font-bold text-amber-400 bg-amber-500/10 px-1.5 py-0.5 rounded border border-amber-500/20">
-                          {res.code}
-                        </span>
-                        <div>
-                          <div className="font-bold text-slate-100 flex items-center gap-1.5">
-                            <span>{res.guestName}</span>
-                            <span className={`text-[9px] px-1.5 py-0.2 rounded border ${vipBadge.class}`}>
-                              {vipBadge.label}
-                            </span>
-                          </div>
-                          <div className="text-[11px] text-slate-400">{res.email}</div>
-                        </div>
-                      </div>
-                    </td>
-
-                    <td className="py-3.5 px-3">
-                      <div className="font-semibold text-slate-200">{res.property}</div>
-                      <div className="text-[11px] text-amber-400 font-medium flex items-center gap-1 mt-0.5">
-                        <BedDouble className="w-3.5 h-3.5" />
-                        <span>{res.roomNumber} ({res.roomType})</span>
-                      </div>
-                    </td>
-
-                    <td className="py-3.5 px-3 text-center">
-                      <div className="font-semibold text-slate-200">{res.checkInDate}</div>
-                      <div className="text-[10px] text-slate-400">to {res.checkOutDate}</div>
-                    </td>
-
-                    <td className="py-3.5 px-3 text-center">
-                      <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded border ${paymentBadge.class}`}>
-                        {paymentBadge.label}
-                      </span>
-                    </td>
-
-                    <td className="py-3.5 px-3 text-right font-extrabold text-emerald-400">
-                      ${res.totalAmount.toLocaleString()}
-                    </td>
-
-                    <td className="py-3.5 px-3 text-center">
-                      <span className={`inline-block text-[10px] font-bold px-2.5 py-0.5 rounded border ${statusBadge.class}`}>
-                        {statusBadge.label}
-                      </span>
-                    </td>
-
-                    <td className="py-3.5 px-3 text-right space-x-1">
-                      {res.status === "CONFIRMED" && (
-                        <button
-                          onClick={() => handleStatusChange(res.id, "CHECKED_IN")}
-                          className="px-2 py-1 bg-emerald-500/20 text-emerald-300 hover:bg-emerald-500/30 rounded text-[11px] font-bold transition-colors"
-                        >
-                          Check In
-                        </button>
-                      )}
-                      {res.status === "CHECKED_IN" && (
-                        <button
-                          onClick={() => handleStatusChange(res.id, "CHECKED_OUT")}
-                          className="px-2 py-1 bg-purple-500/20 text-purple-300 hover:bg-purple-500/30 rounded text-[11px] font-bold transition-colors"
-                        >
-                          Check Out
-                        </button>
-                      )}
-                      <button
-                        onClick={() => alert(`Viewing full reservation dossier for ${res.code}`)}
-                        className="p-1 text-slate-400 hover:text-slate-200"
-                        title="View Details"
-                      >
-                        <ArrowUpRight className="w-4 h-4" />
-                      </button>
-                    </td>
-                  </tr>
-                );
-              })
-            )}
-          </tbody>
-        </table>
-      </div>
-
-      {/* New Reservation Modal */}
-      {showAddModal && (
-        <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-              <h3 className="text-base font-bold text-slate-100 flex items-center gap-2">
-                <Plus className="w-4 h-4 text-amber-400" />
-                <span>New Reservation Wizard</span>
-              </h3>
-              <button onClick={() => setShowAddModal(false)} className="text-slate-400 hover:text-slate-200 p-1">
+      {/* Reservation Detail Drawer / Modal */}
+      {selectedReservationDetail && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+          <div className="w-full max-w-xl bg-stone-900 border border-amber-500/40 rounded-xl p-6 space-y-4 text-stone-100">
+            <div className="flex items-center justify-between border-b border-stone-800 pb-3">
+              <h3 className="text-lg font-bold text-amber-300">Reservation Details ({selectedReservationDetail.reservationNumber})</h3>
+              <button onClick={() => setSelectedReservationDetail(null)} className="p-1 text-stone-400 hover:text-stone-100">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <form onSubmit={handleCreateReservation} className="space-y-3.5 text-xs">
-              <div>
-                <label className="text-slate-300 font-medium block mb-1">Guest Full Name</label>
-                <input
-                  type="text"
-                  value={newGuestName}
-                  onChange={(e) => setNewGuestName(e.target.value)}
-                  placeholder="e.g. Vikramaditya Roy"
-                  className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
-                  required
-                />
-              </div>
+            <div className="space-y-3 text-xs">
+              <p>Guest: <strong className="text-stone-100 text-sm">{selectedReservationDetail.guest}</strong></p>
+              <p>Property: <strong className="text-amber-300">{selectedReservationDetail.property}</strong></p>
+              <p>Assigned Room: <strong className="text-amber-300">{selectedReservationDetail.room}</strong></p>
+              <p>Dates: <strong className="text-emerald-400">{selectedReservationDetail.checkIn} to {selectedReservationDetail.checkOut}</strong></p>
+              <p>Total Amount: <strong className="text-amber-300 font-bold">${selectedReservationDetail.totalAmount.toLocaleString()}</strong></p>
+              {selectedReservationDetail.specialRequests && (
+                <div className="bg-stone-950 p-3 rounded-lg border border-stone-800 text-amber-200">
+                  <strong>Special Requests: </strong>{selectedReservationDetail.specialRequests}
+                </div>
+              )}
+            </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-slate-300 font-medium block mb-1">Guest Email</label>
-                  <input
-                    type="email"
-                    value={newEmail}
-                    onChange={(e) => setNewEmail(e.target.value)}
-                    placeholder="guest@example.com"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="text-slate-300 font-medium block mb-1">Phone Number</label>
-                  <input
-                    type="text"
-                    value={newPhone}
-                    onChange={(e) => setNewPhone(e.target.value)}
-                    placeholder="+91 98000 00000"
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="text-slate-300 font-medium block mb-1">Property</label>
-                  <select
-                    value={newProperty}
-                    onChange={(e) => setNewProperty(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
-                  >
-                    <option value="Monday Grand Palace, Delhi">Monday Grand Palace, Delhi</option>
-                    <option value="Monday Luxury Suites, Mumbai">Monday Luxury Suites, Mumbai</option>
-                    <option value="Monday Beach Resort, Goa">Monday Beach Resort, Goa</option>
-                    <option value="Monday Heritage Palace, Jaipur">Monday Heritage Palace, Jaipur</option>
-                    <option value="Monday Silicon Heights, Bengaluru">Monday Silicon Heights, Bengaluru</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="text-slate-300 font-medium block mb-1">Room Category</label>
-                  <select
-                    value={newRoomType}
-                    onChange={(e) => setNewRoomType(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
-                  >
-                    <option value="Executive Suite">Executive Suite</option>
-                    <option value="Presidential Suite">Presidential Suite</option>
-                    <option value="Deluxe Ocean Villa">Deluxe Ocean Villa</option>
-                    <option value="Heritage Royal Suite">Heritage Royal Suite</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <label className="text-slate-300 font-medium block mb-1">Check-In</label>
-                  <input
-                    type="date"
-                    value={newCheckIn}
-                    onChange={(e) => setNewCheckIn(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-                <div>
-                  <label className="text-slate-300 font-medium block mb-1">Check-Out</label>
-                  <input
-                    type="date"
-                    value={newCheckOut}
-                    onChange={(e) => setNewCheckOut(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-                <div>
-                  <label className="text-slate-300 font-medium block mb-1">Total Rate ($)</label>
-                  <input
-                    type="number"
-                    value={newTotalAmount}
-                    onChange={(e) => setNewTotalAmount(Number(e.target.value))}
-                    className="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-              </div>
-
-              <div className="pt-3 flex justify-end gap-2 border-t border-slate-800">
-                <button
-                  type="button"
-                  onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg font-semibold"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg font-bold shadow-md shadow-amber-500/10"
-                >
-                  Confirm Booking
-                </button>
-              </div>
-            </form>
+            <div className="flex justify-end pt-3 border-t border-stone-800">
+              <button onClick={() => setSelectedReservationDetail(null)} className="px-4 py-2 text-xs font-semibold bg-stone-800 text-stone-200 rounded-lg">
+                Close
+              </button>
+            </div>
           </div>
         </div>
       )}
