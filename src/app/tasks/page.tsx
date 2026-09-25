@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   CheckSquare,
   Search,
@@ -11,74 +11,99 @@ import {
   AlertTriangle,
   User,
   Tag,
+  Edit2,
+  Trash2,
+  Calendar,
+  Building2,
 } from "lucide-react";
 import {
   getTasks,
-  toggleTaskStatus,
-  createTask,
-  OperationalTask,
-  TaskPriority,
-} from "@/lib/services/task-service";
+  getMyTasks,
+  getUpcomingTasks,
+  getOverdueTasks,
+  completeTask,
+  deleteTask,
+  EnterpriseTask,
+} from "@/lib/services/task-activity-service";
+import { TaskStatusType, TaskPriorityType } from "@/lib/validations/task-activity-schema";
+import { TaskFormModal } from "@/components/tasks/task-form-modal";
 
 export default function TasksPage() {
-  const [tasks, setTasks] = useState<OperationalTask[]>(() => getTasks());
+  const [tasks, setTasks] = useState<EnterpriseTask[]>(() => getTasks());
+  const [activeTab, setActiveTab] = useState<"all" | "my" | "upcoming" | "overdue">("all");
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedPriority, setSelectedPriority] = useState("ALL");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedPriority, setSelectedPriority] = useState<string>("ALL");
+  const [selectedStatus, setSelectedStatus] = useState<string>("ALL");
 
-  // New Task Form
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState<OperationalTask["category"]>("Lead Follow-up");
-  const [priority, setPriority] = useState<TaskPriority>("High");
-  const [assignee, setAssignee] = useState("Priya Sharma");
-  const [dueDate, setDueDate] = useState("Tomorrow, 5:00 PM");
-  const [relatedEntity, setRelatedEntity] = useState("Reliance Enterprise Solutions");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [taskToEdit, setTaskToEdit] = useState<EnterpriseTask | undefined>(undefined);
+
+  const currentUser = "Vikram Malhotra";
 
   const refreshTasks = () => {
     setTasks([...getTasks()]);
   };
 
-  const filteredTasks = tasks.filter((t) => {
-    const matchesSearch =
-      t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      t.assignee.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      t.relatedEntity.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesPriority = selectedPriority === "ALL" || t.priority === selectedPriority;
-    return matchesSearch && matchesPriority;
-  });
+  const displayedTasks = useMemo(() => {
+    let list: EnterpriseTask[] = [];
+    if (activeTab === "my") list = getMyTasks(currentUser);
+    else if (activeTab === "upcoming") list = getUpcomingTasks();
+    else if (activeTab === "overdue") list = getOverdueTasks();
+    else list = tasks;
 
-  const handleToggle = (id: string) => {
-    toggleTaskStatus(id);
-    refreshTasks();
-  };
+    return list.filter((t) => {
+      const matchesSearch =
+        t.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        t.assignedUser.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        (t.relatedCompany && t.relatedCompany.toLowerCase().includes(searchQuery.toLowerCase())) ||
+        (t.relatedContact && t.relatedContact.toLowerCase().includes(searchQuery.toLowerCase()));
 
-  const handleCreate = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!title) return;
+      const matchesPriority = selectedPriority === "ALL" || t.priority === selectedPriority;
+      const matchesStatus = selectedStatus === "ALL" || t.status === selectedStatus;
 
-    createTask({
-      title,
-      category,
-      priority,
-      status: "Pending",
-      assignee,
-      dueDate,
-      relatedEntity,
+      return matchesSearch && matchesPriority && matchesStatus;
     });
+  }, [tasks, activeTab, searchQuery, selectedPriority, selectedStatus]);
 
+  const overdueCount = useMemo(() => getOverdueTasks().length, [tasks]);
+  const upcomingCount = useMemo(() => getUpcomingTasks().length, [tasks]);
+  const myCount = useMemo(() => getMyTasks(currentUser).length, [tasks]);
+
+  const handleToggleComplete = (id: string) => {
+    completeTask(id);
     refreshTasks();
-    setIsModalOpen(false);
-    setTitle("");
   };
 
-  const getPriorityBadge = (prio: TaskPriority) => {
+  const handleDelete = (id: string, title: string) => {
+    if (confirm(`Are you sure you want to delete task "${title}"?`)) {
+      deleteTask(id);
+      refreshTasks();
+    }
+  };
+
+  const getPriorityBadgeStyle = (prio: TaskPriorityType) => {
     switch (prio) {
-      case "High":
-        return "bg-rose-500/10 text-rose-400 border border-rose-500/30 font-semibold";
-      case "Medium":
-        return "bg-amber-500/10 text-amber-300 border border-amber-500/30";
+      case "URGENT":
+        return "bg-rose-500/10 text-rose-400 border border-rose-500/40 font-bold";
+      case "HIGH":
+        return "bg-amber-500/10 text-amber-300 border border-amber-500/30 font-semibold";
+      case "MEDIUM":
+        return "bg-blue-500/10 text-blue-300 border border-blue-500/30";
       default:
         return "bg-stone-800 text-stone-400 border border-stone-700";
+    }
+  };
+
+  const getStatusBadgeStyle = (stg: TaskStatusType) => {
+    switch (stg) {
+      case "COMPLETED":
+        return "bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 font-semibold";
+      case "IN_PROGRESS":
+        return "bg-amber-500/10 text-amber-300 border border-amber-500/30";
+      case "CANCELLED":
+        return "bg-rose-500/10 text-rose-400 border border-rose-500/30";
+      default:
+        return "bg-stone-800 text-stone-300 border border-stone-700";
     }
   };
 
@@ -96,12 +121,15 @@ export default function TasksPage() {
             </h1>
           </div>
           <p className="text-sm text-stone-400">
-            Follow-ups, RFP Deadlines, Guest Preferences & Staff Assignments
+            Follow-ups, Proposal Deadlines, Guest Preferences & Workload Delegation
           </p>
         </div>
 
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setTaskToEdit(undefined);
+            setIsModalOpen(true);
+          }}
           className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-semibold rounded-lg text-sm shadow-lg shadow-amber-500/20 transition"
         >
           <Plus className="w-4 h-4" />
@@ -113,49 +141,94 @@ export default function TasksPage() {
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex items-center justify-between">
           <div>
-            <p className="text-xs text-stone-400 font-medium">Pending Tasks</p>
-            <h3 className="text-2xl font-bold text-amber-300 mt-1">
-              {tasks.filter((t) => t.status !== "Completed").length} Items
-            </h3>
+            <p className="text-xs text-stone-400 font-medium">Total Action Tasks</p>
+            <h3 className="text-2xl font-bold text-stone-100 mt-1">{tasks.length}</h3>
+          </div>
+          <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400">
+            <CheckSquare className="w-6 h-6" />
+          </div>
+        </div>
+
+        <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <p className="text-xs text-stone-400 font-medium">My Assigned Tasks</p>
+            <h3 className="text-2xl font-bold text-amber-300 mt-1">{myCount} Tasks</h3>
           </div>
           <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-xl text-amber-400">
+            <User className="w-6 h-6" />
+          </div>
+        </div>
+
+        <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex items-center justify-between">
+          <div>
+            <p className="text-xs text-stone-400 font-medium">Upcoming Tasks</p>
+            <h3 className="text-2xl font-bold text-emerald-400 mt-1">{upcomingCount} Active</h3>
+          </div>
+          <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400">
             <Clock className="w-6 h-6" />
           </div>
         </div>
 
-        <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex items-center justify-between">
+        <div className="bg-stone-900 border border-rose-500/30 rounded-xl p-4 flex items-center justify-between">
           <div>
-            <p className="text-xs text-stone-400 font-medium">Completed Today</p>
-            <h3 className="text-2xl font-bold text-emerald-400 mt-1">
-              {tasks.filter((t) => t.status === "Completed").length} Completed
-            </h3>
-          </div>
-          <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400">
-            <CheckCircle2 className="w-6 h-6" />
-          </div>
-        </div>
-
-        <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex items-center justify-between">
-          <div>
-            <p className="text-xs text-stone-400 font-medium">High Priority Action Items</p>
-            <h3 className="text-2xl font-bold text-rose-400 mt-1">
-              {tasks.filter((t) => t.priority === "High" && t.status !== "Completed").length} High Priority
-            </h3>
+            <p className="text-xs text-stone-400 font-medium">Overdue Tasks</p>
+            <h3 className="text-2xl font-bold text-rose-400 mt-1">{overdueCount} Overdue</h3>
           </div>
           <div className="p-3 bg-rose-500/10 border border-rose-500/20 rounded-xl text-rose-400">
             <AlertTriangle className="w-6 h-6" />
           </div>
         </div>
+      </div>
 
-        <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex items-center justify-between">
-          <div>
-            <p className="text-xs text-stone-400 font-medium">SLA Compliance Rate</p>
-            <h3 className="text-2xl font-bold text-purple-400 mt-1">100%</h3>
-          </div>
-          <div className="p-3 bg-purple-500/10 border border-purple-500/20 rounded-xl text-purple-400">
-            <Tag className="w-6 h-6" />
-          </div>
-        </div>
+      {/* Tabs */}
+      <div className="flex items-center space-x-2 border-b border-stone-800 pb-2">
+        <button
+          onClick={() => setActiveTab("all")}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
+            activeTab === "all"
+              ? "bg-amber-500/10 border border-amber-500/40 text-amber-300"
+              : "text-stone-400 hover:text-stone-200"
+          }`}
+        >
+          <CheckSquare className="w-4 h-4" />
+          <span>All Tasks ({tasks.length})</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("my")}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
+            activeTab === "my"
+              ? "bg-amber-500/10 border border-amber-500/40 text-amber-300"
+              : "text-stone-400 hover:text-stone-200"
+          }`}
+        >
+          <User className="w-4 h-4" />
+          <span>My Tasks ({myCount})</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("upcoming")}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
+            activeTab === "upcoming"
+              ? "bg-amber-500/10 border border-amber-500/40 text-amber-300"
+              : "text-stone-400 hover:text-stone-200"
+          }`}
+        >
+          <Clock className="w-4 h-4" />
+          <span>Upcoming ({upcomingCount})</span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab("overdue")}
+          className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition ${
+            activeTab === "overdue"
+              ? "bg-rose-500/10 border border-rose-500/40 text-rose-300"
+              : "text-stone-400 hover:text-stone-200"
+          }`}
+        >
+          <AlertTriangle className="w-4 h-4" />
+          <span>Overdue ({overdueCount})</span>
+        </button>
       </div>
 
       {/* Toolbar */}
@@ -166,157 +239,135 @@ export default function TasksPage() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search tasks, assignees, entities..."
-            className="w-full bg-stone-950 border border-stone-800 rounded-lg pl-9 pr-4 py-2 text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500/50"
+            placeholder="Search task title, assignee, company..."
+            className="w-full bg-stone-950 border border-stone-800 rounded-lg pl-9 pr-4 py-2 text-sm text-stone-200 placeholder-stone-500 focus:outline-none"
           />
         </div>
 
-        <div className="flex items-center space-x-2">
-          <Filter className="w-4 h-4 text-amber-500" />
+        <div className="flex items-center space-x-3">
           <select
             value={selectedPriority}
             onChange={(e) => setSelectedPriority(e.target.value)}
-            className="bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-300 focus:outline-none focus:border-amber-500/50"
+            className="bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-300 focus:outline-none"
           >
             <option value="ALL">All Priorities</option>
-            <option value="High">High Priority</option>
-            <option value="Medium">Medium Priority</option>
-            <option value="Low">Low Priority</option>
+            <option value="URGENT">URGENT</option>
+            <option value="HIGH">HIGH</option>
+            <option value="MEDIUM">MEDIUM</option>
+            <option value="LOW">LOW</option>
+          </select>
+
+          <select
+            value={selectedStatus}
+            onChange={(e) => setSelectedStatus(e.target.value)}
+            className="bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-300 focus:outline-none"
+          >
+            <option value="ALL">All Statuses</option>
+            <option value="TODO">TODO</option>
+            <option value="IN_PROGRESS">IN_PROGRESS</option>
+            <option value="COMPLETED">COMPLETED</option>
+            <option value="CANCELLED">CANCELLED</option>
           </select>
         </div>
       </div>
 
-      {/* Task List */}
+      {/* Task List Table */}
       <div className="bg-stone-900 border border-stone-800 rounded-xl overflow-hidden shadow-xl">
-        <div className="divide-y divide-stone-800 text-sm">
-          {filteredTasks.map((task) => (
-            <div
-              key={task.id}
-              className={`p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:bg-stone-800/40 transition ${
-                task.status === "Completed" ? "opacity-60 bg-stone-950/40" : ""
-              }`}
-            >
-              <div className="flex items-start space-x-3">
-                <input
-                  type="checkbox"
-                  checked={task.status === "Completed"}
-                  onChange={() => handleToggle(task.id)}
-                  className="mt-1 w-4 h-4 accent-amber-500 rounded border-stone-800 bg-stone-950 cursor-pointer"
-                />
-                <div>
-                  <h4
-                    className={`font-semibold text-stone-100 ${
-                      task.status === "Completed" ? "line-through text-stone-500" : ""
-                    }`}
-                  >
-                    {task.title}
-                  </h4>
-                  <div className="flex flex-wrap items-center gap-2 text-xs text-stone-400 mt-1">
-                    <span className="bg-stone-950 px-2 py-0.5 rounded border border-stone-800">
-                      {task.category}
-                    </span>
-                    <span>•</span>
-                    <span className="text-amber-300">{task.relatedEntity}</span>
-                    <span>•</span>
-                    <span className="flex items-center space-x-1">
-                      <User className="w-3 h-3 text-stone-500" />
-                      <span>{task.assignee}</span>
-                    </span>
-                  </div>
-                </div>
-              </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead>
+              <tr className="border-b border-stone-800 bg-stone-950/60 text-stone-400 text-xs uppercase tracking-wider font-semibold">
+                <th className="py-3.5 px-4 w-12 text-center">Done</th>
+                <th className="py-3.5 px-4">Task Details</th>
+                <th className="py-3.5 px-4">Assigned Executive</th>
+                <th className="py-3.5 px-4">Related Entity</th>
+                <th className="py-3.5 px-4">Due Date</th>
+                <th className="py-3.5 px-4">Priority</th>
+                <th className="py-3.5 px-4">Status</th>
+                <th className="py-3.5 px-4 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-stone-800 text-sm">
+              {displayedTasks.map((t) => (
+                <tr key={t.id} className={`hover:bg-stone-800/40 transition ${t.status === "COMPLETED" ? "opacity-60" : ""}`}>
+                  <td className="py-3.5 px-4 text-center">
+                    <input
+                      type="checkbox"
+                      checked={t.status === "COMPLETED"}
+                      onChange={() => handleToggleComplete(t.id)}
+                      className="w-4 h-4 accent-amber-500 rounded border-stone-800 bg-stone-950 cursor-pointer"
+                    />
+                  </td>
 
-              <div className="flex items-center justify-between sm:justify-end space-x-4">
-                <span className="text-xs text-stone-400 flex items-center space-x-1">
-                  <Clock className="w-3.5 h-3.5 text-stone-500" />
-                  <span>{task.dueDate}</span>
-                </span>
+                  <td className="py-3.5 px-4">
+                    <div className={`font-semibold text-stone-100 ${t.status === "COMPLETED" ? "line-through text-stone-500" : ""}`}>
+                      {t.title}
+                    </div>
+                    {t.description && <div className="text-xs text-stone-400 mt-0.5 line-clamp-1">{t.description}</div>}
+                  </td>
 
-                <span className={`px-2.5 py-0.5 rounded text-xs ${getPriorityBadge(task.priority)}`}>
-                  {task.priority}
-                </span>
-              </div>
-            </div>
-          ))}
+                  <td className="py-3.5 px-4 text-xs font-medium text-amber-300">
+                    <div className="flex items-center space-x-1.5">
+                      <User className="w-3.5 h-3.5 text-stone-400" />
+                      <span>{t.assignedUser}</span>
+                    </div>
+                  </td>
+
+                  <td className="py-3.5 px-4 text-xs text-stone-300">
+                    {t.relatedCompany || t.relatedGuest || t.relatedContact || "General System"}
+                  </td>
+
+                  <td className="py-3.5 px-4 text-xs font-medium text-stone-200">
+                    <div className="flex items-center space-x-1">
+                      <Calendar className="w-3.5 h-3.5 text-stone-400" />
+                      <span>{t.dueDate}</span>
+                    </div>
+                  </td>
+
+                  <td className="py-3.5 px-4">
+                    <span className={`inline-block px-2.5 py-0.5 rounded text-xs ${getPriorityBadgeStyle(t.priority)}`}>
+                      {t.priority}
+                    </span>
+                  </td>
+
+                  <td className="py-3.5 px-4">
+                    <span className={`inline-block px-2.5 py-0.5 rounded text-xs ${getStatusBadgeStyle(t.status)}`}>
+                      {t.status}
+                    </span>
+                  </td>
+
+                  <td className="py-3.5 px-4 text-right">
+                    <div className="flex items-center justify-end space-x-2">
+                      <button
+                        onClick={() => {
+                          setTaskToEdit(t);
+                          setIsModalOpen(true);
+                        }}
+                        className="p-1.5 text-stone-400 hover:text-stone-100 hover:bg-stone-800 rounded-lg transition"
+                      >
+                        <Edit2 className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(t.id, t.title)}
+                        className="p-1.5 text-stone-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
 
-      {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-          <div className="w-full max-w-lg bg-stone-900 border border-amber-500/30 rounded-xl p-6 space-y-4 text-stone-100">
-            <h3 className="text-lg font-bold text-amber-300">Create Staff Action Task</h3>
-            <form onSubmit={handleCreate} className="space-y-4">
-              <div>
-                <label className="block text-xs text-stone-300 mb-1">Task Title *</label>
-                <input
-                  type="text"
-                  required
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200"
-                  placeholder="e.g. Confirm VIP suite setup for Dr. Singhania"
-                />
-              </div>
-
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="block text-xs text-stone-300 mb-1">Category</label>
-                  <select
-                    value={category}
-                    onChange={(e) => setCategory(e.target.value as any)}
-                    className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200"
-                  >
-                    <option value="Lead Follow-up">Lead Follow-up</option>
-                    <option value="VIP Preference Setup">VIP Preference Setup</option>
-                    <option value="RFP Proposal">RFP Proposal</option>
-                    <option value="Contract Approval">Contract Approval</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs text-stone-300 mb-1">Priority</label>
-                  <select
-                    value={priority}
-                    onChange={(e) => setPriority(e.target.value as TaskPriority)}
-                    className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200"
-                  >
-                    <option value="High">High Priority</option>
-                    <option value="Medium">Medium Priority</option>
-                    <option value="Low">Low Priority</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-xs text-stone-300 mb-1">Assignee</label>
-                <input
-                  type="text"
-                  value={assignee}
-                  onChange={(e) => setAssignee(e.target.value)}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200"
-                />
-              </div>
-
-              <div className="flex justify-end space-x-2 pt-3 border-t border-stone-800">
-                <button
-                  type="button"
-                  onClick={() => setIsModalOpen(false)}
-                  className="px-4 py-2 text-xs text-stone-400"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 text-xs font-semibold bg-amber-500 text-stone-950 rounded-lg"
-                >
-                  Save Task
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+      <TaskFormModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={refreshTasks}
+        taskToEdit={taskToEdit}
+      />
     </div>
   );
 }

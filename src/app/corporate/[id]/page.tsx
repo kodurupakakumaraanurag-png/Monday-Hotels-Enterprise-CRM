@@ -30,6 +30,7 @@ import {
   X
 } from "lucide-react";
 import Link from "next/link";
+import { EntityActivityTimeline } from "@/components/activities/entity-activity-timeline";
 
 export default function CorporateDetailPage() {
   const params = useParams();
@@ -226,6 +227,9 @@ export default function CorporateDetailPage() {
           </div>
         </div>
       )}
+
+      {/* Entity Activity Timeline */}
+      <EntityActivityTimeline entityName={company.name} entityId={company.id} />
 
       {/* Add Contact Modal */}
       {showAddContactModal && (

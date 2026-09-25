@@ -1,0 +1,141 @@
+"use client";
+
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { X, Activity, Phone, Mail, Users, FileText, Calendar, Eye } from "lucide-react";
+import { activityLogSchema, ActivityLogFormValues, ActivityType } from "@/lib/validations/task-activity-schema";
+import { logActivity } from "@/lib/services/task-activity-service";
+
+interface ActivityLogModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onSuccess: () => void;
+  defaultEntityName?: string;
+  defaultEntityId?: string;
+}
+
+export function ActivityLogModal({
+  isOpen,
+  onClose,
+  onSuccess,
+  defaultEntityName = "Reliance Enterprise Solutions",
+  defaultEntityId = "CORP-101",
+}: ActivityLogModalProps) {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<ActivityLogFormValues>({
+    resolver: zodResolver(activityLogSchema),
+    defaultValues: {
+      activityType: "CALL",
+      title: "",
+      description: "",
+      loggedBy: "Priya Sharma",
+      relatedEntity: defaultEntityName,
+      relatedEntityId: defaultEntityId,
+    },
+  });
+
+  if (!isOpen) return null;
+
+  const onSubmit = (data: ActivityLogFormValues) => {
+    logActivity(data);
+    onSuccess();
+    onClose();
+    reset();
+  };
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+      <div className="relative w-full max-w-lg bg-stone-900 border border-amber-500/30 rounded-xl shadow-2xl text-stone-100 p-6 space-y-4">
+        <div className="flex items-center justify-between border-b border-stone-800 pb-3">
+          <div className="flex items-center space-x-3">
+            <div className="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400">
+              <Activity className="w-5 h-5" />
+            </div>
+            <h2 className="text-lg font-semibold text-stone-100">
+              Log Activity Touchpoint
+            </h2>
+          </div>
+          <button onClick={onClose} className="p-1 text-stone-400 hover:text-stone-100">
+            <X className="w-5 h-5" />
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          <div>
+            <label className="block text-xs font-medium text-stone-300 mb-1">Activity Type *</label>
+            <select
+              {...register("activityType")}
+              className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-amber-300 font-semibold focus:outline-none"
+            >
+              <option value="CALL">CALL (Telephone / Mobile Call)</option>
+              <option value="EMAIL">EMAIL (Outbound / Inbound Email)</option>
+              <option value="MEETING">MEETING (In-Person / Virtual Conference)</option>
+              <option value="NOTE">NOTE (Internal Observations)</option>
+              <option value="FOLLOW_UP">FOLLOW_UP (Re-engagement Action)</option>
+              <option value="SITE_VISIT">SITE_VISIT (Property Tour / Venue Inspection)</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-stone-300 mb-1">Activity Summary Title *</label>
+            <input
+              {...register("title")}
+              className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200"
+              placeholder="e.g. Discovery Call with Reliance Board Secretariat"
+            />
+            {errors.title && <p className="text-xs text-rose-400 mt-1">{errors.title.message}</p>}
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-stone-300 mb-1">Detailed Description</label>
+            <textarea
+              {...register("description")}
+              rows={3}
+              className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200"
+              placeholder="Record exact discussion outcomes and next steps..."
+            />
+          </div>
+
+          <div className="grid grid-cols-2 gap-3">
+            <div>
+              <label className="block text-xs font-medium text-stone-300 mb-1">Logged By User</label>
+              <input
+                {...register("loggedBy")}
+                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-stone-300 mb-1">Related Entity Target</label>
+              <input
+                {...register("relatedEntity")}
+                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center justify-end space-x-3 pt-3 border-t border-stone-800">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-xs text-stone-400 hover:text-stone-200"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="px-4 py-2 text-xs font-semibold bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 text-stone-950 rounded-lg shadow-md"
+            >
+              Post Activity Log
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
