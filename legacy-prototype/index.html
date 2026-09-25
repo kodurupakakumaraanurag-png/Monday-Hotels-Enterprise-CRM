@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monday Hotels Enterprise CRM - Luxury Hospitality Management</title>
+  
+  <!-- FontAwesome Icons & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js for interactive analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <div id="app-container">
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo">M</div>
+        <div class="brand-info">
+          <h2>Monday Hotels</h2>
+          <span>Enterprise CRM</span>
+        </div>
+      </div>
+
+      <div class="nav-section-title">Navigation</div>
+      <ul class="nav-menu">
+        <li class="nav-item active" data-view="dashboard">
+          <i class="fa-solid fa-chart-pie"></i>
+          <span>Dashboard</span>
+        </li>
+        <li class="nav-item" data-view="leads">
+          <i class="fa-solid fa-filter-circle-dollar"></i>
+          <span>Sales Leads</span>
+          <span class="nav-badge" id="leads-count-badge">5</span>
+        </li>
+        <li class="nav-item" data-view="guests">
+          <i class="fa-solid fa-address-card"></i>
+          <span>Guest Profiles 360°</span>
+        </li>
+        <li class="nav-item" data-view="reservations">
+          <i class="fa-solid fa-bed"></i>
+          <span>Reservations</span>
+          <span class="nav-badge" id="res-count-badge">5</span>
+        </li>
+        <li class="nav-item" data-view="corporate">
+          <i class="fa-solid fa-building-user"></i>
+          <span>Corporate Accounts</span>
+        </li>
+        <li class="nav-item" data-view="reviews">
+          <i class="fa-solid fa-star-half-stroke"></i>
+          <span>Reviews & CSAT</span>
+        </li>
+        <li class="nav-item" data-view="analytics">
+          <i class="fa-solid fa-chart-line"></i>
+          <span>Revenue Analytics</span>
+        </li>
+      </ul>
+
+      <div class="sidebar-footer">
+        <div class="user-profile">
+          <div class="avatar">VS</div>
+          <div class="user-info">
+            <h4>Victoria Sterling</h4>
+            <p>VP Hospitality Sales</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="main-wrapper">
+      <!-- Top Navbar -->
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <div class="property-selector">
+            <i class="fa-solid fa-hotel" style="color: var(--accent-gold);"></i>
+            <select id="global-property-select">
+              <!-- Dynamically populated -->
+            </select>
+          </div>
+
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" id="global-search" placeholder="Search guests, leads, reservations...">
+          </div>
+        </div>
+
+        <div class="navbar-right">
+          <button class="btn btn-gold" id="btn-quick-lead">
+            <i class="fa-solid fa-plus"></i>
+            <span>New Lead</span>
+          </button>
+
+          <button class="btn btn-secondary" id="btn-quick-res">
+            <i class="fa-solid fa-calendar-plus"></i>
+            <span>New Reservation</span>
+          </button>
+
+          <button class="btn-icon" title="Notifications">
+            <i class="fa-regular fa-bell"></i>
+            <span class="notification-dot"></span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Views -->
+      <div class="content-area">
+
+        <!-- DASHBOARD VIEW -->
+        <section id="view-dashboard" class="view-section active">
+          <div class="section-header">
+            <div class="section-title">
+              <h1>Enterprise Overview Dashboard</h1>
+              <p>Real-time performance metrics and multi-property hospitality intelligence</p>
+            </div>
+            <button class="btn btn-secondary" id="btn-refresh-dash">
+              <i class="fa-solid fa-arrows-rotate"></i>
+              <span>Refresh Metrics</span>
+            </button>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon gold"><i class="fa-solid fa-dollar-sign"></i></div>
+                <span class="stat-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +14.2%</span>
+              </div>
+              <div class="stat-value" id="stat-arr">$485.50</div>
+              <div class="stat-label">Average Room Rate (ARR)</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon blue"><i class="fa-solid fa-chart-pie"></i></div>
+                <span class="stat-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +6.8%</span>
+              </div>
+              <div class="stat-value" id="stat-revpar">$412.00</div>
+              <div class="stat-label">Revenue Per Available Room (RevPAR)</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon emerald"><i class="fa-solid fa-bed"></i></div>
+                <span class="stat-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +4.5%</span>
+              </div>
+              <div class="stat-value" id="stat-occupancy">84.8%</div>
+              <div class="stat-label">Portfolio Occupancy Rate</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-header">
+                <div class="stat-icon purple"><i class="fa-solid fa-handshake"></i></div>
+                <span class="stat-trend up"><i class="fa-solid fa-arrow-trend-up"></i> +18.5%</span>
+              </div>
+              <div class="stat-value" id="stat-pipeline">$612,000</div>
+              <div class="stat-label">Active Sales Lead Pipeline</div>
+            </div>
+          </div>
+
+          <!-- Charts Row -->
+          <div class="charts-row">
+            <div class="card">
+              <div class="card-title">
+                <span>Monthly Occupancy & Revenue Trend</span>
+                <span style="font-size:12px; color: var(--text-muted); font-weight: 400;">Year 2026 YTD</span>
+              </div>
+              <div style="height: 280px; position: relative;">
+                <canvas id="chart-occupancy-trend"></canvas>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">
+                <span>Booking Source Breakdown</span>
+                <span style="font-size:12px; color: var(--text-muted); font-weight: 400;">Channels</span>
+              </div>
+              <div style="height: 280px; position: relative; display: flex; justify-content: center; align-items: center;">
+                <canvas id="chart-channel-mix"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dashboard Bottom Row -->
+          <div class="dashboard-bottom-grid">
+            <!-- Upcoming VIP Arrivals -->
+            <div class="card">
+              <div class="card-title">
+                <span><i class="fa-solid fa-crown" style="color: var(--accent-gold); margin-right: 6px;"></i> VIP Guest Arrivals Today</span>
+                <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="switchView('guests')">View All</button>
+              </div>
+              <div class="table-container">
+                <table class="custom-table">
+                  <thead>
+                    <tr>
+                      <th>Guest Name</th>
+                      <th>VIP Tier</th>
+                      <th>Property</th>
+                      <th>Room</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dash-vip-table">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Urgent Sales Pipeline Actions -->
+            <div class="card">
+              <div class="card-title">
+                <span><i class="fa-solid fa-fire" style="color: var(--accent-amber); margin-right: 6px;"></i> High Priority Corporate Inquiries</span>
+                <button class="btn btn-secondary" style="padding: 4px 10px; font-size: 11px;" onclick="switchView('leads')">Pipeline</button>
+              </div>
+              <div class="table-container">
+                <table class="custom-table">
+                  <thead>
+                    <tr>
+                      <th>Lead Title</th>
+                      <th>Value</th>
+                      <th>Stage</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dash-leads-table">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SALES LEADS VIEW (KANBAN & LIST) -->
+        <section id="view-leads" class="view-section">
+          <div class="section-header">
+            <div class="section-title">
+              <h1>Sales Pipeline & Group Inquiries</h1>
+              <p>Manage high-value group corporate bookings, banquets, and event contracts</p>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="btn btn-gold" onclick="openNewLeadModal()">
+                <i class="fa-solid fa-plus"></i> Add New Lead
+              </button>
+            </div>
+          </div>
+
+          <!-- Kanban Board -->
+          <div class="kanban-board" id="kanban-container">
+            <!-- New Inquiry -->
+            <div class="kanban-column">
+              <div class="column-header new">
+                <h3><i class="fa-regular fa-circle"></i> New Inquiry <span class="count" id="count-new">0</span></h3>
+              </div>
+              <div class="lead-cards" id="cards-new" ondrop="dropLead(event, 'new')" ondragover="allowDrop(event)"></div>
+            </div>
+
+            <!-- Contacted -->
+            <div class="kanban-column">
+              <div class="column-header contacted">
+                <h3><i class="fa-solid fa-phone"></i> Contacted <span class="count" id="count-contacted">0</span></h3>
+              </div>
+              <div class="lead-cards" id="cards-contacted" ondrop="dropLead(event, 'contacted')" ondragover="allowDrop(event)"></div>
+            </div>
+
+            <!-- Proposal Sent -->
+            <div class="kanban-column">
+              <div class="column-header proposal">
+                <h3><i class="fa-solid fa-file-contract"></i> Proposal Sent <span class="count" id="count-proposal">0</span></h3>
+              </div>
+              <div class="lead-cards" id="cards-proposal" ondrop="dropLead(event, 'proposal')" ondragover="allowDrop(event)"></div>
+            </div>
+
+            <!-- Negotiation -->
+            <div class="kanban-column">
+              <div class="column-header negotiation">
+                <h3><i class="fa-solid fa-handshake"></i> Negotiation <span class="count" id="count-negotiation">0</span></h3>
+              </div>
+              <div class="lead-cards" id="cards-negotiation" ondrop="dropLead(event, 'negotiation')" ondragover="allowDrop(event)"></div>
+            </div>
+
+            <!-- Closed Won -->
+            <div class="kanban-column">
+              <div class="column-header won">
+                <h3><i class="fa-solid fa-circle-check"></i> Closed Won <span class="count" id="count-closed_won">0</span></h3>
+              </div>
+              <div class="lead-cards" id="cards-closed_won" ondrop="dropLead(event, 'closed_won')" ondragover="allowDrop(event)"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- GUEST PROFILES 360° VIEW -->
+        <section id="view-guests" class="view-section">
+          <div class="section-header">
+            <div class="section-title">
+              <h1>360° Guest Relationship Management</h1>
+              <p>Guest preferences, loyalty status, stay history, and personalized guest touchpoints</p>
+            </div>
+            <button class="btn btn-gold" onclick="openNewGuestModal()">
+              <i class="fa-solid fa-user-plus"></i> Add Guest Profile
+            </button>
+          </div>
+
+          <div class="table-container">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Guest Name</th>
+                  <th>VIP Tier</th>
+                  <th>Loyalty Status</th>
+                  <th>Preferred Property</th>
+                  <th>Total Spend</th>
+                  <th>Stays</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="guests-table-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- RESERVATIONS VIEW -->
+        <section id="view-reservations" class="view-section">
+          <div class="section-header">
+            <div class="section-title">
+              <h1>Reservations & Front Desk Desk</h1>
+              <p>Live booking registry across all properties with real-time status tracking</p>
+            </div>
+            <button class="btn btn-gold" onclick="openNewResModal()">
+              <i class="fa-solid fa-calendar-plus"></i> Create Reservation
+            </button>
+          </div>
+
+          <div class="table-container">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Res ID</th>
+                  <th>Guest Name</th>
+                  <th>Property</th>
+                  <th>Room</th>
+                  <th>Dates</th>
+                  <th>Rate Code</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="reservations-table-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- CORPORATE ACCOUNTS VIEW -->
+        <section id="view-corporate" class="view-section">
+          <div class="section-header">
+            <div class="section-title">
+              <h1>Corporate Accounts & Contracts</h1>
+              <p>Negotiated corporate rate agreements, annual room night targets, and account management</p>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <table class="custom-table">
+              <thead>
+                <tr>
+                  <th>Company Name</th>
+                  <th>Industry</th>
+                  <th>Contracted Rate</th>
+                  <th>Annual Nights Progress</th>
+                  <th>Account Manager</th>
+                  <th>Contact Person</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="corporate-table-body">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- REVIEWS & CSAT VIEW -->
+        <section id="view-reviews" class="view-section">
+          <div class="section-header">
+            <div class="section-title">
+              <h1>Reputation Management & AI Response Assistant</h1>
+              <p>Monitor guest feedback across Google, TripAdvisor, and OTAs with automated AI responses</p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+            <div class="card">
+              <div class="card-title">Guest Review Feed</div>
+              <div id="reviews-feed-container" style="display: flex; flex-direction: column; gap: 16px;">
+                <!-- Populated dynamically -->
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">CSAT & Rating Overview</div>
+              <div style="text-align: center; margin-bottom: 20px;">
+                <h2 style="font-size: 48px; font-family: var(--font-heading); color: var(--accent-gold);">4.8 / 5</h2>
+                <div style="color: var(--accent-gold); margin-bottom: 8px;">
+                  <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                </div>
+                <p style="font-size: 12px; color: var(--text-muted);">Based on 1,420 guest evaluations</p>
+              </div>
+
+              <div style="display: flex; flex-direction: column; gap: 10px; font-size: 13px;">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>Service & Hospitality</span>
+                  <span class="badge badge-emerald">4.9</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>Room Comfort & Cleanliness</span>
+                  <span class="badge badge-emerald">4.8</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>Dining & Breakfast</span>
+                  <span class="badge badge-gold">4.7</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span>Check-in Experience</span>
+                  <span class="badge badge-emerald">4.9</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- REVENUE ANALYTICS VIEW -->
+        <section id="view-analytics" class="view-section">
+          <div class="section-header">
+            <div class="section-title">
+              <h1>Advanced Revenue Intelligence</h1>
+              <p>In-depth metrics, performance comparison by property, and forecasting</p>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px;">
+            <div class="card">
+              <div class="card-title">Property Revenue Comparison ($)</div>
+              <div style="height: 300px;">
+                <canvas id="chart-property-comparison"></canvas>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-title">Lead Pipeline Stage Value Distribution</div>
+              <div style="height: 300px; display: flex; justify-content: center; align-items: center;">
+                <canvas id="chart-pipeline-stage"></canvas>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- MODAL: ADD / EDIT LEAD -->
+  <div class="modal-overlay" id="modal-lead">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2 id="modal-lead-title">New Corporate Lead</h2>
+        <button class="modal-close" onclick="closeModal('modal-lead')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="form-lead" onsubmit="handleSaveLead(event)">
+        <div class="modal-body">
+          <input type="hidden" id="lead-id">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label class="form-label">Inquiry Title / Event Name</label>
+              <input type="text" class="form-control" id="lead-title-input" required placeholder="e.g. Executive Summit 2026">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Company / Client</label>
+              <input type="text" class="form-control" id="lead-company-input" required placeholder="e.g. Deloitte">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Target Property</label>
+              <select class="form-control" id="lead-property-input" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Contact Name</label>
+              <input type="text" class="form-control" id="lead-contact-input" required placeholder="Full Name">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email Address</label>
+              <input type="email" class="form-control" id="lead-email-input" required placeholder="email@company.com">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Estimated Deal Value ($)</label>
+              <input type="number" class="form-control" id="lead-value-input" required placeholder="50000">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Pipeline Stage</label>
+              <select class="form-control" id="lead-stage-input">
+                <option value="new">New Inquiry</option>
+                <option value="contacted">Contacted</option>
+                <option value="proposal">Proposal Sent</option>
+                <option value="negotiation">Negotiation</option>
+                <option value="closed_won">Closed Won</option>
+              </select>
+            </div>
+            <div class="form-group full">
+              <label class="form-label">Event / Booking Notes</label>
+              <textarea class="form-control" id="lead-notes-input" rows="3" placeholder="Special requirements, room counts, F&B needs..."></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-lead')">Cancel</button>
+          <button type="submit" class="btn btn-gold">Save Lead</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL: GUEST 360 PROFILE VIEW & EDIT -->
+  <div class="modal-overlay" id="modal-guest">
+    <div class="modal-card" style="max-width: 720px;">
+      <div class="modal-header">
+        <h2 id="modal-guest-header">Guest Profile 360°</h2>
+        <button class="modal-close" onclick="closeModal('modal-guest')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="modal-body" id="modal-guest-body">
+        <!-- Rendered dynamically -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('modal-guest')">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE RESERVATION -->
+  <div class="modal-overlay" id="modal-reservation">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h2>Create Reservation</h2>
+        <button class="modal-close" onclick="closeModal('modal-reservation')"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <form id="form-reservation" onsubmit="handleSaveReservation(event)">
+        <div class="modal-body">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label class="form-label">Guest Name</label>
+              <input type="text" class="form-control" id="res-guest-input" required placeholder="Guest Full Name">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Property</label>
+              <select class="form-control" id="res-property-input" required></select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Room Category</label>
+              <input type="text" class="form-control" id="res-roomtype-input" required placeholder="e.g. Executive Suite">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Check-In Date</label>
+              <input type="date" class="form-control" id="res-checkin-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Check-Out Date</label>
+              <input type="date" class="form-control" id="res-checkout-input" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Rate Code</label>
+              <input type="text" class="form-control" id="res-ratecode-input" placeholder="e.g. CORP-DELOITTE">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Total Amount ($)</label>
+              <input type="text" class="form-control" id="res-amount-input" required placeholder="$1,400">
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" onclick="closeModal('modal-reservation')">Cancel</button>
+          <button type="submit" class="btn btn-gold">Confirm Reservation</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- COMMUNICATION DRAWER (WhatsApp / Email Concierge Simulation) -->
+  <div class="drawer-overlay" id="comm-drawer">
+    <div class="drawer-header">
+      <div>
+        <h3 id="drawer-guest-name" style="font-family: var(--font-heading); font-size: 16px;">WhatsApp Guest Concierge</h3>
+        <span style="font-size: 11px; color: var(--accent-emerald);"><i class="fa-solid fa-circle" style="font-size: 8px;"></i> Live VIP Channel</span>
+      </div>
+      <button class="modal-close" onclick="closeDrawer()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="chat-history" id="chat-history">
+      <!-- Populated dynamically -->
+    </div>
+    <div style="padding: 16px; border-top: 1px solid var(--border-color); display: flex; gap: 8px;">
+      <input type="text" class="form-control" id="chat-input" placeholder="Type VIP message or automated arrival instructions..." onkeypress="if(event.key==='Enter') sendChatMessage()">
+      <button class="btn btn-gold" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container"></div>
+
+  <!-- Application Logic -->
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
