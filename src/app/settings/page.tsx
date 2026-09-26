@@ -14,9 +14,12 @@ import {
   RefreshCw,
 } from "lucide-react";
 
+import { seedSyntheticDemoData, SeedSummary } from "@/lib/demo-data/demo-seeder";
+
 export default function SettingsPage() {
   const [activeTab, setActiveTab] = useState<"portfolio" | "rates" | "security" | "webhooks">("portfolio");
   const [isSaved, setIsSaved] = useState(false);
+  const [seedSummary, setSeedSummary] = useState<SeedSummary | null>(null);
 
   // Settings State
   const [currency, setCurrency] = useState("USD ($)");
@@ -29,6 +32,12 @@ export default function SettingsPage() {
     e.preventDefault();
     setIsSaved(true);
     setTimeout(() => setIsSaved(false), 3000);
+  };
+
+  const handleReseedDemoData = () => {
+    const summary = seedSyntheticDemoData();
+    setSeedSummary(summary);
+    setTimeout(() => setSeedSummary(null), 5000);
   };
 
   return (
@@ -45,18 +54,39 @@ export default function SettingsPage() {
             </h1>
           </div>
           <p className="text-sm text-stone-400">
-            Property Portfolio Controls, Revenue Rules, SSO Enforcements & Webhook Integrations
+            Property Portfolio Controls, Revenue Rules, SSO Enforcements & Demo Data Management
           </p>
         </div>
 
-        <button
-          onClick={handleSave}
-          className="flex items-center space-x-2 px-5 py-2 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-semibold rounded-lg text-sm shadow-lg shadow-amber-500/20 transition"
-        >
-          <Save className="w-4 h-4" />
-          <span>Save Settings</span>
-        </button>
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={handleReseedDemoData}
+            className="flex items-center space-x-2 px-4 py-2 bg-stone-900 border border-amber-500/40 hover:bg-stone-800 text-amber-300 font-bold rounded-lg text-xs transition shadow"
+          >
+            <RefreshCw className="w-4 h-4 text-amber-400" />
+            <span>Reseed Synthetic Demo Data</span>
+          </button>
+
+          <button
+            onClick={handleSave}
+            className="flex items-center space-x-2 px-5 py-2 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-semibold rounded-lg text-sm shadow-lg shadow-amber-500/20 transition"
+          >
+            <Save className="w-4 h-4" />
+            <span>Save Settings</span>
+          </button>
+        </div>
       </div>
+
+      {seedSummary && (
+        <div className="bg-amber-500/10 border border-amber-500/30 text-amber-300 p-4 rounded-xl text-xs font-semibold flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+            <span>
+              Synthetic Demo Environment reseeded! Created {seedSummary.companiesCount} companies, {seedSummary.contactsCount} contacts, {seedSummary.leadsCount} leads, {seedSummary.guestsCount} guests, {seedSummary.enquiriesCount} enquiries, {seedSummary.reservationsCount} reservations & {seedSummary.opportunitiesCount} opportunities across {seedSummary.propertiesCount} flagship properties.
+            </span>
+          </div>
+        </div>
+      )}
 
       {isSaved && (
         <div className="bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 p-3 rounded-xl text-xs font-semibold flex items-center space-x-2">
