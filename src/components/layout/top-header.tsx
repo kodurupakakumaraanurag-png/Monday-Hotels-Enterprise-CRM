@@ -19,6 +19,7 @@ import { PropertySelector } from "./property-selector";
 import { useAuth } from "@/context/auth-context";
 import { getRoleBadgeStyle, DEMO_ACCOUNTS } from "@/lib/auth/rbac";
 import { UserRole } from "@/types/auth";
+import { GlobalSearchModal } from "./global-search-modal";
 
 interface TopHeaderProps {
   onToggleMobileSidebar: () => void;
@@ -29,9 +30,22 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
   const router = useRouter();
   const { user, role, signOut, signInAsDemoRole } = useAuth();
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  // Global Cmd+K / Ctrl+K keyboard shortcut listener
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsSearchModalOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   const roleBadge = getRoleBadgeStyle(role || "VIEWER");
 
@@ -65,21 +79,18 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
         <PropertySelector />
       </div>
 
-      {/* Middle: Global Search Input */}
+      {/* Middle: Global Search Input Trigger */}
       <div className="hidden md:flex items-center flex-1 max-w-md mx-4">
-        <div className="relative w-full">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search guests, corporate accounts, reservations, leads..."
-            className="w-full pl-9 pr-4 py-1.5 bg-slate-900/90 border border-slate-800 rounded-lg text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:border-amber-500/40 transition-all"
-          />
-          <kbd className="hidden lg:inline-flex absolute right-2.5 top-1/2 -translate-y-1/2 h-5 items-center gap-1 rounded border border-slate-700 bg-slate-800 px-1.5 font-mono text-[10px] font-medium text-slate-400 opacity-100">
+        <button
+          onClick={() => setIsSearchModalOpen(true)}
+          className="relative w-full text-left pl-9 pr-4 py-1.5 bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 rounded-lg text-xs text-slate-400 focus:outline-none transition-all flex items-center justify-between group"
+        >
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-hover:text-amber-400 transition-colors" />
+          <span className="truncate">Search leads, corporate, guests, reservations...</span>
+          <kbd className="hidden lg:inline-flex items-center gap-1 rounded border border-slate-700 bg-slate-800 px-1.5 font-mono text-[10px] font-medium text-slate-400">
             ⌘K
           </kbd>
-        </div>
+        </button>
       </div>
 
       {/* Right: Quick Action, Notifications & User Avatar */}
@@ -207,6 +218,12 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
           )}
         </div>
       </div>
+
+      {/* Global Command Palette Search Modal (Cmd+K / Ctrl+K) */}
+      <GlobalSearchModal
+        isOpen={isSearchModalOpen}
+        onClose={() => setIsSearchModalOpen(false)}
+      />
     </header>
   );
 }
