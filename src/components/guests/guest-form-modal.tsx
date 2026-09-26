@@ -115,26 +115,26 @@ export function GuestFormModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 overflow-y-auto">
-      <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-stone-900 border border-amber-500/30 rounded-xl shadow-2xl text-stone-100 p-6 space-y-6">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0F172A]/40 backdrop-blur-sm p-4 overflow-y-auto">
+      <div className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white border border-[#E2E8F0] rounded-xl shadow-2xl text-[#1E293B] p-6 space-y-6">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-stone-800 pb-4">
+        <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-4">
           <div className="flex items-center space-x-3">
-            <div className="p-2.5 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400">
+            <div className="p-2.5 bg-[#E8F0EC] border border-[#A8C3B2] rounded-lg text-[#1E4D3B]">
               <Crown className="w-6 h-6" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-amber-200">
+              <h2 className="text-xl font-bold text-[#1E293B]">
                 {guestToEdit ? `Edit Guest 360 Profile (${guestToEdit.id})` : "Create VIP Guest 360 Profile"}
               </h2>
-              <p className="text-xs text-stone-400">
+              <p className="text-xs text-[#64748B]">
                 Capture high-touch guest preferences, VIP tier credentials, and stay metrics
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-stone-400 hover:text-stone-100 hover:bg-stone-800 rounded-lg transition"
+            className="p-1.5 text-[#64748B] hover:text-[#1E293B] hover:bg-[#F8F6F0] rounded-lg transition"
           >
             <X className="w-5 h-5" />
           </button>
@@ -144,65 +144,65 @@ export function GuestFormModal({
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
           {/* Personal Info */}
           <div className="space-y-4">
-            <h3 className="text-sm font-medium text-amber-400/90 flex items-center space-x-2">
-              <UserCheck className="w-4 h-4 text-amber-500" />
+            <h3 className="text-sm font-semibold text-[#1E4D3B] flex items-center space-x-2">
+              <UserCheck className="w-4 h-4 text-[#1E4D3B]" />
               <span>Personal & Contact Credentials</span>
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-stone-300 mb-1">First Name *</label>
+                <label className="block text-xs font-semibold text-[#1E293B] mb-1">First Name *</label>
                 <input
                   {...register("firstName")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                   placeholder="e.g. Vikramaditya"
                 />
-                {errors.firstName && <p className="text-xs text-rose-400 mt-1">{errors.firstName.message}</p>}
+                {errors.firstName && <p className="text-xs text-red-500 mt-1">{errors.firstName.message}</p>}
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-stone-300 mb-1">Last Name *</label>
+                <label className="block text-xs font-semibold text-[#1E293B] mb-1">Last Name *</label>
                 <input
                   {...register("lastName")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                   placeholder="e.g. Singhania"
                 />
-                {errors.lastName && <p className="text-xs text-rose-400 mt-1">{errors.lastName.message}</p>}
+                {errors.lastName && <p className="text-xs text-red-500 mt-1">{errors.lastName.message}</p>}
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-stone-300 mb-1">Email Address *</label>
+                <label className="block text-xs font-semibold text-[#1E293B] mb-1">Email Address *</label>
                 <input
                   {...register("email")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                   placeholder="v.singhania@domain.com"
                 />
-                {errors.email && <p className="text-xs text-rose-400 mt-1">{errors.email.message}</p>}
+                {errors.email && <p className="text-xs text-red-500 mt-1">{errors.email.message}</p>}
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-stone-300 mb-1">Phone Number *</label>
+                <label className="block text-xs font-semibold text-[#1E293B] mb-1">Phone Number *</label>
                 <input
                   {...register("phone")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                   placeholder="+91 98200 11223"
                 />
-                {errors.phone && <p className="text-xs text-rose-400 mt-1">{errors.phone.message}</p>}
+                {errors.phone && <p className="text-xs text-red-500 mt-1">{errors.phone.message}</p>}
               </div>
             </div>
           </div>
 
           {/* Tier & Status */}
-          <div className="space-y-4 pt-4 border-t border-stone-800">
-            <h3 className="text-sm font-medium text-amber-400/90 flex items-center space-x-2">
-              <Crown className="w-4 h-4 text-amber-500" />
+          <div className="space-y-4 pt-4 border-t border-[#E2E8F0]">
+            <h3 className="text-sm font-semibold text-[#1E4D3B] flex items-center space-x-2">
+              <Crown className="w-4 h-4 text-[#1E4D3B]" />
               <span>VIP Loyalty Status & Tiering</span>
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-xs font-medium text-stone-300 mb-1">VIP Loyalty Tier</label>
+                <label className="block text-xs font-semibold text-[#1E293B] mb-1">VIP Loyalty Tier</label>
                 <select
                   {...register("vipTier")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                 >
                   <option value="Black Diamond">Black Diamond (Highest Luxury Tier)</option>
                   <option value="Platinum">Platinum Tier</option>
@@ -213,10 +213,10 @@ export function GuestFormModal({
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-stone-300 mb-1">Account Status</label>
+                <label className="block text-xs font-semibold text-[#1E293B] mb-1">Account Status</label>
                 <select
                   {...register("status")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                 >
                   <option value="Active">Active Guest</option>
                   <option value="Inactive">Inactive</option>
@@ -225,10 +225,10 @@ export function GuestFormModal({
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-stone-300 mb-1">Corporate Affiliation</label>
+                <label className="block text-xs font-semibold text-[#1E293B] mb-1">Corporate Affiliation</label>
                 <input
                   {...register("corporateCompanyName")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                   placeholder="e.g. Reliance Enterprise Solutions"
                 />
               </div>
@@ -236,17 +236,17 @@ export function GuestFormModal({
           </div>
 
           {/* Preferences & Personalization */}
-          <div className="space-y-4 pt-4 border-t border-stone-800">
-            <h3 className="text-sm font-medium text-amber-400/90 flex items-center space-x-2">
-              <SlidersHorizontal className="w-4 h-4 text-amber-500" />
+          <div className="space-y-4 pt-4 border-t border-[#E2E8F0]">
+            <h3 className="text-sm font-semibold text-[#1E4D3B] flex items-center space-x-2">
+              <SlidersHorizontal className="w-4 h-4 text-[#1E4D3B]" />
               <span>Personalization & Stay Preferences</span>
             </h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-stone-300 mb-1">Preferred Hotel Property</label>
+                <label className="block text-xs font-semibold text-[#1E293B] mb-1">Preferred Hotel Property</label>
                 <select
                   {...register("preferredProperty")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                 >
                   <option value="Monday Hotels Grand Royale Mumbai">Monday Hotels Grand Royale Mumbai</option>
                   <option value="Monday Hotels Resort & Spa Goa">Monday Hotels Resort & Spa Goa</option>
@@ -258,75 +258,75 @@ export function GuestFormModal({
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-stone-300 mb-1">Preferred Room Type</label>
+                <label className="block text-xs font-semibold text-[#1E293B] mb-1">Preferred Room Type</label>
                 <input
                   {...register("preferredRoomType")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                   placeholder="e.g. Presidential Sky Suite"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-stone-300 mb-1">Pillow Preference</label>
+                <label className="block text-xs font-semibold text-[#1E293B] mb-1">Pillow Preference</label>
                 <input
                   {...register("pillowType")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                   placeholder="e.g. Goose Down Soft, Memory Foam"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-stone-300 mb-1">Room Location / Floor</label>
+                <label className="block text-xs font-semibold text-[#1E293B] mb-1">Room Location / Floor</label>
                 <input
                   {...register("floorPreference")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                   placeholder="e.g. Top Floor / Away from Elevator"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-stone-300 mb-1">Temperature Setting</label>
+                <label className="block text-xs font-semibold text-[#1E293B] mb-1">Temperature Setting</label>
                 <input
                   {...register("temperatureSetting")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                   placeholder="e.g. 21°C Constant"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-stone-300 mb-1">Dietary Restrictions & F&B Notes</label>
+                <label className="block text-xs font-semibold text-[#1E293B] mb-1">Dietary Restrictions & F&B Notes</label>
                 <input
                   {...register("dietaryRestrictions")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                   placeholder="e.g. Strictly Vegetarian, Gluten-Sensitive"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Special Concierge Instructions</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Special Concierge Instructions</label>
               <textarea
                 {...register("specialRequests")}
                 rows={2}
-                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                 placeholder="Enter any VIP butler requests, preferred newspaper, sparkling water, or anniversary details..."
               />
             </div>
           </div>
 
           {/* Form Actions */}
-          <div className="flex items-center justify-end space-x-3 pt-4 border-t border-stone-800">
+          <div className="flex items-center justify-end space-x-3 pt-4 border-t border-[#E2E8F0]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-stone-400 hover:text-stone-200 hover:bg-stone-800 rounded-lg transition"
+              className="px-4 py-2 text-sm font-semibold text-[#64748B] hover:text-[#1E293B] hover:bg-[#F8F6F0] rounded-lg transition"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-5 py-2 text-sm font-semibold bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 rounded-lg shadow-lg shadow-amber-500/20 transition disabled:opacity-50"
+              className="px-5 py-2 text-sm font-semibold bg-[#1E4D3B] hover:bg-[#163B2D] text-white rounded-lg shadow-sm transition disabled:opacity-50"
             >
               {guestToEdit ? "Update Guest 360 Profile" : "Save Guest Profile"}
             </button>

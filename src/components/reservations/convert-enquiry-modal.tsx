@@ -61,48 +61,48 @@ export function ConvertEnquiryModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-xl bg-stone-900 border border-amber-500/40 rounded-xl shadow-2xl text-stone-100 p-6 space-y-5">
-        <div className="flex items-center justify-between border-b border-stone-800 pb-3">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0F172A]/40 backdrop-blur-sm p-4">
+      <div className="relative w-full max-w-xl bg-white border border-[#E2E8F0] rounded-xl shadow-2xl text-[#1E293B] p-6 space-y-5">
+        <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400">
+            <div className="p-2 bg-[#E8F0EC] border border-[#A8C3B2] rounded-lg text-[#1E4D3B]">
               <ArrowRightLeft className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-amber-300">
+              <h2 className="text-lg font-bold text-[#1E293B]">
                 Convert Enquiry to Confirmed Reservation
               </h2>
-              <p className="text-xs text-stone-400">Ref: {enquiry.enquiryNumber}</p>
+              <p className="text-xs text-[#64748B]">Ref: {enquiry.enquiryNumber}</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-1 text-stone-400 hover:text-stone-100">
+          <button onClick={onClose} className="p-1 text-[#64748B] hover:text-[#1E293B]">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* Conflict Warning Box */}
         {conflictError && (
-          <div className="bg-rose-950/80 border border-rose-500/50 p-3.5 rounded-xl text-xs text-rose-200 space-y-1">
-            <div className="flex items-center space-x-2 font-bold text-rose-400">
-              <AlertTriangle className="w-4 h-4 text-rose-400 shrink-0" />
+          <div className="bg-red-50 border border-red-200 p-3.5 rounded-xl text-xs text-red-800 space-y-1">
+            <div className="flex items-center space-x-2 font-bold text-red-700">
+              <AlertTriangle className="w-4 h-4 text-red-600 shrink-0" />
               <span>Room Booking Conflict Alert!</span>
             </div>
             <p className="leading-relaxed">{conflictError}</p>
           </div>
         )}
 
-        <div className="bg-stone-950 p-4 rounded-xl border border-stone-800 space-y-2 text-xs">
+        <div className="bg-[#F8F6F0] p-4 rounded-xl border border-[#E2E8F0] space-y-2 text-xs">
           <div className="flex items-center justify-between">
-            <span className="text-stone-400">Guest Name</span>
-            <span className="font-bold text-stone-100">{enquiry.guest}</span>
+            <span className="text-[#64748B]">Guest Name</span>
+            <span className="font-bold text-[#1E293B]">{enquiry.guest}</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-stone-400">Target Property</span>
-            <span className="font-medium text-amber-300">{enquiry.property}</span>
+            <span className="text-[#64748B]">Target Property</span>
+            <span className="font-semibold text-[#1E4D3B]">{enquiry.property}</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-stone-400">Dates & Guests</span>
-            <span className="text-stone-200 font-medium">
+            <span className="text-[#64748B]">Dates & Guests</span>
+            <span className="text-[#1E293B] font-medium">
               {enquiry.checkInDate} to {enquiry.checkOutDate} ({enquiry.numberOfGuests} Guests)
             </span>
           </div>
@@ -110,7 +110,7 @@ export function ConvertEnquiryModal({
 
         <form onSubmit={handleConvert} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-stone-300 mb-1">
+            <label className="block text-xs font-semibold text-[#1E293B] mb-1">
               Assign Specific Room / Villa *
             </label>
             <input
@@ -121,55 +121,55 @@ export function ConvertEnquiryModal({
                 setRoom(e.target.value);
                 setConflictError(null);
               }}
-              className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+              className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
               placeholder="e.g. Presidential Sky Suite 1001, Villa 12"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Daily Nightly Rate ($) *</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Daily Nightly Rate ($) *</label>
               <input
                 type="number"
                 required
                 value={rate}
                 onChange={(e) => setRate(Number(e.target.value))}
-                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200"
+                className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B]"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Booking Channel / Source</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Booking Channel / Source</label>
               <input
                 type="text"
                 value={bookingSource}
                 onChange={(e) => setBookingSource(e.target.value)}
-                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200"
+                className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B]"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-stone-300 mb-1">Special Concierge Requests</label>
+            <label className="block text-xs font-semibold text-[#1E293B] mb-1">Special Concierge Requests</label>
             <textarea
               value={specialRequests}
               onChange={(e) => setSpecialRequests(e.target.value)}
               rows={2}
-              className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200"
+              className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B]"
               placeholder="Butler requests, pillow choices, dietary preferences..."
             />
           </div>
 
-          <div className="flex items-center justify-end space-x-3 pt-3 border-t border-stone-800">
+          <div className="flex items-center justify-end space-x-3 pt-3 border-t border-[#E2E8F0]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs text-stone-400 hover:text-stone-200"
+              className="px-4 py-2 text-xs font-semibold text-[#64748B] hover:text-[#1E293B]"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-xs font-bold bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 text-stone-950 rounded-lg shadow-md"
+              className="px-4 py-2 text-xs font-semibold bg-[#1E4D3B] hover:bg-[#163B2D] text-white rounded-lg shadow-sm"
             >
               Confirm & Convert to Reservation
             </button>

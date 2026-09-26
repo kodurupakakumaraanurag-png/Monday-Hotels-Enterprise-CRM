@@ -67,20 +67,20 @@ export function LeadFormModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-4xl w-full p-6 shadow-2xl space-y-5 my-8 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-[#0F172A]/40 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+      <div className="bg-white border border-[#E2E8F0] rounded-2xl max-w-4xl w-full p-6 shadow-2xl space-y-5 my-8 max-h-[90vh] overflow-y-auto text-[#1E293B]">
         {/* Modal Header */}
-        <div className="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
           <div>
-            <h2 className="text-lg font-bold text-slate-100 flex items-center gap-2">
-              <Plus className="w-5 h-5 text-amber-400" />
+            <h2 className="text-lg font-bold text-[#1E293B] flex items-center gap-2">
+              <Plus className="w-5 h-5 text-[#1E4D3B]" />
               <span>{title}</span>
             </h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <p className="text-xs text-[#64748B] mt-0.5">
               Complete the 26-field Monday Hotels enterprise lead structure with automated scoring logic
             </p>
           </div>
-          <button onClick={onClose} className="text-slate-400 hover:text-slate-100 p-1.5 rounded-lg bg-slate-950">
+          <button onClick={onClose} className="text-[#64748B] hover:text-[#1E293B] p-1.5 rounded-lg bg-[#F8F6F0]">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -94,9 +94,9 @@ export function LeadFormModal({
           <PipelineAssignmentFields register={register} errors={errors} />
 
           {/* Form Actions Footer */}
-          <div className="pt-4 flex items-center justify-between border-t border-slate-800">
-            <div className="flex items-center gap-2 text-xs text-slate-400">
-              <ShieldCheck className="w-4 h-4 text-emerald-400" />
+          <div className="pt-4 flex items-center justify-between border-t border-[#E2E8F0]">
+            <div className="flex items-center gap-2 text-xs text-[#64748B]">
+              <ShieldCheck className="w-4 h-4 text-[#1E4D3B]" />
               <span>Zod Validated • 26 Fields Schema Compliant</span>
             </div>
 
@@ -104,14 +104,14 @@ export function LeadFormModal({
               <button
                 type="button"
                 onClick={onClose}
-                className="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-semibold transition-colors"
+                className="px-4 py-2 bg-white border border-[#E2E8F0] hover:bg-[#F8F6F0] text-[#1E293B] rounded-lg text-xs font-semibold transition-colors"
               >
                 Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-5 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 rounded-lg text-xs font-bold transition-all shadow-md shadow-amber-500/10 flex items-center gap-1.5 cursor-pointer"
+                className="px-5 py-2 bg-[#1E4D3B] hover:bg-[#163B2D] text-white rounded-lg text-xs font-semibold transition-all shadow-sm flex items-center gap-1.5 cursor-pointer"
               >
                 <Save className="w-4 h-4" />
                 <span>Save Enterprise Lead</span>

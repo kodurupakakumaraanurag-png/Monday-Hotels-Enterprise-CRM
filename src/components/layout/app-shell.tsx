@@ -22,7 +22,7 @@ export function AppShell({ children }: AppShellProps) {
         {isLoginPage ? (
           <>{children}</>
         ) : (
-          <div className="min-h-screen bg-[#F7F4EC] text-[#18332B] flex flex-col font-sans selection:bg-[#C9A15B]/30 selection:text-[#18332B]">
+          <div className="min-h-screen bg-[#F7F4EC] text-[#1E293B] flex flex-col font-sans selection:bg-[#C9A15B]/30 selection:text-[#1E293B]">
             {/* Sidebar Navigation */}
             <Sidebar
               isMobileOpen={isMobileOpen}

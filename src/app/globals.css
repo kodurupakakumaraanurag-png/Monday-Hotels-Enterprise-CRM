@@ -2,50 +2,50 @@
 
 @layer base {
   :root {
-    --background: #F7F4EC;
-    --foreground: #18332B;
+    --background: #F8F6F0;
+    --foreground: #1E293B;
 
     --card: #FFFFFF;
-    --card-foreground: #18332B;
+    --card-foreground: #1E293B;
 
     --popover: #FFFFFF;
-    --popover-foreground: #18332B;
+    --popover-foreground: #1E293B;
 
-    --primary: #285943;
+    --primary: #1E4D3B;
     --primary-foreground: #FFFFFF;
 
-    --secondary: #DDE9E1;
-    --secondary-foreground: #173F32;
+    --secondary: #E8F0EC;
+    --secondary-foreground: #1E4D3B;
 
-    --muted: #F7F4EC;
-    --muted-foreground: #6B766F;
+    --muted: #F8F6F0;
+    --muted-foreground: #64748B;
 
-    --accent: #C9A15B;
-    --accent-foreground: #18332B;
+    --accent: #C5A059;
+    --accent-foreground: #1E293B;
 
-    --destructive: #C95C5C;
+    --destructive: #DC2626;
     --destructive-foreground: #FFFFFF;
 
-    --border: #E5E2D9;
-    --input: #E5E2D9;
-    --ring: #285943;
+    --border: #E2E8F0;
+    --input: #E2E8F0;
+    --ring: #1E4D3B;
     --radius: 0.75rem;
 
-    --sidebar-bg: #FFFEFA;
-    --sidebar-fg: #18332B;
-    --sidebar-border: #E5E2D9;
-    --sidebar-active: #285943;
-    --sidebar-hover: #DDE9E1;
+    --sidebar-bg: #FFFFFF;
+    --sidebar-fg: #1E293B;
+    --sidebar-border: #E2E8F0;
+    --sidebar-active: #1E4D3B;
+    --sidebar-hover: #E8F0EC;
   }
 }
 
 * {
-  border-color: #E5E2D9;
+  border-color: #E2E8F0;
 }
 
 body {
-  background-color: #F7F4EC;
-  color: #18332B;
+  background-color: #F8F6F0;
+  color: #1E293B;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -59,36 +59,36 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #F7F4EC;
+  background: #F8F6F0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #A8C3B2;
+  background: #CBD5E1;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #285943;
+  background: #1E4D3B;
 }
 
 /* Design System Utility Classes */
 @layer components {
   .crm-card {
     background-color: #FFFFFF;
-    border: 1px solid #E5E2D9;
+    border: 1px solid #E2E8F0;
     border-radius: 0.75rem;
-    box-shadow: 0 2px 8px rgba(24, 51, 43, 0.04);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   }
 
   .crm-header-title {
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.025em;
-    color: #18332B;
+    color: #1E293B;
   }
 
   .crm-btn-primary {
-    background-color: #285943;
+    background-color: #1E4D3B;
     color: #FFFFFF;
     font-weight: 700;
     font-size: 0.75rem;
@@ -98,14 +98,14 @@ body {
     border: none;
   }
   .crm-btn-primary:hover {
-    background-color: #173F32;
-    box-shadow: 0 2px 8px rgba(40, 89, 67, 0.2);
+    background-color: #163B2D;
+    box-shadow: 0 2px 8px rgba(30, 77, 59, 0.25);
   }
 
   .crm-btn-secondary {
     background-color: #FFFFFF;
-    border: 1px solid #E5E2D9;
-    color: #285943;
+    border: 1px solid #E2E8F0;
+    color: #1E4D3B;
     font-weight: 700;
     font-size: 0.75rem;
     padding: 0.5rem 1rem;
@@ -113,14 +113,14 @@ body {
     transition: all 0.15s ease-in-out;
   }
   .crm-btn-secondary:hover {
-    background-color: #DDE9E1;
-    color: #173F32;
+    background-color: #E8F0EC;
+    color: #1E4D3B;
   }
 
   .crm-badge-success {
-    background-color: #DDE9E1;
+    background-color: #E8F0EC;
     border: 1px solid #A8C3B2;
-    color: #173F32;
+    color: #1E4D3B;
     font-size: 0.625rem;
     font-weight: 800;
     padding: 0.125rem 0.5rem;
@@ -129,9 +129,9 @@ body {
   }
 
   .crm-badge-warning {
-    background-color: #E9D7AE;
-    border: 1px solid #C9A15B;
-    color: #18332B;
+    background-color: #FEF3C7;
+    border: 1px solid #F59E0B;
+    color: #92400E;
     font-size: 0.625rem;
     font-weight: 800;
     padding: 0.125rem 0.5rem;

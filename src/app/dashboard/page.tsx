@@ -112,12 +112,12 @@ export default function DashboardPage() {
           <AlertCircle className="w-10 h-10 mx-auto" />
         </div>
         <div className="max-w-md">
-          <h2 className="text-xl font-bold text-[#18332B]">Unable to Load Dashboard</h2>
+          <h2 className="text-xl font-bold text-[#1E293B]">Unable to Load Dashboard</h2>
           <p className="text-xs text-[#6B766F] mt-1">{error}</p>
         </div>
         <button
           onClick={() => fetchData(false)}
-          className="flex items-center gap-2 bg-[#285943] hover:bg-[#173F32] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shadow-sm"
+          className="flex items-center gap-2 bg-[#285943] hover:bg-[#1E4D3B] text-white font-bold text-xs px-4 py-2.5 rounded-xl transition-colors shadow-sm"
         >
           <RefreshCw className="w-4 h-4" />
           <span>Retry Connection</span>
@@ -130,7 +130,7 @@ export default function DashboardPage() {
   const kpis = isEmptyState ? null : data?.kpis;
 
   return (
-    <div className="space-y-6 pb-12 font-sans text-[#18332B]">
+    <div className="space-y-6 pb-12 font-sans text-[#1E293B]">
       {/* Top Header & Context Controls */}
       <PageHeader
         title="Enterprise CRM Overview"
@@ -147,7 +147,7 @@ export default function DashboardPage() {
                   className={`text-xs px-2.5 py-1 rounded-md transition-all font-medium uppercase ${
                     timeframe === tf
                       ? "bg-[#285943] text-white font-bold shadow-sm"
-                      : "text-[#6B766F] hover:text-[#18332B] hover:bg-[#F7F4EC]"
+                      : "text-[#6B766F] hover:text-[#1E293B] hover:bg-[#F7F4EC]"
                   }`}
                 >
                   {tf}
@@ -160,8 +160,8 @@ export default function DashboardPage() {
               onClick={() => setIsEmptyState(!isEmptyState)}
               className={`text-xs px-3 py-1.5 rounded-lg border font-semibold transition-colors ${
                 isEmptyState
-                  ? "bg-[#DDE9E1] text-[#173F32] border-[#A8C3B2]"
-                  : "bg-white text-[#18332B] border-[#E5E2D9] hover:bg-[#F7F4EC]"
+                  ? "bg-[#DDE9E1] text-[#1E4D3B] border-[#A8C3B2]"
+                  : "bg-white text-[#1E293B] border-[#E5E2D9] hover:bg-[#F7F4EC]"
               }`}
             >
               {isEmptyState ? "Exit Empty State" : "Simulate Empty State"}
@@ -178,7 +178,7 @@ export default function DashboardPage() {
 
             <button
               onClick={() => alert("Downloading PDF Brief...")}
-              className="hidden sm:flex items-center gap-1.5 bg-[#C9A15B] hover:bg-[#b08b47] text-[#18332B] font-bold text-xs px-3.5 py-2 rounded-lg transition-colors shadow-sm"
+              className="hidden sm:flex items-center gap-1.5 bg-[#C9A15B] hover:bg-[#b08b47] text-[#1E293B] font-bold text-xs px-3.5 py-2 rounded-lg transition-colors shadow-sm"
             >
               <Download className="w-4 h-4" />
               <span>Export Executive Brief</span>
@@ -191,7 +191,7 @@ export default function DashboardPage() {
       {isEmptyState && (
         <div className="bg-white border border-[#E5E2D9] rounded-xl p-8 text-center space-y-3 shadow-sm">
           <Building2 className="w-10 h-10 text-[#6B766F] mx-auto" />
-          <h3 className="text-base font-bold text-[#18332B]">No Portfolio Data Available</h3>
+          <h3 className="text-base font-bold text-[#1E293B]">No Portfolio Data Available</h3>
           <p className="text-xs text-[#6B766F] max-w-sm mx-auto">
             Zero active records were found for the selected timeframe or filter. Connect Supabase database tables or populate demo data.
           </p>
@@ -297,7 +297,7 @@ export default function DashboardPage() {
           <div className="bg-white border border-[#E5E2D9] rounded-xl p-4 hover:border-[#285943]/40 transition-all shadow-sm">
             <div className="flex items-center justify-between text-[#6B766F]">
               <span className="text-xs font-medium text-[#6B766F]">Revenue Pipeline</span>
-              <div className="p-1.5 bg-[#E9D7AE] text-[#18332B] rounded-lg">
+              <div className="p-1.5 bg-[#E9D7AE] text-[#1E293B] rounded-lg">
                 <DollarSign className="w-4 h-4 text-[#285943]" />
               </div>
             </div>
@@ -355,10 +355,10 @@ export default function DashboardPage() {
           <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-base font-bold text-[#18332B]">1. Lead Pipeline Stage Breakdown</h3>
+                <h3 className="text-base font-bold text-[#1E293B]">1. Lead Pipeline Stage Breakdown</h3>
                 <p className="text-xs text-[#6B766F]">Volume and value of deals moving through the sales pipeline</p>
               </div>
-              <span className="text-xs font-bold text-[#173F32] bg-[#DDE9E1] px-2.5 py-1 rounded border border-[#A8C3B2]">
+              <span className="text-xs font-bold text-[#1E4D3B] bg-[#DDE9E1] px-2.5 py-1 rounded border border-[#A8C3B2]">
                 284 Leads
               </span>
             </div>
@@ -367,9 +367,9 @@ export default function DashboardPage() {
                 <BarChart data={data.leadPipelineStages} layout="vertical" margin={{ top: 5, right: 20, left: 30, bottom: 5 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#E5E2D9" />
                   <XAxis type="number" stroke="#6B766F" fontSize={11} />
-                  <YAxis type="category" dataKey="stage" stroke="#18332B" fontSize={11} tickLine={false} />
+                  <YAxis type="category" dataKey="stage" stroke="#1E293B" fontSize={11} tickLine={false} />
                   <RechartsTooltip
-                    contentStyle={{ backgroundColor: "#FFFEFA", borderColor: "#E5E2D9", borderRadius: "8px", fontSize: "12px", color: "#18332B" }}
+                    contentStyle={{ backgroundColor: "#FFFEFA", borderColor: "#E5E2D9", borderRadius: "8px", fontSize: "12px", color: "#1E293B" }}
                   />
                   <Bar dataKey="count" name="Active Deals" radius={[0, 4, 4, 0]}>
                     {data.leadPipelineStages.map((entry, index) => (
@@ -385,7 +385,7 @@ export default function DashboardPage() {
           <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-base font-bold text-[#18332B]">2. Booking Enquiry Conversion</h3>
+                <h3 className="text-base font-bold text-[#1E293B]">2. Booking Enquiry Conversion</h3>
                 <p className="text-xs text-[#6B766F]">Monthly inbound booking requests vs confirmed reservations</p>
               </div>
               <span className="text-xs font-bold text-[#285943] bg-[#DDE9E1] px-2.5 py-1 rounded border border-[#A8C3B2]">
@@ -399,7 +399,7 @@ export default function DashboardPage() {
                   <XAxis dataKey="month" stroke="#6B766F" fontSize={11} />
                   <YAxis stroke="#6B766F" fontSize={11} />
                   <RechartsTooltip
-                    contentStyle={{ backgroundColor: "#FFFEFA", borderColor: "#E5E2D9", borderRadius: "8px", fontSize: "12px", color: "#18332B" }}
+                    contentStyle={{ backgroundColor: "#FFFEFA", borderColor: "#E5E2D9", borderRadius: "8px", fontSize: "12px", color: "#1E293B" }}
                   />
                   <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
                   <Bar dataKey="received" name="Received Enquiries" fill="#A8C3B2" radius={[4, 4, 0, 0]} />
@@ -414,10 +414,10 @@ export default function DashboardPage() {
           <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-base font-bold text-[#18332B]">3. Portfolio Reservation & Occupancy Trends</h3>
+                <h3 className="text-base font-bold text-[#1E293B]">3. Portfolio Reservation & Occupancy Trends</h3>
                 <p className="text-xs text-[#6B766F]">Monthly room night volume and portfolio occupancy rate %</p>
               </div>
-              <span className="text-xs font-bold text-[#173F32] bg-[#DDE9E1] px-2.5 py-1 rounded border border-[#A8C3B2]">
+              <span className="text-xs font-bold text-[#1E4D3B] bg-[#DDE9E1] px-2.5 py-1 rounded border border-[#A8C3B2]">
                 85.4% Occupancy
               </span>
             </div>
@@ -434,7 +434,7 @@ export default function DashboardPage() {
                   <XAxis dataKey="month" stroke="#6B766F" fontSize={11} />
                   <YAxis stroke="#6B766F" fontSize={11} />
                   <RechartsTooltip
-                    contentStyle={{ backgroundColor: "#FFFEFA", borderColor: "#E5E2D9", borderRadius: "8px", fontSize: "12px", color: "#18332B" }}
+                    contentStyle={{ backgroundColor: "#FFFEFA", borderColor: "#E5E2D9", borderRadius: "8px", fontSize: "12px", color: "#1E293B" }}
                   />
                   <Area type="monotone" dataKey="roomNights" name="Total Room Nights" stroke="#285943" strokeWidth={2} fillOpacity={1} fill="url(#colorNights)" />
                 </AreaChart>
@@ -446,10 +446,10 @@ export default function DashboardPage() {
           <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-base font-bold text-[#18332B]">4. Revenue Realized vs Target Pipeline</h3>
+                <h3 className="text-base font-bold text-[#1E293B]">4. Revenue Realized vs Target Pipeline</h3>
                 <p className="text-xs text-[#6B766F]">Monthly commercial revenue realization vs monthly target</p>
               </div>
-              <span className="text-xs font-bold text-[#173F32] bg-[#E9D7AE] px-2.5 py-1 rounded border border-[#C9A15B]">
+              <span className="text-xs font-bold text-[#1E4D3B] bg-[#E9D7AE] px-2.5 py-1 rounded border border-[#C9A15B]">
                 $3.85M Pipeline
               </span>
             </div>
@@ -461,7 +461,7 @@ export default function DashboardPage() {
                   <YAxis stroke="#6B766F" fontSize={11} tickFormatter={(v) => `$${v / 1000000}M`} />
                   <RechartsTooltip
                     formatter={(value: any) => [`$${Number(value).toLocaleString()}`, "Amount"]}
-                    contentStyle={{ backgroundColor: "#FFFEFA", borderColor: "#E5E2D9", borderRadius: "8px", fontSize: "12px", color: "#18332B" }}
+                    contentStyle={{ backgroundColor: "#FFFEFA", borderColor: "#E5E2D9", borderRadius: "8px", fontSize: "12px", color: "#1E293B" }}
                   />
                   <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
                   <Bar dataKey="realized" name="Realized Revenue ($)" fill="#285943" radius={[4, 4, 0, 0]} />
@@ -475,10 +475,10 @@ export default function DashboardPage() {
           <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-base font-bold text-[#18332B]">5. Guest Retention & Repeat Loyalty</h3>
+                <h3 className="text-base font-bold text-[#1E293B]">5. Guest Retention & Repeat Loyalty</h3>
                 <p className="text-xs text-[#6B766F]">Proportion of repeat loyalty members vs first-time guest stays</p>
               </div>
-              <span className="text-xs font-bold text-[#173F32] bg-[#DDE9E1] px-2.5 py-1 rounded border border-[#A8C3B2]">
+              <span className="text-xs font-bold text-[#1E4D3B] bg-[#DDE9E1] px-2.5 py-1 rounded border border-[#A8C3B2]">
                 62.4% Repeat Rate
               </span>
             </div>
@@ -500,7 +500,7 @@ export default function DashboardPage() {
                     ))}
                   </Pie>
                   <RechartsTooltip
-                    contentStyle={{ backgroundColor: "#FFFEFA", borderColor: "#E5E2D9", borderRadius: "8px", fontSize: "12px", color: "#18332B" }}
+                    contentStyle={{ backgroundColor: "#FFFEFA", borderColor: "#E5E2D9", borderRadius: "8px", fontSize: "12px", color: "#1E293B" }}
                   />
                   <Legend wrapperStyle={{ fontSize: "11px", paddingTop: "10px" }} />
                 </PieChart>
@@ -512,7 +512,7 @@ export default function DashboardPage() {
           <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 shadow-sm">
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h3 className="text-base font-bold text-[#18332B]">6. Lead Source Distribution</h3>
+                <h3 className="text-base font-bold text-[#1E293B]">6. Lead Source Distribution</h3>
                 <p className="text-xs text-[#6B766F]">Lead origin across direct web, corporate MICE, referrals & OTAs</p>
               </div>
               <span className="text-xs font-bold text-[#285943] bg-[#DDE9E1] px-2.5 py-1 rounded border border-[#A8C3B2]">
@@ -526,7 +526,7 @@ export default function DashboardPage() {
                   <XAxis dataKey="source" stroke="#6B766F" fontSize={10} interval={0} />
                   <YAxis stroke="#6B766F" fontSize={11} unit="%" />
                   <RechartsTooltip
-                    contentStyle={{ backgroundColor: "#FFFEFA", borderColor: "#E5E2D9", borderRadius: "8px", fontSize: "12px", color: "#18332B" }}
+                    contentStyle={{ backgroundColor: "#FFFEFA", borderColor: "#E5E2D9", borderRadius: "8px", fontSize: "12px", color: "#1E293B" }}
                   />
                   <Bar dataKey="percentage" name="Share %" radius={[4, 4, 0, 0]}>
                     {data.leadSources.map((entry, index) => (
@@ -548,7 +548,7 @@ export default function DashboardPage() {
             {/* Section 1: Recent Leads */}
             <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 shadow-sm space-y-4">
               <div className="flex items-center justify-between border-b border-[#E5E2D9] pb-3">
-                <h3 className="text-base font-bold text-[#18332B] flex items-center gap-2">
+                <h3 className="text-base font-bold text-[#1E293B] flex items-center gap-2">
                   <Users className="w-4 h-4 text-[#285943]" />
                   <span>Recent Sales Leads</span>
                 </h3>
@@ -560,15 +560,15 @@ export default function DashboardPage() {
                   <div key={lead.id} className="bg-[#F7F4EC] border border-[#E5E2D9] rounded-xl p-3.5 flex items-center justify-between text-xs">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-mono text-[10px] text-[#173F32] bg-[#DDE9E1] px-1.5 py-0.5 rounded border border-[#A8C3B2] font-bold">
+                        <span className="font-mono text-[10px] text-[#1E4D3B] bg-[#DDE9E1] px-1.5 py-0.5 rounded border border-[#A8C3B2] font-bold">
                           {lead.id}
                         </span>
-                        <h4 className="font-bold text-[#18332B]">{lead.companyName}</h4>
+                        <h4 className="font-bold text-[#1E293B]">{lead.companyName}</h4>
                       </div>
                       <p className="text-[#6B766F] text-[11px]">POC: {lead.contactPoc} • Source: {lead.source}</p>
                     </div>
                     <div className="text-right space-y-1">
-                      <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-white border border-[#E5E2D9] text-[#18332B]">
+                      <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-white border border-[#E5E2D9] text-[#1E293B]">
                         {lead.status}
                       </span>
                       <div className="text-[10px] text-[#6B766F]">{lead.createdAt}</div>
@@ -581,7 +581,7 @@ export default function DashboardPage() {
             {/* Section 2: Recent Booking Enquiries */}
             <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 shadow-sm space-y-4">
               <div className="flex items-center justify-between border-b border-[#E5E2D9] pb-3">
-                <h3 className="text-base font-bold text-[#18332B] flex items-center gap-2">
+                <h3 className="text-base font-bold text-[#1E293B] flex items-center gap-2">
                   <ClipboardList className="w-4 h-4 text-[#285943]" />
                   <span>Recent Booking Enquiries</span>
                 </h3>
@@ -596,13 +596,13 @@ export default function DashboardPage() {
                         <span className="font-mono text-[10px] text-[#285943] bg-[#DDE9E1] px-1.5 py-0.5 rounded border border-[#A8C3B2] font-bold">
                           {enq.enquiryCode}
                         </span>
-                        <h4 className="font-bold text-[#18332B]">{enq.guestName}</h4>
+                        <h4 className="font-bold text-[#1E293B]">{enq.guestName}</h4>
                       </div>
                       <p className="text-[#6B766F] text-[11px]">{enq.property} • {enq.dates}</p>
                     </div>
                     <div className="text-right space-y-1">
                       <div className="font-bold text-[#285943]">{enq.budget}</div>
-                      <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-white border border-[#E5E2D9] text-[#18332B]">
+                      <span className="inline-block text-[10px] font-bold px-2 py-0.5 rounded bg-white border border-[#E5E2D9] text-[#1E293B]">
                         {enq.status}
                       </span>
                     </div>
@@ -617,7 +617,7 @@ export default function DashboardPage() {
             {/* Section 3: Upcoming Reservations */}
             <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 shadow-sm space-y-4">
               <div className="flex items-center justify-between border-b border-[#E5E2D9] pb-3">
-                <h3 className="text-base font-bold text-[#18332B] flex items-center gap-2">
+                <h3 className="text-base font-bold text-[#1E293B] flex items-center gap-2">
                   <Calendar className="w-4 h-4 text-[#285943]" />
                   <span>Upcoming Reservations</span>
                 </h3>
@@ -632,14 +632,14 @@ export default function DashboardPage() {
                         <span className="font-mono text-[10px] text-[#285943] bg-[#DDE9E1] px-1.5 py-0.5 rounded border border-[#A8C3B2] font-bold">
                           {res.reservationCode}
                         </span>
-                        <h4 className="font-bold text-[#18332B]">{res.guestName}</h4>
+                        <h4 className="font-bold text-[#1E293B]">{res.guestName}</h4>
                       </div>
                       <p className="text-[#6B766F] text-[11px]">{res.property} • {res.roomType}</p>
                     </div>
                     <div className="text-right space-y-1">
-                      <div className="text-[#18332B] font-semibold">{res.checkInDate}</div>
+                      <div className="text-[#1E293B] font-semibold">{res.checkInDate}</div>
                       <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded ${
-                        res.paymentStatus === "PAID" ? "bg-[#DDE9E1] text-[#173F32] border border-[#A8C3B2]" : "bg-[#E9D7AE] text-[#18332B] border border-[#C9A15B]"
+                        res.paymentStatus === "PAID" ? "bg-[#DDE9E1] text-[#1E4D3B] border border-[#A8C3B2]" : "bg-[#E9D7AE] text-[#1E293B] border border-[#C9A15B]"
                       }`}>
                         {res.paymentStatus}
                       </span>
@@ -652,7 +652,7 @@ export default function DashboardPage() {
             {/* Section 4: Pending Tasks */}
             <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 shadow-sm space-y-4">
               <div className="flex items-center justify-between border-b border-[#E5E2D9] pb-3">
-                <h3 className="text-base font-bold text-[#18332B] flex items-center gap-2">
+                <h3 className="text-base font-bold text-[#1E293B] flex items-center gap-2">
                   <Clock className="w-4 h-4 text-[#C9A15B]" />
                   <span>Pending Tasks & Actions</span>
                 </h3>
@@ -663,12 +663,12 @@ export default function DashboardPage() {
                 {data.pendingTasks.map((task) => (
                   <div key={task.id} className="bg-[#F7F4EC] border border-[#E5E2D9] rounded-xl p-3.5 flex items-center justify-between text-xs">
                     <div className="space-y-1">
-                      <h4 className="font-bold text-[#18332B]">{task.title}</h4>
+                      <h4 className="font-bold text-[#1E293B]">{task.title}</h4>
                       <p className="text-[#6B766F] text-[11px]">Assigned to: {task.assignedTo}</p>
                     </div>
                     <div className="text-right space-y-1">
                       <span className={`inline-block text-[10px] font-bold px-2 py-0.5 rounded ${
-                        task.priority === "URGENT" ? "bg-rose-100 text-[#C95C5C] border border-rose-200" : "bg-[#E9D7AE] text-[#18332B] border border-[#C9A15B]"
+                        task.priority === "URGENT" ? "bg-rose-100 text-[#C95C5C] border border-rose-200" : "bg-[#E9D7AE] text-[#1E293B] border border-[#C9A15B]"
                       }`}>
                         {task.priority}
                       </span>
@@ -683,7 +683,7 @@ export default function DashboardPage() {
           {/* Section 5: Recent Activities Timeline */}
           <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 shadow-sm space-y-4">
             <div className="flex items-center justify-between border-b border-[#E5E2D9] pb-3">
-              <h3 className="text-base font-bold text-[#18332B] flex items-center gap-2">
+              <h3 className="text-base font-bold text-[#1E293B] flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-[#C9A15B]" />
                 <span>Recent System & Activity Timeline</span>
               </h3>
@@ -698,7 +698,7 @@ export default function DashboardPage() {
                       <CheckCircle2 className="w-4 h-4" />
                     </div>
                     <div>
-                      <p className="font-bold text-[#18332B]">{act.title}</p>
+                      <p className="font-bold text-[#1E293B]">{act.title}</p>
                       <p className="text-[11px] text-[#6B766F]">Performer: {act.performer} • Entity: {act.relatedEntity}</p>
                     </div>
                   </div>

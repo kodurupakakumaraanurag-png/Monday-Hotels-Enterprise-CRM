@@ -70,12 +70,12 @@ export function getRoleBadgeStyle(role: UserRole): { label: string; badgeClass: 
     case "ADMIN":
       return {
         label: "System Admin",
-        badgeClass: "bg-[#E9D7AE] text-[#18332B] border-[#C9A15B]",
+        badgeClass: "bg-[#E9D7AE] text-[#1E293B] border-[#C9A15B]",
       };
     case "SALES_MANAGER":
       return {
         label: "Sales Manager",
-        badgeClass: "bg-[#DDE9E1] text-[#173F32] border-[#A8C3B2]",
+        badgeClass: "bg-[#DDE9E1] text-[#1E4D3B] border-[#A8C3B2]",
       };
     case "SALES_EXECUTIVE":
       return {
@@ -85,7 +85,7 @@ export function getRoleBadgeStyle(role: UserRole): { label: string; badgeClass: 
     case "OPERATIONS_MANAGER":
       return {
         label: "Ops Manager",
-        badgeClass: "bg-[#DDE9E1] text-[#173F32] border-[#A8C3B2]",
+        badgeClass: "bg-[#DDE9E1] text-[#1E4D3B] border-[#A8C3B2]",
       };
     case "VIEWER":
       return {
@@ -95,7 +95,7 @@ export function getRoleBadgeStyle(role: UserRole): { label: string; badgeClass: 
     default:
       return {
         label: role,
-        badgeClass: "bg-[#F7F4EC] text-[#18332B] border-[#E5E2D9]",
+        badgeClass: "bg-[#F7F4EC] text-[#1E293B] border-[#E5E2D9]",
       };
   }
 }

@@ -24,7 +24,7 @@ export function SimpleBarChart({
     <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 space-y-4 shadow-sm">
       {(title || subtitle) && (
         <div>
-          {title && <h3 className="text-sm font-bold text-[#18332B]">{title}</h3>}
+          {title && <h3 className="text-sm font-bold text-[#1E293B]">{title}</h3>}
           {subtitle && <p className="text-xs text-[#6B766F] mt-0.5">{subtitle}</p>}
         </div>
       )}
@@ -35,7 +35,7 @@ export function SimpleBarChart({
           return (
             <div key={i} className="space-y-1">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-semibold text-[#18332B]">{item.label}</span>
+                <span className="font-semibold text-[#1E293B]">{item.label}</span>
                 <span className="font-bold text-[#285943]">
                   {item.formattedValue || item.value.toLocaleString()}
                 </span>
@@ -67,7 +67,7 @@ export function FunnelVisualizationChart({
 
   return (
     <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 space-y-4 shadow-sm">
-      {title && <h3 className="text-sm font-bold text-[#18332B]">{title}</h3>}
+      {title && <h3 className="text-sm font-bold text-[#1E293B]">{title}</h3>}
       <div className="space-y-2 pt-2">
         {steps.map((step) => {
           const widthPct = Math.max(15, Math.round((step.count / maxCount) * 100));
@@ -126,8 +126,8 @@ export function SimpleLineAreaChart({
   return (
     <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 space-y-4 shadow-sm">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold text-[#18332B]">{title}</h3>
-        <span className="text-[10px] bg-[#DDE9E1] text-[#173F32] px-2 py-0.5 rounded border border-[#A8C3B2] font-semibold">
+        <h3 className="text-sm font-bold text-[#1E293B]">{title}</h3>
+        <span className="text-[10px] bg-[#DDE9E1] text-[#1E4D3B] px-2 py-0.5 rounded border border-[#A8C3B2] font-semibold">
           Historical Trend
         </span>
       </div>
@@ -155,7 +155,7 @@ export function SimpleLineAreaChart({
           {/* Data Points */}
           {coords.map((c, i) => (
             <g key={i}>
-              <circle cx={c.x} cy={c.y} r="4" fill="#C9A15B" stroke="#18332B" strokeWidth="2" />
+              <circle cx={c.x} cy={c.y} r="4" fill="#C9A15B" stroke="#1E293B" strokeWidth="2" />
               <text
                 x={c.x}
                 y={svgHeight}

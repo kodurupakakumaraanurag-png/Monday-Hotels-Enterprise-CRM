@@ -47,47 +47,47 @@ export default function NotificationsPage() {
   };
 
   return (
-    <div className="p-6 space-y-6 max-w-[1600px] mx-auto text-stone-100">
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-800 pb-5">
+    <div className="p-6 space-y-6 max-w-[1600px] mx-auto text-[#1E293B]">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#E2E8F0] pb-5">
         <div className="flex items-center space-x-3">
-          <div className="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400">
+          <div className="p-2 bg-[#E8F0EC] border border-[#A8C3B2] rounded-lg text-[#1E4D3B]">
             <Bell className="w-6 h-6" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-stone-100">Enterprise Notification Center</h1>
-            <p className="text-sm text-stone-400">Real-Time Operational Alerts, SLA Warnings & VIP Check-In Events</p>
+            <h1 className="text-2xl font-bold text-[#1E293B]">Enterprise Notification Center</h1>
+            <p className="text-sm text-[#64748B]">Real-Time Operational Alerts, SLA Warnings & VIP Check-In Events</p>
           </div>
         </div>
 
         <button
           onClick={markAllRead}
-          className="px-4 py-2 bg-stone-900 hover:bg-stone-800 border border-stone-700 text-stone-200 text-xs font-semibold rounded-lg"
+          className="px-4 py-2 bg-white hover:bg-[#F8F6F0] border border-[#E2E8F0] text-[#1E4D3B] text-xs font-semibold rounded-lg shadow-sm transition"
         >
           Mark All as Read
         </button>
       </div>
 
-      <div className="bg-stone-900 border border-stone-800 rounded-xl p-6 space-y-3 shadow-xl">
+      <div className="bg-white border border-[#E2E8F0] rounded-xl p-6 space-y-3 shadow-sm">
         {items.map((n) => (
           <div
             key={n.id}
             className={`p-4 rounded-lg border transition flex items-start justify-between ${
               n.read
-                ? "bg-stone-950/40 border-stone-800/60 opacity-70"
-                : "bg-stone-950 border-amber-500/30 shadow-md"
+                ? "bg-[#F8F6F0]/60 border-[#E2E8F0] opacity-75"
+                : "bg-white border-[#C5A059]/40 shadow-sm"
             }`}
           >
             <div className="space-y-1">
               <div className="flex items-center space-x-2">
-                <span className="text-xs bg-amber-500/10 text-amber-300 font-semibold px-2 py-0.5 rounded border border-amber-500/30">
+                <span className="text-xs bg-[#E8F0EC] text-[#1E4D3B] font-bold px-2 py-0.5 rounded border border-[#A8C3B2]">
                   {n.type}
                 </span>
-                <h4 className="font-semibold text-stone-100 text-sm">{n.title}</h4>
+                <h4 className="font-semibold text-[#1E293B] text-sm">{n.title}</h4>
               </div>
-              <p className="text-xs text-stone-300">{n.message}</p>
+              <p className="text-xs text-[#64748B]">{n.message}</p>
             </div>
 
-            <span className="text-xs text-stone-500 flex items-center space-x-1 shrink-0">
+            <span className="text-xs text-[#64748B] flex items-center space-x-1 shrink-0">
               <Clock className="w-3.5 h-3.5" />
               <span>{n.timestamp}</span>
             </span>

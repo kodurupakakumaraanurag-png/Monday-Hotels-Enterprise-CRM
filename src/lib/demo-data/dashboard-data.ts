@@ -139,7 +139,7 @@ export const MOCK_DASHBOARD_DATA: FullDashboardData = {
     { stage: "Contacted", count: 62, value: 620000, color: "#A8C3B2" },
     { stage: "Qualified", count: 48, value: 720000, color: "#285943" },
     { stage: "Proposal / Quote", count: 38, value: 950000, color: "#C9A15B" },
-    { stage: "Negotiation", count: 26, value: 680000, color: "#173F32" },
+    { stage: "Negotiation", count: 26, value: 680000, color: "#1E4D3B" },
     { stage: "Confirmed Won", count: 25, value: 455000, color: "#2E8B57" },
   ],
 
@@ -177,7 +177,7 @@ export const MOCK_DASHBOARD_DATA: FullDashboardData = {
 
   leadSources: [
     { source: "Direct Brand Web", percentage: 42, leadsCount: 119, color: "#285943" },
-    { source: "Corporate MICE & B2B", percentage: 28, leadsCount: 80, color: "#173F32" },
+    { source: "Corporate MICE & B2B", percentage: 28, leadsCount: 80, color: "#1E4D3B" },
     { source: "Client Referrals", percentage: 14, leadsCount: 40, color: "#C9A15B" },
     { source: "Travel Agents (GDS)", percentage: 10, leadsCount: 28, color: "#A8C3B2" },
     { source: "OTA Channels", percentage: 6, leadsCount: 17, color: "#6B766F" },

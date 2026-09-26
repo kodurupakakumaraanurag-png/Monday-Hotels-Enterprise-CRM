@@ -27,18 +27,18 @@ export function PageHeader({ title, subtitle, breadcrumbs, actions }: PageHeader
               <React.Fragment key={idx}>
                 <ChevronRight className="w-3 h-3 text-[#6B766F]" />
                 {item.href ? (
-                  <Link href={item.href} className="hover:text-[#18332B] transition-colors">
+                  <Link href={item.href} className="hover:text-[#1E293B] transition-colors">
                     {item.label}
                   </Link>
                 ) : (
-                  <span className="text-[#18332B] font-medium">{item.label}</span>
+                  <span className="text-[#1E293B] font-medium">{item.label}</span>
                 )}
               </React.Fragment>
             ))}
           </nav>
         )}
 
-        <h1 className="text-xl sm:text-2xl font-bold text-[#18332B] tracking-tight flex items-center gap-2">
+        <h1 className="text-xl sm:text-2xl font-bold text-[#1E293B] tracking-tight flex items-center gap-2">
           {title}
         </h1>
         {subtitle && <p className="text-xs sm:text-sm text-[#6B766F] mt-0.5">{subtitle}</p>}

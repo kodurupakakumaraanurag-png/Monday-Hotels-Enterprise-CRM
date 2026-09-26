@@ -93,18 +93,18 @@ export function EnquiryFormModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-2xl bg-stone-900 border border-amber-500/30 rounded-xl shadow-2xl text-stone-100 p-6 space-y-5">
-        <div className="flex items-center justify-between border-b border-stone-800 pb-3">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0F172A]/40 backdrop-blur-sm p-4">
+      <div className="relative w-full max-w-2xl bg-white border border-[#E2E8F0] rounded-xl shadow-2xl text-[#1E293B] p-6 space-y-5">
+        <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400">
+            <div className="p-2 bg-[#E8F0EC] border border-[#A8C3B2] rounded-lg text-[#1E4D3B]">
               <ClipboardList className="w-5 h-5" />
             </div>
-            <h2 className="text-lg font-semibold text-stone-100">
+            <h2 className="text-lg font-bold text-[#1E293B]">
               {enquiryToEdit ? `Edit Booking Enquiry (${enquiryToEdit.enquiryNumber})` : "Log Inbound Booking Enquiry"}
             </h2>
           </div>
-          <button onClick={onClose} className="p-1 text-stone-400 hover:text-stone-100">
+          <button onClick={onClose} className="p-1 text-[#64748B] hover:text-[#1E293B]">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -112,38 +112,38 @@ export function EnquiryFormModal({
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Enquiry Code *</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Enquiry Code *</label>
               <input
                 {...register("enquiryNumber")}
-                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
               />
-              {errors.enquiryNumber && <p className="text-xs text-rose-400 mt-1">{errors.enquiryNumber.message}</p>}
+              {errors.enquiryNumber && <p className="text-xs text-red-500 mt-1">{errors.enquiryNumber.message}</p>}
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Guest Name / Contact *</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Guest Name / Contact *</label>
               <input
                 {...register("guest")}
-                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                 placeholder="e.g. Dr. Vikramaditya Singhania"
               />
-              {errors.guest && <p className="text-xs text-rose-400 mt-1">{errors.guest.message}</p>}
+              {errors.guest && <p className="text-xs text-red-500 mt-1">{errors.guest.message}</p>}
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Corporate Company (Optional)</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Corporate Company (Optional)</label>
               <input
                 {...register("corporateClient")}
-                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                 placeholder="e.g. Reliance Enterprise Solutions"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Target Property *</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Target Property *</label>
               <select
                 {...register("property")}
-                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
               >
                 <option value="Monday Hotels Grand Royale Mumbai">Monday Hotels Grand Royale Mumbai</option>
                 <option value="Monday Hotels Resort & Spa Goa">Monday Hotels Resort & Spa Goa</option>
@@ -154,56 +154,56 @@ export function EnquiryFormModal({
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Check-in Date *</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Check-in Date *</label>
               <input
                 type="date"
                 {...register("checkInDate")}
-                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Check-out Date *</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Check-out Date *</label>
               <input
                 type="date"
                 {...register("checkOutDate")}
-                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Room Type *</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Room Type *</label>
               <input
                 {...register("roomType")}
-                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                 placeholder="e.g. Presidential Sky Suite"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Guests Count & Estimated Value ($)</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Guests Count & Estimated Value ($)</label>
               <div className="grid grid-cols-2 gap-2">
                 <input
                   type="number"
                   {...register("numberOfGuests", { valueAsNumber: true })}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B]"
                   placeholder="Guests"
                 />
                 <input
                   type="number"
                   {...register("estimatedValue", { valueAsNumber: true })}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B]"
                   placeholder="Value ($)"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Booking Source & Staff</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Booking Source & Staff</label>
               <div className="grid grid-cols-2 gap-2">
                 <select
                   {...register("source")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-2 py-2 text-xs text-stone-200"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-2 py-2 text-xs text-[#1E293B]"
                 >
                   <option value="Corporate Direct">Corporate Direct</option>
                   <option value="Website Direct">Website Direct</option>
@@ -212,17 +212,17 @@ export function EnquiryFormModal({
                 </select>
                 <input
                   {...register("assignedStaff")}
-                  className="w-full bg-stone-950 border border-stone-800 rounded-lg px-2 py-2 text-xs text-stone-200"
+                  className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-2 py-2 text-xs text-[#1E293B]"
                   placeholder="Staff Name"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Enquiry Status</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Enquiry Status</label>
               <select
                 {...register("status")}
-                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
               >
                 <option value="NEW">NEW</option>
                 <option value="CONTACTED">CONTACTED</option>
@@ -238,27 +238,27 @@ export function EnquiryFormModal({
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-stone-300 mb-1">Notes / Requirements</label>
+            <label className="block text-xs font-semibold text-[#1E293B] mb-1">Notes / Requirements</label>
             <textarea
               {...register("notes")}
               rows={2}
-              className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200"
+              className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B]"
               placeholder="Enter specific guest preferences or group booking details..."
             />
           </div>
 
-          <div className="flex items-center justify-end space-x-3 pt-3 border-t border-stone-800">
+          <div className="flex items-center justify-end space-x-3 pt-3 border-t border-[#E2E8F0]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs text-stone-400 hover:text-stone-200"
+              className="px-4 py-2 text-xs font-semibold text-[#64748B] hover:text-[#1E293B]"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="px-4 py-2 text-xs font-semibold bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 text-stone-950 rounded-lg shadow-md"
+              className="px-4 py-2 text-xs font-semibold bg-[#1E4D3B] hover:bg-[#163B2D] text-white rounded-lg shadow-sm"
             >
               {enquiryToEdit ? "Update Enquiry" : "Save Enquiry"}
             </button>

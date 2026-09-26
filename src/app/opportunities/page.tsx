@@ -78,19 +78,19 @@ export default function OpportunitiesPage() {
   };
 
   return (
-    <div className="p-6 space-y-6 max-w-[1600px] mx-auto text-stone-100">
+    <div className="p-6 space-y-6 max-w-[1600px] mx-auto text-[#1E293B]">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-800 pb-5">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#E5E2D9] pb-5">
         <div>
           <div className="flex items-center space-x-3 mb-1">
-            <div className="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400">
+            <div className="p-2 bg-[#DDE9E1] border border-[#A8C3B2] rounded-lg text-[#285943]">
               <TrendingUp className="w-6 h-6" />
             </div>
-            <h1 className="text-2xl font-bold tracking-tight text-stone-100">
+            <h1 className="text-2xl font-bold tracking-tight text-[#1E293B]">
               Commercial Opportunities Directory
             </h1>
           </div>
-          <p className="text-sm text-stone-400">
+          <p className="text-sm text-[#6B766F]">
             Enterprise Deal List, Weighted Valuation Engine (`weighted_value = opportunity_value × probability`) & Stage Lifecycle
           </p>
         </div>
@@ -100,7 +100,7 @@ export default function OpportunitiesPage() {
             setOpportunityToEdit(undefined);
             setIsFormModalOpen(true);
           }}
-          className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 hover:to-amber-400 text-stone-950 font-semibold rounded-lg text-sm shadow-lg shadow-amber-500/20 transition"
+          className="flex items-center space-x-2 px-4 py-2 bg-[#285943] hover:bg-[#1E4D3B] text-white font-semibold rounded-lg text-sm shadow-sm transition"
         >
           <Plus className="w-4 h-4" />
           <span>New Commercial Opportunity</span>
@@ -109,75 +109,75 @@ export default function OpportunitiesPage() {
 
       {/* KPI Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-        <div className="bg-stone-900 border border-amber-500/30 rounded-xl p-4 flex items-center justify-between shadow-lg">
+        <div className="bg-white border border-[#E5E2D9] rounded-xl p-4 flex items-center justify-between shadow-sm">
           <div>
-            <p className="text-xs text-stone-400 font-medium">Total Pipeline Value</p>
-            <h3 className="text-2xl font-bold text-amber-300 mt-1">
+            <p className="text-xs text-[#6B766F] font-medium">Total Pipeline Value</p>
+            <h3 className="text-2xl font-bold text-[#285943] mt-1">
               ${metrics.totalValue.toLocaleString()}
             </h3>
-            <p className="text-xs text-stone-400 mt-1">{metrics.totalCount} Opportunities</p>
+            <p className="text-xs text-[#6B766F] mt-1">{metrics.totalCount} Opportunities</p>
           </div>
-          <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-400">
+          <div className="p-3 bg-[#DDE9E1] border border-[#A8C3B2] rounded-xl text-[#285943]">
             <DollarSign className="w-6 h-6" />
           </div>
         </div>
 
-        <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex items-center justify-between shadow-lg">
+        <div className="bg-white border border-[#E5E2D9] rounded-xl p-4 flex items-center justify-between shadow-sm">
           <div>
-            <p className="text-xs text-stone-400 font-medium">Weighted Pipeline Value</p>
-            <h3 className="text-2xl font-bold text-purple-300 mt-1">
+            <p className="text-xs text-[#6B766F] font-medium">Weighted Pipeline Value</p>
+            <h3 className="text-2xl font-bold text-[#1E4D3B] mt-1">
               ${metrics.totalWeightedValue.toLocaleString()}
             </h3>
-            <p className="text-xs text-purple-400 mt-1">Value × Win Probability</p>
+            <p className="text-xs text-[#285943] font-semibold mt-1">Value × Win Probability</p>
           </div>
-          <div className="p-3 bg-purple-500/10 border border-purple-500/20 rounded-xl text-purple-400">
+          <div className="p-3 bg-[#DDE9E1] border border-[#A8C3B2] rounded-xl text-[#285943]">
             <TrendingUp className="w-6 h-6" />
           </div>
         </div>
 
-        <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex items-center justify-between shadow-lg">
+        <div className="bg-white border border-[#E5E2D9] rounded-xl p-4 flex items-center justify-between shadow-sm">
           <div>
-            <p className="text-xs text-stone-400 font-medium">Win Conversion Rate</p>
-            <h3 className="text-2xl font-bold text-emerald-400 mt-1">{metrics.conversionRate}</h3>
+            <p className="text-xs text-[#6B766F] font-medium">Win Conversion Rate</p>
+            <h3 className="text-2xl font-bold text-[#2E8B57] mt-1">{metrics.conversionRate}</h3>
           </div>
-          <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl text-emerald-400">
+          <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-[#2E8B57]">
             <Award className="w-6 h-6" />
           </div>
         </div>
 
-        <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex items-center justify-between shadow-lg">
+        <div className="bg-white border border-[#E5E2D9] rounded-xl p-4 flex items-center justify-between shadow-sm">
           <div>
-            <p className="text-xs text-stone-400 font-medium">Average Opportunity Value</p>
-            <h3 className="text-2xl font-bold text-stone-100 mt-1">
+            <p className="text-xs text-[#6B766F] font-medium">Average Opportunity Value</p>
+            <h3 className="text-2xl font-bold text-[#1E293B] mt-1">
               ${metrics.averageOpportunityValue.toLocaleString()}
             </h3>
           </div>
-          <div className="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400">
-            <Percent className="w-6 h-6" />
+          <div className="p-3 bg-[#E9D7AE] border border-[#C9A15B] rounded-xl text-[#1E293B]">
+            <Percent className="w-6 h-6 text-[#285943]" />
           </div>
         </div>
       </div>
 
       {/* Toolbar */}
-      <div className="bg-stone-900 border border-stone-800 rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="bg-white border border-[#E5E2D9] rounded-xl p-4 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
         <div className="relative w-full md:w-96">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#285943]" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search deals, company, contact, owner..."
-            className="w-full bg-stone-950 border border-stone-800 rounded-lg pl-9 pr-4 py-2 text-sm text-stone-200 placeholder-stone-500 focus:outline-none focus:border-amber-500/50"
+            className="w-full bg-[#F7F4EC] border border-[#E5E2D9] rounded-lg pl-9 pr-4 py-2 text-sm text-[#1E293B] placeholder-[#6B766F] focus:outline-none focus:border-[#285943]"
           />
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center space-x-2">
-            <Filter className="w-4 h-4 text-amber-500" />
+            <Filter className="w-4 h-4 text-[#285943]" />
             <select
               value={selectedStage}
               onChange={(e) => setSelectedStage(e.target.value)}
-              className="bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-300 focus:outline-none"
+              className="bg-[#F7F4EC] border border-[#E5E2D9] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none"
             >
               <option value="ALL">All 8 Pipeline Stages</option>
               <option value="NEW">NEW</option>
@@ -194,7 +194,7 @@ export default function OpportunitiesPage() {
           <select
             value={selectedProperty}
             onChange={(e) => setSelectedProperty(e.target.value)}
-            className="bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-300 focus:outline-none"
+            className="bg-[#F7F4EC] border border-[#E5E2D9] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none"
           >
             <option value="ALL">All Properties</option>
             <option value="Monday Hotels Grand Royale Mumbai">Monday Hotels Grand Royale Mumbai</option>
@@ -205,11 +205,11 @@ export default function OpportunitiesPage() {
       </div>
 
       {/* Table */}
-      <div className="bg-stone-900 border border-stone-800 rounded-xl overflow-hidden shadow-xl">
+      <div className="bg-white border border-[#E5E2D9] rounded-xl overflow-hidden shadow-sm">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-stone-800 bg-stone-950/60 text-stone-400 text-xs uppercase tracking-wider font-semibold">
+              <tr className="border-b border-[#E5E2D9] bg-[#F7F4EC] text-[#6B766F] text-xs uppercase tracking-wider font-semibold">
                 <th className="py-3.5 px-4">Opportunity & Related Client</th>
                 <th className="py-3.5 px-4">Expected Value</th>
                 <th className="py-3.5 px-4">Weighted Value</th>
@@ -218,42 +218,42 @@ export default function OpportunitiesPage() {
                 <th className="py-3.5 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-stone-800 text-sm">
+            <tbody className="divide-y divide-[#E5E2D9] text-sm">
               {filteredOpps.map((opp) => (
-                <tr key={opp.id} className="hover:bg-stone-800/40 transition">
+                <tr key={opp.id} className="hover:bg-[#F7F4EC]/60 transition">
                   <td className="py-3.5 px-4">
                     <div className="flex items-center space-x-2">
-                      <span className="font-mono text-xs font-bold text-amber-300 bg-amber-500/10 px-2 py-0.5 rounded border border-amber-500/20">
+                      <span className="font-mono text-xs font-bold text-[#1E4D3B] bg-[#DDE9E1] px-2 py-0.5 rounded border border-[#A8C3B2]">
                         {opp.id}
                       </span>
                       <button
                         onClick={() => setSelectedDetailOpp(opp)}
-                        className="font-semibold text-stone-100 hover:text-amber-300 transition text-left"
+                        className="font-semibold text-[#1E293B] hover:text-[#285943] transition text-left"
                       >
                         {opp.title}
                       </button>
                     </div>
-                    <div className="text-xs text-stone-400 flex items-center space-x-3 mt-1">
+                    <div className="text-xs text-[#6B766F] flex items-center space-x-3 mt-1">
                       <span className="flex items-center space-x-1">
-                        <Building2 className="w-3 h-3 text-amber-500" />
+                        <Building2 className="w-3 h-3 text-[#285943]" />
                         <span>{opp.companyName}</span>
                       </span>
                       <span>•</span>
                       <span className="flex items-center space-x-1">
-                        <User className="w-3 h-3 text-stone-500" />
+                        <User className="w-3 h-3 text-[#6B766F]" />
                         <span>{opp.contactName}</span>
                       </span>
                     </div>
                   </td>
 
                   <td className="py-3.5 px-4">
-                    <div className="font-bold text-amber-300">${opp.opportunityValue.toLocaleString()}</div>
-                    <div className="text-xs text-stone-500">Close: {opp.expectedCloseDate}</div>
+                    <div className="font-bold text-[#285943]">${opp.opportunityValue.toLocaleString()}</div>
+                    <div className="text-xs text-[#6B766F]">Close: {opp.expectedCloseDate}</div>
                   </td>
 
                   <td className="py-3.5 px-4">
-                    <div className="font-bold text-purple-300">${opp.weightedValue.toLocaleString()}</div>
-                    <div className="text-xs text-purple-400/80">{opp.probability}% Weighted</div>
+                    <div className="font-bold text-[#1E4D3B]">${opp.weightedValue.toLocaleString()}</div>
+                    <div className="text-xs text-[#285943] font-semibold">{opp.probability}% Weighted</div>
                   </td>
 
                   <td className="py-3.5 px-4">
@@ -263,7 +263,7 @@ export default function OpportunitiesPage() {
                         updateOpportunityStage(opp.id, e.target.value as PipelineStageType);
                         refreshOpportunities();
                       }}
-                      className={`text-xs rounded px-2.5 py-1 font-semibold focus:outline-none ${getStageBadgeStyle(opp.stage)}`}
+                      className="text-xs rounded px-2.5 py-1 font-semibold focus:outline-none bg-[#DDE9E1] text-[#1E4D3B] border border-[#A8C3B2]"
                     >
                       <option value="NEW">NEW</option>
                       <option value="CONTACTED">CONTACTED</option>
@@ -276,16 +276,16 @@ export default function OpportunitiesPage() {
                     </select>
                   </td>
 
-                  <td className="py-3.5 px-4 text-xs text-stone-300 font-medium">
+                  <td className="py-3.5 px-4 text-xs text-[#1E293B] font-medium">
                     {opp.accountOwner}
-                    <div className="text-stone-500 text-[11px]">{opp.roomNights} Room Nights</div>
+                    <div className="text-[#6B766F] text-[11px]">{opp.roomNights} Room Nights</div>
                   </td>
 
                   <td className="py-3.5 px-4 text-right">
                     <div className="flex items-center justify-end space-x-2">
                       <button
                         onClick={() => setSelectedDetailOpp(opp)}
-                        className="p-1.5 text-amber-400 hover:bg-amber-500/10 rounded-lg transition"
+                        className="p-1.5 text-[#285943] hover:bg-[#DDE9E1] rounded-lg transition"
                         title="View Full Opportunity Dossier"
                       >
                         <FileText className="w-4 h-4" />
@@ -295,13 +295,13 @@ export default function OpportunitiesPage() {
                           setOpportunityToEdit(opp);
                           setIsFormModalOpen(true);
                         }}
-                        className="p-1.5 text-stone-400 hover:text-stone-100 hover:bg-stone-800 rounded-lg transition"
+                        className="p-1.5 text-[#6B766F] hover:text-[#1E293B] hover:bg-[#F7F4EC] rounded-lg transition"
                       >
                         <Edit2 className="w-4 h-4" />
                       </button>
                       <button
                         onClick={() => handleDelete(opp.id, opp.title)}
-                        className="p-1.5 text-stone-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition"
+                        className="p-1.5 text-[#6B766F] hover:text-[#C95C5C] hover:bg-rose-50 rounded-lg transition"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>

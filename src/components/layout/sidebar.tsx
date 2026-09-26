@@ -21,7 +21,7 @@ export function Sidebar({ isMobileOpen, onCloseMobile }: SidebarProps) {
       {/* Mobile Backdrop Overlay */}
       {isMobileOpen && (
         <div
-          className="fixed inset-0 z-40 bg-[#18332B]/50 backdrop-blur-sm lg:hidden transition-opacity"
+          className="fixed inset-0 z-40 bg-[#1E293B]/50 backdrop-blur-sm lg:hidden transition-opacity"
           onClick={onCloseMobile}
         />
       )}
@@ -38,7 +38,7 @@ export function Sidebar({ isMobileOpen, onCloseMobile }: SidebarProps) {
               M
             </div>
             <div>
-              <div className="text-sm font-bold text-[#18332B] tracking-tight leading-none group-hover:text-[#285943] transition-colors">
+              <div className="text-sm font-bold text-[#1E293B] tracking-tight leading-none group-hover:text-[#285943] transition-colors">
                 MONDAY HOTELS
               </div>
               <div className="text-[10px] font-semibold text-[#C9A15B] tracking-widest uppercase mt-0.5">
@@ -74,13 +74,13 @@ export function Sidebar({ isMobileOpen, onCloseMobile }: SidebarProps) {
                           className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all group ${
                             isActive
                               ? "bg-[#285943] text-white font-semibold shadow-sm"
-                              : "text-[#18332B] hover:text-[#173F32] hover:bg-[#DDE9E1]"
+                              : "text-[#1E293B] hover:text-[#1E4D3B] hover:bg-[#DDE9E1]"
                           }`}
                         >
                           <div className="flex items-center gap-2.5 min-w-0">
                             <Icon
                               className={`w-4 h-4 shrink-0 transition-colors ${
-                                isActive ? "text-white" : "text-[#285943] group-hover:text-[#173F32]"
+                                isActive ? "text-white" : "text-[#285943] group-hover:text-[#1E4D3B]"
                               }`}
                             />
                             <span className="truncate">{item.title}</span>
@@ -90,10 +90,10 @@ export function Sidebar({ isMobileOpen, onCloseMobile }: SidebarProps) {
                             <span
                               className={`px-1.5 py-0.5 text-[10px] font-bold rounded-full ${
                                 isActive
-                                  ? "bg-[#C9A15B] text-[#18332B]"
+                                  ? "bg-[#C9A15B] text-[#1E293B]"
                                   : typeof item.badge === "number"
-                                  ? "bg-[#DDE9E1] text-[#173F32]"
-                                  : "bg-[#E9D7AE] text-[#18332B] border border-[#C9A15B]/30"
+                                  ? "bg-[#DDE9E1] text-[#1E4D3B]"
+                                  : "bg-[#E9D7AE] text-[#1E293B] border border-[#C9A15B]/30"
                               }`}
                             >
                               {item.badge}
@@ -114,11 +114,11 @@ export function Sidebar({ isMobileOpen, onCloseMobile }: SidebarProps) {
           <div className="p-2.5 rounded-xl bg-white border border-[#E5E2D9] flex items-center justify-between">
             <div className="flex items-center gap-2 text-xs text-[#6B766F]">
               <Sparkles className="w-3.5 h-3.5 text-[#C9A15B]" />
-              <span className="text-[11px]">Role: <strong className="text-[#18332B]">{role}</strong></span>
+              <span className="text-[11px]">Role: <strong className="text-[#1E293B]">{role}</strong></span>
             </div>
             <button
               type="button"
-              className="text-[#6B766F] hover:text-[#18332B] transition-colors p-1"
+              className="text-[#6B766F] hover:text-[#1E293B] transition-colors p-1"
               title="RBAC Active Security Enforcement"
             >
               <Lock className="w-3.5 h-3.5 text-[#285943]" />

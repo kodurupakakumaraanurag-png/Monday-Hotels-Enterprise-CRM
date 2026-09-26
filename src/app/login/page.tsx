@@ -60,7 +60,7 @@ function LoginFormContent() {
       {/* Left Column: Form Card */}
       <div className="lg:col-span-6 bg-white border border-[#E5E2D9] rounded-2xl p-6 sm:p-8 shadow-xl">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-[#18332B] tracking-tight">Executive Gateway Sign In</h1>
+          <h1 className="text-2xl font-bold text-[#1E293B] tracking-tight">Executive Gateway Sign In</h1>
           <p className="text-xs sm:text-sm text-[#6B766F] mt-1">
             Enter your hospitality staff credentials or select a role profile to proceed.
           </p>
@@ -77,14 +77,14 @@ function LoginFormContent() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Email Input */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-[#18332B]">Enterprise Email Address</label>
+            <label className="text-xs font-medium text-[#1E293B]">Enterprise Email Address</label>
             <div className="relative">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="e.g. admin@mondayhotels.com"
-                className="w-full bg-[#F7F4EC] border border-[#E5E2D9] rounded-xl px-3.5 py-2.5 pl-10 text-xs sm:text-sm text-[#18332B] focus:outline-none focus:border-[#285943] transition-colors"
+                className="w-full bg-[#F7F4EC] border border-[#E5E2D9] rounded-xl px-3.5 py-2.5 pl-10 text-xs sm:text-sm text-[#1E293B] focus:outline-none focus:border-[#285943] transition-colors"
                 required
               />
               <Mail className="w-4 h-4 text-[#6B766F] absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -94,7 +94,7 @@ function LoginFormContent() {
           {/* Password Input */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-medium text-[#18332B]">Security Password</label>
+              <label className="text-xs font-medium text-[#1E293B]">Security Password</label>
               <a
                 href="#forgot"
                 onClick={(e) => {
@@ -112,14 +112,14 @@ function LoginFormContent() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full bg-[#F7F4EC] border border-[#E5E2D9] rounded-xl px-3.5 py-2.5 pl-10 pr-10 text-xs sm:text-sm text-[#18332B] focus:outline-none focus:border-[#285943] transition-colors"
+                className="w-full bg-[#F7F4EC] border border-[#E5E2D9] rounded-xl px-3.5 py-2.5 pl-10 pr-10 text-xs sm:text-sm text-[#1E293B] focus:outline-none focus:border-[#285943] transition-colors"
                 required
               />
               <Lock className="w-4 h-4 text-[#6B766F] absolute left-3.5 top-1/2 -translate-y-1/2" />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#6B766F] hover:text-[#18332B]"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#6B766F] hover:text-[#1E293B]"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -130,7 +130,7 @@ function LoginFormContent() {
           <button
             type="submit"
             disabled={submitting || isLoading}
-            className="w-full bg-[#285943] hover:bg-[#173F32] text-white font-bold text-xs sm:text-sm py-3 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full bg-[#285943] hover:bg-[#1E4D3B] text-white font-bold text-xs sm:text-sm py-3 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
           >
             {submitting ? (
               <span>Authenticating...</span>
@@ -149,7 +149,7 @@ function LoginFormContent() {
         <div className="bg-white border border-[#E5E2D9] rounded-2xl p-6 shadow-xl">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-base font-bold text-[#18332B] flex items-center gap-2">
+              <h2 className="text-base font-bold text-[#1E293B] flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-[#C9A15B]" />
                 <span>Instant Demo Role Switcher</span>
               </h2>
@@ -157,7 +157,7 @@ function LoginFormContent() {
                 Click any enterprise role persona below to test authentication & RBAC route restrictions.
               </p>
             </div>
-            <span className="text-[10px] uppercase font-extrabold bg-[#DDE9E1] text-[#173F32] border border-[#A8C3B2] px-2 py-0.5 rounded-full">
+            <span className="text-[10px] uppercase font-extrabold bg-[#DDE9E1] text-[#1E4D3B] border border-[#A8C3B2] px-2 py-0.5 rounded-full">
               5 Roles Ready
             </span>
           </div>
@@ -176,7 +176,7 @@ function LoginFormContent() {
                       <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded border ${badge.badgeClass}`}>
                         {badge.label}
                       </span>
-                      <span className="text-xs font-bold text-[#18332B] group-hover:text-[#285943] transition-colors">
+                      <span className="text-xs font-bold text-[#1E293B] group-hover:text-[#285943] transition-colors">
                         {acc.name}
                       </span>
                     </div>
@@ -198,7 +198,7 @@ function LoginFormContent() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-[#F7F4EC] text-[#18332B] flex flex-col justify-between relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-[#F7F4EC] text-[#1E293B] flex flex-col justify-between relative overflow-hidden font-sans">
       {/* Top Brand Bar */}
       <header className="p-6 flex items-center justify-between max-w-7xl mx-auto w-full z-10">
         <div className="flex items-center gap-3">
@@ -206,7 +206,7 @@ export default function LoginPage() {
             <Hotel className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-lg font-bold tracking-tight text-[#18332B] block">MONDAY HOTELS</span>
+            <span className="text-lg font-bold tracking-tight text-[#1E293B] block">MONDAY HOTELS</span>
             <span className="text-[10px] text-[#C9A15B] font-semibold tracking-wider uppercase">Enterprise CRM System</span>
           </div>
         </div>

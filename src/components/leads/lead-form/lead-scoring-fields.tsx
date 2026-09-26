@@ -35,15 +35,15 @@ export function LeadScoringFields({ register, watch, errors }: Props) {
   const calculatedTotal = computeTotalLeadScore(currentValues);
 
   return (
-    <div className="space-y-3.5 bg-slate-950/60 border border-slate-800 rounded-xl p-4">
-      <div className="flex items-center justify-between border-b border-slate-800/80 pb-2">
-        <div className="flex items-center gap-2 text-xs font-bold text-amber-400">
+    <div className="space-y-3.5 bg-[#F8F6F0] border border-[#E2E8F0] rounded-xl p-4 text-[#1E293B]">
+      <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-2">
+        <div className="flex items-center gap-2 text-xs font-bold text-[#1E4D3B]">
           <Sparkles className="w-4 h-4" />
           <span>4. Lead Scoring Engine (6 Components • Scale 0 to 5)</span>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-400">Total Score:</span>
-          <span className="text-sm font-extrabold text-amber-400 bg-amber-500/10 px-2.5 py-0.5 rounded border border-amber-500/30">
+          <span className="text-xs text-[#64748B]">Total Score:</span>
+          <span className="text-sm font-extrabold text-[#1E4D3B] bg-[#E8F0EC] px-2.5 py-0.5 rounded border border-[#A8C3B2]">
             {calculatedTotal} / 30
           </span>
         </div>
@@ -52,7 +52,7 @@ export function LeadScoringFields({ register, watch, errors }: Props) {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs">
         {/* 19. Digital Presence Score */}
         <div>
-          <label className="text-slate-300 font-medium block mb-1">
+          <label className="text-[#1E293B] font-semibold block mb-1">
             Digital Presence (0-5)
           </label>
           <input
@@ -60,13 +60,13 @@ export function LeadScoringFields({ register, watch, errors }: Props) {
             min={0}
             max={5}
             {...register("digitalPresenceScore", { valueAsNumber: true })}
-            className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
+            className="w-full bg-white border border-[#E2E8F0] rounded-lg px-3 py-2 text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
           />
         </div>
 
         {/* 20. Hiring Activity Score */}
         <div>
-          <label className="text-slate-300 font-medium block mb-1">
+          <label className="text-[#1E293B] font-semibold block mb-1">
             Hiring Activity (0-5)
           </label>
           <input
@@ -74,13 +74,13 @@ export function LeadScoringFields({ register, watch, errors }: Props) {
             min={0}
             max={5}
             {...register("hiringActivityScore", { valueAsNumber: true })}
-            className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
+            className="w-full bg-white border border-[#E2E8F0] rounded-lg px-3 py-2 text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
           />
         </div>
 
         {/* 21. Tech Stack Fit Score */}
         <div>
-          <label className="text-slate-300 font-medium block mb-1">
+          <label className="text-[#1E293B] font-semibold block mb-1">
             Tech Stack Fit (0-5)
           </label>
           <input
@@ -88,13 +88,13 @@ export function LeadScoringFields({ register, watch, errors }: Props) {
             min={0}
             max={5}
             {...register("techStackFitScore", { valueAsNumber: true })}
-            className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
+            className="w-full bg-white border border-[#E2E8F0] rounded-lg px-3 py-2 text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
           />
         </div>
 
         {/* 22. Funding / Revenue Score */}
         <div>
-          <label className="text-slate-300 font-medium block mb-1">
+          <label className="text-[#1E293B] font-semibold block mb-1">
             Funding / Revenue (0-5)
           </label>
           <input
@@ -102,13 +102,13 @@ export function LeadScoringFields({ register, watch, errors }: Props) {
             min={0}
             max={5}
             {...register("fundingRevenueScore", { valueAsNumber: true })}
-            className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
+            className="w-full bg-white border border-[#E2E8F0] rounded-lg px-3 py-2 text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
           />
         </div>
 
         {/* 23. Project Urgency Score */}
         <div>
-          <label className="text-slate-300 font-medium block mb-1">
+          <label className="text-[#1E293B] font-semibold block mb-1">
             Project Urgency (0-5)
           </label>
           <input
@@ -116,13 +116,13 @@ export function LeadScoringFields({ register, watch, errors }: Props) {
             min={0}
             max={5}
             {...register("projectUrgencyScore", { valueAsNumber: true })}
-            className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
+            className="w-full bg-white border border-[#E2E8F0] rounded-lg px-3 py-2 text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
           />
         </div>
 
         {/* 24. Budget Clarity Score */}
         <div>
-          <label className="text-slate-300 font-medium block mb-1">
+          <label className="text-[#1E293B] font-semibold block mb-1">
             Budget Clarity (0-5)
           </label>
           <input
@@ -130,7 +130,7 @@ export function LeadScoringFields({ register, watch, errors }: Props) {
             min={0}
             max={5}
             {...register("budgetClarityScore", { valueAsNumber: true })}
-            className="w-full bg-slate-900 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
+            className="w-full bg-white border border-[#E2E8F0] rounded-lg px-3 py-2 text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
           />
         </div>
       </div>

@@ -78,54 +78,54 @@ export function UserFormModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-lg bg-stone-900 border border-amber-500/30 rounded-xl shadow-2xl text-stone-100 p-6 space-y-5">
-        <div className="flex items-center justify-between border-b border-stone-800 pb-3">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0F172A]/40 backdrop-blur-sm p-4">
+      <div className="relative w-full max-w-lg bg-white border border-[#E2E8F0] rounded-xl shadow-2xl text-[#1E293B] p-6 space-y-5">
+        <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-3">
           <div className="flex items-center space-x-3">
-            <div className="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400">
+            <div className="p-2 bg-[#E8F0EC] border border-[#A8C3B2] rounded-lg text-[#1E4D3B]">
               <ShieldCheck className="w-5 h-5" />
             </div>
-            <h2 className="text-lg font-semibold text-stone-100">
+            <h2 className="text-lg font-bold text-[#1E293B]">
               {userToEdit ? "Edit Staff User Credentials" : "Provision New Staff User"}
             </h2>
           </div>
-          <button onClick={onClose} className="p-1 text-stone-400 hover:text-stone-100">
+          <button onClick={onClose} className="p-1 text-[#64748B] hover:text-[#1E293B]">
             <X className="w-5 h-5" />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-medium text-stone-300 mb-1">Full Name *</label>
+            <label className="block text-xs font-semibold text-[#1E293B] mb-1">Full Name *</label>
             <input
               type="text"
               required
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
-              className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+              className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
               placeholder="e.g. Priya Sharma"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-stone-300 mb-1">Work Email Address *</label>
+            <label className="block text-xs font-semibold text-[#1E293B] mb-1">Work Email Address *</label>
             <input
               type="email"
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-sm text-stone-200 focus:outline-none focus:border-amber-500/50"
+              className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-sm text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
               placeholder="p.sharma@mondayhotels.com"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Enterprise Role</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Enterprise Role</label>
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value as EnterpriseRole)}
-                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
               >
                 <option value="Super Admin">Super Admin</option>
                 <option value="Corporate Sales Director">Corporate Sales Director</option>
@@ -136,23 +136,23 @@ export function UserFormModal({
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-stone-300 mb-1">Department</label>
+              <label className="block text-xs font-semibold text-[#1E293B] mb-1">Department</label>
               <input
                 type="text"
                 value={department}
                 onChange={(e) => setDepartment(e.target.value)}
-                className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+                className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
                 placeholder="e.g. Hotel Operations"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-stone-300 mb-1">Property Scope Access</label>
+            <label className="block text-xs font-semibold text-[#1E293B] mb-1">Property Scope Access</label>
             <select
               value={propertyAccess}
               onChange={(e) => setPropertyAccess(e.target.value)}
-              className="w-full bg-stone-950 border border-stone-800 rounded-lg px-3 py-2 text-xs text-stone-200 focus:outline-none focus:border-amber-500/50"
+              className="w-full bg-[#F8F6F0] border border-[#E2E8F0] rounded-lg px-3 py-2 text-xs text-[#1E293B] focus:outline-none focus:border-[#1E4D3B]"
             >
               <option value="All Properties (Enterprise Master)">All Properties (Enterprise Master)</option>
               <option value="Monday Hotels Grand Royale Mumbai">Monday Hotels Grand Royale Mumbai</option>
@@ -169,17 +169,17 @@ export function UserFormModal({
                 id="mfa"
                 checked={mfaEnabled}
                 onChange={(e) => setMfaEnabled(e.target.checked)}
-                className="rounded border-stone-800 bg-stone-950 text-amber-500 focus:ring-amber-500"
+                className="rounded border-[#E2E8F0] text-[#1E4D3B] focus:ring-[#1E4D3B]"
               />
-              <label htmlFor="mfa" className="text-xs text-stone-300">Require Multi-Factor Auth (MFA)</label>
+              <label htmlFor="mfa" className="text-xs text-[#1E293B] font-medium">Require Multi-Factor Auth (MFA)</label>
             </div>
 
             <div className="flex items-center space-x-2">
-              <label className="text-xs text-stone-400">Account Status:</label>
+              <label className="text-xs text-[#64748B]">Account Status:</label>
               <select
                 value={status}
                 onChange={(e) => setStatus(e.target.value as any)}
-                className="bg-stone-950 border border-stone-800 rounded px-2 py-1 text-xs text-stone-200"
+                className="bg-[#F8F6F0] border border-[#E2E8F0] rounded px-2 py-1 text-xs text-[#1E293B]"
               >
                 <option value="Active">Active</option>
                 <option value="Suspended">Suspended</option>
@@ -188,17 +188,17 @@ export function UserFormModal({
             </div>
           </div>
 
-          <div className="flex items-center justify-end space-x-3 pt-3 border-t border-stone-800">
+          <div className="flex items-center justify-end space-x-3 pt-3 border-t border-[#E2E8F0]">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-xs font-medium text-stone-400 hover:text-stone-200"
+              className="px-4 py-2 text-xs font-semibold text-[#64748B] hover:text-[#1E293B]"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-xs font-semibold bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 text-stone-950 rounded-lg shadow-md"
+              className="px-4 py-2 text-xs font-semibold bg-[#1E4D3B] hover:bg-[#163B2D] text-white rounded-lg shadow-sm"
             >
               {userToEdit ? "Update Credentials" : "Save & Provision User"}
             </button>

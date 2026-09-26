@@ -78,7 +78,7 @@ export default function LeadsPage() {
   };
 
   return (
-    <div className="space-y-6 pb-12 font-sans">
+    <div className="space-y-6 pb-12 font-sans text-[#1E293B]">
       <PageHeader
         title="Enterprise Lead Management Module"
         subtitle="26-Field Monday Hotels Lead Architecture, Automated Scoring Engine (Max 30) & Sales Funnel"
@@ -90,7 +90,7 @@ export default function LeadsPage() {
                 setEditingLead(null);
                 setIsModalOpen(true);
               }}
-              className="flex items-center gap-1.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs sm:text-sm px-4 py-2 rounded-lg transition-all shadow-md shadow-amber-500/10 cursor-pointer"
+              className="flex items-center gap-1.5 bg-[#285943] hover:bg-[#1E4D3B] text-white font-bold text-xs sm:text-sm px-4 py-2 rounded-lg transition-all shadow-sm cursor-pointer"
             >
               <Plus className="w-4 h-4" />
               <span>Register New 26-Field Lead</span>
@@ -101,66 +101,74 @@ export default function LeadsPage() {
 
       {/* Top Metric Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
+        <div className="bg-white border border-[#E5E2D9] rounded-xl p-4 shadow-sm">
+          <div className="flex items-center justify-between text-[#6B766F] text-xs font-medium">
             <span>Total Enterprise Leads</span>
-            <UserCheck className="w-4 h-4 text-amber-400" />
+            <div className="p-1.5 bg-[#DDE9E1] text-[#285943] rounded-lg">
+              <UserCheck className="w-4 h-4" />
+            </div>
           </div>
-          <div className="mt-2 text-2xl font-bold text-slate-100">{leadsList.length}</div>
-          <div className="text-[11px] text-emerald-400 mt-1 flex items-center gap-1 font-semibold">
+          <div className="mt-2 text-2xl font-bold text-[#285943]">{leadsList.length}</div>
+          <div className="text-[11px] text-[#2E8B57] mt-1 flex items-center gap-1 font-semibold">
             <TrendingUp className="w-3 h-3" /> +18.4% YoY Growth
           </div>
         </div>
 
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
+        <div className="bg-white border border-[#E5E2D9] rounded-xl p-4 shadow-sm">
+          <div className="flex items-center justify-between text-[#6B766F] text-xs font-medium">
             <span>Active Pipeline Value</span>
-            <DollarSign className="w-4 h-4 text-emerald-400" />
+            <div className="p-1.5 bg-[#DDE9E1] text-[#285943] rounded-lg">
+              <DollarSign className="w-4 h-4" />
+            </div>
           </div>
-          <div className="mt-2 text-2xl font-bold text-slate-100">${totalPipelineValue.toLocaleString()}</div>
-          <div className="text-[11px] text-slate-400 mt-1 font-medium">
+          <div className="mt-2 text-2xl font-bold text-[#285943]">${totalPipelineValue.toLocaleString()}</div>
+          <div className="text-[11px] text-[#6B766F] mt-1 font-medium">
             Across {filteredLeads.length} filtered deals
           </div>
         </div>
 
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
+        <div className="bg-white border border-[#E5E2D9] rounded-xl p-4 shadow-sm">
+          <div className="flex items-center justify-between text-[#6B766F] text-xs font-medium">
             <span>High Scoring Leads (&ge;25/30)</span>
-            <Sparkles className="w-4 h-4 text-purple-400" />
+            <div className="p-1.5 bg-[#E9D7AE] text-[#1E293B] rounded-lg">
+              <Sparkles className="w-4 h-4 text-[#285943]" />
+            </div>
           </div>
-          <div className="mt-2 text-2xl font-bold text-slate-100">
+          <div className="mt-2 text-2xl font-bold text-[#285943]">
             {leadsList.filter((l) => l.totalLeadScore >= 25).length}
           </div>
-          <div className="text-[11px] text-purple-400 mt-1 font-semibold">
+          <div className="text-[11px] text-[#C9A15B] mt-1 font-semibold">
             High Conversion Probability
           </div>
         </div>
 
-        <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
+        <div className="bg-white border border-[#E5E2D9] rounded-xl p-4 shadow-sm">
+          <div className="flex items-center justify-between text-[#6B766F] text-xs font-medium">
             <span>Unassigned Leads</span>
-            <AlertCircle className="w-4 h-4 text-rose-400" />
+            <div className="p-1.5 bg-rose-50 text-[#C95C5C] rounded-lg border border-rose-200">
+              <AlertCircle className="w-4 h-4" />
+            </div>
           </div>
-          <div className="mt-2 text-2xl font-bold text-slate-100">
+          <div className="mt-2 text-2xl font-bold text-[#1E293B]">
             {leadsList.filter((l) => l.projectAllocationStatus === "UNASSIGNED").length}
           </div>
-          <div className="text-[11px] text-rose-400 mt-1 font-semibold">
+          <div className="text-[11px] text-[#C95C5C] mt-1 font-semibold">
             Requires Manager Assignment
           </div>
         </div>
       </div>
 
       {/* Search & Filter Toolbar */}
-      <div className="bg-slate-900/80 border border-slate-800 rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+      <div className="bg-white border border-[#E5E2D9] rounded-xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-sm">
         {/* Search Input */}
         <div className="relative flex-1">
-          <Search className="w-4 h-4 text-slate-500 absolute left-3 top-1/2 -translate-y-1/2" />
+          <Search className="w-4 h-4 text-[#285943] absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search leads by company, POC name, ID, or location..."
-            className="w-full pl-9 pr-4 py-2 bg-slate-950 border border-slate-800 rounded-lg text-xs text-slate-100 placeholder:text-slate-500 focus:outline-none focus:border-amber-500"
+            className="w-full pl-9 pr-4 py-2 bg-[#F7F4EC] border border-[#E5E2D9] rounded-lg text-xs text-[#1E293B] placeholder-[#6B766F] focus:outline-none focus:border-[#285943]"
           />
         </div>
 
@@ -169,7 +177,7 @@ export default function LeadsPage() {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="bg-slate-950 text-slate-300 border border-slate-800 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-amber-500"
+            className="bg-[#F7F4EC] text-[#1E293B] border border-[#E5E2D9] text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-[#285943]"
           >
             <option value="ALL">All Pipeline Stages</option>
             <option value="NEW">New Leads</option>
@@ -184,7 +192,7 @@ export default function LeadsPage() {
           <select
             value={selectedPriority}
             onChange={(e) => setSelectedPriority(e.target.value)}
-            className="bg-slate-950 text-slate-300 border border-slate-800 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-amber-500"
+            className="bg-[#F7F4EC] text-[#1E293B] border border-[#E5E2D9] text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-[#285943]"
           >
             <option value="ALL">All Priorities</option>
             <option value="URGENT">Urgent Priority</option>
@@ -196,7 +204,7 @@ export default function LeadsPage() {
           <select
             value={selectedAllocation}
             onChange={(e) => setSelectedAllocation(e.target.value)}
-            className="bg-slate-950 text-slate-300 border border-slate-800 text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-amber-500"
+            className="bg-[#F7F4EC] text-[#1E293B] border border-[#E5E2D9] text-xs rounded-lg px-3 py-2 focus:outline-none focus:border-[#285943]"
           >
             <option value="ALL">All Allocations</option>
             <option value="UNASSIGNED">Unassigned</option>

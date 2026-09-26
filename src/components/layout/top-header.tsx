@@ -70,7 +70,7 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
         <button
           type="button"
           onClick={onToggleMobileSidebar}
-          className="lg:hidden p-2 rounded-lg bg-[#F7F4EC] border border-[#E5E2D9] text-[#18332B] hover:bg-[#DDE9E1] transition-colors"
+          className="lg:hidden p-2 rounded-lg bg-[#F7F4EC] border border-[#E5E2D9] text-[#1E293B] hover:bg-[#DDE9E1] transition-colors"
           aria-label="Toggle Navigation Menu"
         >
           {isMobileOpen ? <X className="w-5 h-5 text-[#285943]" /> : <Menu className="w-5 h-5 text-[#285943]" />}
@@ -99,7 +99,7 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
         <button
           type="button"
           onClick={() => router.push("/leads")}
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-[#285943] hover:bg-[#173F32] text-white font-semibold text-xs rounded-lg shadow-sm transition-all active:scale-[0.98]"
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-[#285943] hover:bg-[#1E4D3B] text-white font-semibold text-xs rounded-lg shadow-sm transition-all active:scale-[0.98]"
         >
           <Plus className="w-4 h-4 text-white" />
           <span>New Lead</span>
@@ -110,11 +110,11 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
           <button
             type="button"
             onClick={() => setShowNotifications(!showNotifications)}
-            className="relative p-2 rounded-lg bg-[#F7F4EC] border border-[#E5E2D9] text-[#18332B] hover:bg-[#DDE9E1] transition-colors"
+            className="relative p-2 rounded-lg bg-[#F7F4EC] border border-[#E5E2D9] text-[#1E293B] hover:bg-[#DDE9E1] transition-colors"
             aria-label="View Notifications"
           >
             <Bell className="w-4 h-4 text-[#285943]" />
-            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#C9A15B] text-[10px] font-bold text-[#18332B]">
+            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#C9A15B] text-[10px] font-bold text-[#1E293B]">
               3
             </span>
           </button>
@@ -124,17 +124,17 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
               <div className="fixed inset-0 z-30" onClick={() => setShowNotifications(false)} />
               <div className="absolute right-0 mt-2 w-80 z-40 bg-white border border-[#E5E2D9] rounded-xl shadow-xl p-3 animate-in fade-in zoom-in-95 duration-150">
                 <div className="flex items-center justify-between pb-2 border-b border-[#E5E2D9]">
-                  <span className="text-xs font-semibold text-[#18332B]">System Notifications</span>
+                  <span className="text-xs font-semibold text-[#1E293B]">System Notifications</span>
                   <span className="text-[10px] text-[#285943] hover:underline cursor-pointer font-semibold">Mark all read</span>
                 </div>
                 <div className="divide-y divide-[#E5E2D9] text-xs py-1">
                   <div className="py-2.5">
-                    <p className="text-[#18332B] font-medium">VIP Reservation Confirmed</p>
+                    <p className="text-[#1E293B] font-medium">VIP Reservation Confirmed</p>
                     <p className="text-[11px] text-[#6B766F]">Monday Grand Luxe • Suite 804</p>
                     <span className="text-[10px] text-[#6B766F]">2 mins ago</span>
                   </div>
                   <div className="py-2.5">
-                    <p className="text-[#18332B] font-medium">New Corporate Lead ($45k)</p>
+                    <p className="text-[#1E293B] font-medium">New Corporate Lead ($45k)</p>
                     <p className="text-[11px] text-[#6B766F]">Deloitte Annual Leadership Summit</p>
                     <span className="text-[10px] text-[#6B766F]">18 mins ago</span>
                   </div>
@@ -155,7 +155,7 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
               {user ? getInitials(user.fullName) : "EX"}
             </div>
             <div className="text-left hidden md:block">
-              <div className="text-xs font-semibold text-[#18332B] leading-tight">
+              <div className="text-xs font-semibold text-[#1E293B] leading-tight">
                 {user ? user.fullName : "Guest User"}
               </div>
               <div className="text-[10px] text-[#C9A15B] font-semibold leading-none flex items-center gap-1 mt-0.5">
@@ -170,7 +170,7 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
               <div className="fixed inset-0 z-30" onClick={() => setShowUserMenu(false)} />
               <div className="absolute right-0 mt-2 w-64 z-40 bg-white border border-[#E5E2D9] rounded-xl shadow-xl p-2 text-xs divide-y divide-[#E5E2D9] animate-in fade-in zoom-in-95 duration-150">
                 <div className="px-3 py-2 space-y-1">
-                  <div className="font-semibold text-[#18332B]">{user?.fullName}</div>
+                  <div className="font-semibold text-[#1E293B]">{user?.fullName}</div>
                   <div className="text-[#6B766F] text-[11px] truncate">{user?.email}</div>
                   <div className="pt-1">
                     <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded border font-bold ${roleBadge.badgeClass}`}>
@@ -194,8 +194,8 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
                         }}
                         className={`w-full text-left px-2 py-1 rounded text-[11px] flex items-center justify-between ${
                           role === acc.role
-                            ? "bg-[#DDE9E1] text-[#173F32] font-bold"
-                            : "text-[#18332B] hover:bg-[#F7F4EC]"
+                            ? "bg-[#DDE9E1] text-[#1E4D3B] font-bold"
+                            : "text-[#1E293B] hover:bg-[#F7F4EC]"
                         }`}
                       >
                         <span className="truncate">{acc.role}</span>
