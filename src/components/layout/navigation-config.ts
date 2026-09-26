@@ -17,6 +17,7 @@ import {
   Settings,
   ShieldAlert,
   ClipboardList,
+  Database,
 } from "lucide-react";
 import { NavGroup } from "@/types/navigation";
 
@@ -126,6 +127,13 @@ export const navigationConfig: NavGroup[] = [
         href: "/reports",
         icon: BarChart3,
         description: "Financial performance, revenue forecasts, and channel mix",
+      },
+      {
+        title: "Data Import Wizard",
+        href: "/import",
+        icon: Database,
+        badge: "Tool",
+        description: "Bulk CSV/Excel migration with validation & deduplication",
       },
       {
         title: "Notifications",
