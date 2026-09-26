@@ -58,18 +58,18 @@ function LoginFormContent() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center w-full">
       {/* Left Column: Form Card */}
-      <div className="lg:col-span-6 bg-slate-900/90 border border-slate-800 rounded-2xl p-6 sm:p-8 shadow-2xl backdrop-blur-md">
+      <div className="lg:col-span-6 bg-white border border-[#E5E2D9] rounded-2xl p-6 sm:p-8 shadow-xl">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-slate-100 tracking-tight">Executive Gateway Sign In</h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1">
+          <h1 className="text-2xl font-bold text-[#18332B] tracking-tight">Executive Gateway Sign In</h1>
+          <p className="text-xs sm:text-sm text-[#6B766F] mt-1">
             Enter your hospitality staff credentials or select a role profile to proceed.
           </p>
         </div>
 
         {/* Error Message */}
         {error && (
-          <div className="mb-5 p-3.5 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-start gap-2.5 text-xs text-rose-300">
-            <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5" />
+          <div className="mb-5 p-3.5 bg-rose-50 border border-rose-200 rounded-xl flex items-start gap-2.5 text-xs text-[#C95C5C]">
+            <AlertCircle className="w-4 h-4 text-[#C95C5C] shrink-0 mt-0.5" />
             <span>{error}</span>
           </div>
         )}
@@ -77,31 +77,31 @@ function LoginFormContent() {
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* Email Input */}
           <div className="space-y-1.5">
-            <label className="text-xs font-medium text-slate-300">Enterprise Email Address</label>
+            <label className="text-xs font-medium text-[#18332B]">Enterprise Email Address</label>
             <div className="relative">
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="e.g. admin@mondayhotels.com"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 pl-10 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-amber-500 transition-colors"
+                className="w-full bg-[#F7F4EC] border border-[#E5E2D9] rounded-xl px-3.5 py-2.5 pl-10 text-xs sm:text-sm text-[#18332B] focus:outline-none focus:border-[#285943] transition-colors"
                 required
               />
-              <Mail className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Mail className="w-4 h-4 text-[#6B766F] absolute left-3.5 top-1/2 -translate-y-1/2" />
             </div>
           </div>
 
           {/* Password Input */}
           <div className="space-y-1.5">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-medium text-slate-300">Security Password</label>
+              <label className="text-xs font-medium text-[#18332B]">Security Password</label>
               <a
                 href="#forgot"
                 onClick={(e) => {
                   e.preventDefault();
                   alert("Contact your IT Administrator or Super Admin to reset credentials.");
                 }}
-                className="text-[11px] text-amber-400 hover:underline"
+                className="text-[11px] text-[#285943] hover:underline font-semibold"
               >
                 Forgot Password?
               </a>
@@ -112,14 +112,14 @@ function LoginFormContent() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••••••"
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2.5 pl-10 pr-10 text-xs sm:text-sm text-slate-100 focus:outline-none focus:border-amber-500 transition-colors"
+                className="w-full bg-[#F7F4EC] border border-[#E5E2D9] rounded-xl px-3.5 py-2.5 pl-10 pr-10 text-xs sm:text-sm text-[#18332B] focus:outline-none focus:border-[#285943] transition-colors"
                 required
               />
-              <Lock className="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Lock className="w-4 h-4 text-[#6B766F] absolute left-3.5 top-1/2 -translate-y-1/2" />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
+                className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#6B766F] hover:text-[#18332B]"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -130,7 +130,7 @@ function LoginFormContent() {
           <button
             type="submit"
             disabled={submitting || isLoading}
-            className="w-full bg-gradient-to-r from-amber-500 via-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold text-xs sm:text-sm py-3 px-4 rounded-xl transition-all shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2 cursor-pointer"
+            className="w-full bg-[#285943] hover:bg-[#173F32] text-white font-bold text-xs sm:text-sm py-3 px-4 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 cursor-pointer"
           >
             {submitting ? (
               <span>Authenticating...</span>
@@ -146,18 +146,18 @@ function LoginFormContent() {
 
       {/* Right Column: Instant Demo Role Persona Switcher */}
       <div className="lg:col-span-6 space-y-4">
-        <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-6 backdrop-blur-md">
+        <div className="bg-white border border-[#E5E2D9] rounded-2xl p-6 shadow-xl">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h2 className="text-base font-bold text-slate-100 flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-amber-400" />
+              <h2 className="text-base font-bold text-[#18332B] flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#C9A15B]" />
                 <span>Instant Demo Role Switcher</span>
               </h2>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-[#6B766F] mt-0.5">
                 Click any enterprise role persona below to test authentication & RBAC route restrictions.
               </p>
             </div>
-            <span className="text-[10px] uppercase font-extrabold bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded-full">
+            <span className="text-[10px] uppercase font-extrabold bg-[#DDE9E1] text-[#173F32] border border-[#A8C3B2] px-2 py-0.5 rounded-full">
               5 Roles Ready
             </span>
           </div>
@@ -169,21 +169,21 @@ function LoginFormContent() {
                 <div
                   key={acc.role}
                   onClick={() => handleDemoSelect(acc.role)}
-                  className="bg-slate-950/80 border border-slate-800/80 hover:border-amber-500/50 rounded-xl p-3.5 transition-all cursor-pointer group flex items-center justify-between gap-3"
+                  className="bg-[#F7F4EC] border border-[#E5E2D9] hover:border-[#285943]/60 rounded-xl p-3.5 transition-all cursor-pointer group flex items-center justify-between gap-3"
                 >
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded border ${badge.badgeClass}`}>
                         {badge.label}
                       </span>
-                      <span className="text-xs font-bold text-slate-200 group-hover:text-amber-400 transition-colors">
+                      <span className="text-xs font-bold text-[#18332B] group-hover:text-[#285943] transition-colors">
                         {acc.name}
                       </span>
                     </div>
-                    <p className="text-[11px] text-slate-400">{acc.description}</p>
+                    <p className="text-[11px] text-[#6B766F]">{acc.description}</p>
                   </div>
 
-                  <div className="p-2 bg-slate-900 group-hover:bg-amber-500 group-hover:text-slate-950 text-slate-400 rounded-lg transition-colors shrink-0">
+                  <div className="p-2 bg-white border border-[#E5E2D9] group-hover:bg-[#285943] group-hover:text-white text-[#285943] rounded-lg transition-colors shrink-0">
                     <ArrowRight className="w-4 h-4" />
                   </div>
                 </div>
@@ -198,37 +198,33 @@ function LoginFormContent() {
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between relative overflow-hidden font-sans">
-      {/* Background Decorative Glow */}
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute top-1/2 -right-40 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
-
+    <div className="min-h-screen bg-[#F7F4EC] text-[#18332B] flex flex-col justify-between relative overflow-hidden font-sans">
       {/* Top Brand Bar */}
       <header className="p-6 flex items-center justify-between max-w-7xl mx-auto w-full z-10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 via-amber-500 to-amber-600 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/20 font-bold">
+          <div className="w-10 h-10 rounded-xl bg-[#285943] flex items-center justify-center text-white shadow-md font-bold">
             <Hotel className="w-6 h-6" />
           </div>
           <div>
-            <span className="text-lg font-bold tracking-tight text-slate-100 block">MONDAY HOTELS</span>
-            <span className="text-[10px] text-amber-400/90 font-semibold tracking-wider uppercase">Enterprise CRM System</span>
+            <span className="text-lg font-bold tracking-tight text-[#18332B] block">MONDAY HOTELS</span>
+            <span className="text-[10px] text-[#C9A15B] font-semibold tracking-wider uppercase">Enterprise CRM System</span>
           </div>
         </div>
-        <div className="hidden sm:flex items-center gap-2 text-xs text-slate-400 bg-slate-900 border border-slate-800 rounded-lg px-3 py-1.5">
-          <ShieldCheck className="w-4 h-4 text-emerald-400" />
+        <div className="hidden sm:flex items-center gap-2 text-xs text-[#6B766F] bg-white border border-[#E5E2D9] rounded-lg px-3 py-1.5 shadow-sm">
+          <ShieldCheck className="w-4 h-4 text-[#2E8B57]" />
           <span>SOC2 Type II Certified & RLS Protected</span>
         </div>
       </header>
 
       {/* Main Login Body wrapped in Suspense */}
       <main className="flex-1 flex items-center justify-center p-4 sm:p-6 z-10 max-w-6xl mx-auto w-full my-6">
-        <Suspense fallback={<div className="text-slate-400 text-sm p-8">Loading Auth Portal...</div>}>
+        <Suspense fallback={<div className="text-[#6B766F] text-sm p-8">Loading Auth Portal...</div>}>
           <LoginFormContent />
         </Suspense>
       </main>
 
       {/* Footer */}
-      <footer className="p-6 text-center text-xs text-slate-500 z-10 border-t border-slate-900">
+      <footer className="p-6 text-center text-xs text-[#6B766F] z-10 border-t border-[#E5E2D9] bg-white">
         © 2026 Monday Hotels Enterprise CRM • Powered by Supabase Auth & Role-Based Access Control
       </footer>
     </div>

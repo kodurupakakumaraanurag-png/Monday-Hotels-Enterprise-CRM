@@ -135,12 +135,12 @@ export const MOCK_DASHBOARD_DATA: FullDashboardData = {
   },
 
   leadPipelineStages: [
-    { stage: "New Leads", count: 85, value: 425000, color: "#94a3b8" },
-    { stage: "Contacted", count: 62, value: 620000, color: "#60a5fa" },
-    { stage: "Qualified", count: 48, value: 720000, color: "#a855f7" },
-    { stage: "Proposal / Quote", count: 38, value: 950000, color: "#f59e0b" },
-    { stage: "Negotiation", count: 26, value: 680000, color: "#38bdf8" },
-    { stage: "Confirmed Won", count: 25, value: 455000, color: "#10b981" },
+    { stage: "New Leads", count: 85, value: 425000, color: "#6B766F" },
+    { stage: "Contacted", count: 62, value: 620000, color: "#A8C3B2" },
+    { stage: "Qualified", count: 48, value: 720000, color: "#285943" },
+    { stage: "Proposal / Quote", count: 38, value: 950000, color: "#C9A15B" },
+    { stage: "Negotiation", count: 26, value: 680000, color: "#173F32" },
+    { stage: "Confirmed Won", count: 25, value: 455000, color: "#2E8B57" },
   ],
 
   enquiryConversion: [
@@ -171,16 +171,16 @@ export const MOCK_DASHBOARD_DATA: FullDashboardData = {
   ],
 
   guestRetention: [
-    { category: "Returning Loyalty Members", value: 774, percentage: 62.4, color: "#f59e0b" },
-    { category: "First-Time Guests", value: 466, percentage: 37.6, color: "#3b82f6" },
+    { category: "Returning Loyalty Members", value: 774, percentage: 62.4, color: "#285943" },
+    { category: "First-Time Guests", value: 466, percentage: 37.6, color: "#C9A15B" },
   ],
 
   leadSources: [
-    { source: "Direct Brand Web", percentage: 42, leadsCount: 119, color: "#f59e0b" },
-    { source: "Corporate MICE & B2B", percentage: 28, leadsCount: 80, color: "#10b981" },
-    { source: "Client Referrals", percentage: 14, leadsCount: 40, color: "#8b5cf6" },
-    { source: "Travel Agents (GDS)", percentage: 10, leadsCount: 28, color: "#06b6d4" },
-    { source: "OTA Channels", percentage: 6, leadsCount: 17, color: "#ec4899" },
+    { source: "Direct Brand Web", percentage: 42, leadsCount: 119, color: "#285943" },
+    { source: "Corporate MICE & B2B", percentage: 28, leadsCount: 80, color: "#173F32" },
+    { source: "Client Referrals", percentage: 14, leadsCount: 40, color: "#C9A15B" },
+    { source: "Travel Agents (GDS)", percentage: 10, leadsCount: 28, color: "#A8C3B2" },
+    { source: "OTA Channels", percentage: 6, leadsCount: 17, color: "#6B766F" },
   ],
 
   recentLeads: [

@@ -2,148 +2,125 @@
 
 @layer base {
   :root {
-    --background: 224 71% 4%;
-    --foreground: 210 40% 98%;
+    --background: #F7F4EC;
+    --foreground: #18332B;
 
-    --card: 222 47% 9%;
-    --card-foreground: 210 40% 98%;
+    --card: #FFFFFF;
+    --card-foreground: #18332B;
 
-    --popover: 222 47% 9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: #FFFFFF;
+    --popover-foreground: #18332B;
 
-    --primary: 43 65% 52%;
-    --primary-foreground: 220 25% 10%;
+    --primary: #285943;
+    --primary-foreground: #FFFFFF;
 
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: #DDE9E1;
+    --secondary-foreground: #173F32;
 
-    --muted: 217 33% 15%;
-    --muted-foreground: 215 20% 65%;
+    --muted: #F7F4EC;
+    --muted-foreground: #6B766F;
 
-    --accent: 217 33% 17%;
-    --accent-foreground: 210 40% 98%;
+    --accent: #C9A15B;
+    --accent-foreground: #18332B;
 
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: #C95C5C;
+    --destructive-foreground: #FFFFFF;
 
-    --border: 217 33% 18%;
-    --input: 217 33% 18%;
-    --ring: 43 65% 52%;
+    --border: #E5E2D9;
+    --input: #E5E2D9;
+    --ring: #285943;
     --radius: 0.75rem;
-  }
 
-  .dark {
-    --background: 224 71% 4%;
-    --foreground: 210 40% 98%;
-
-    --card: 222 47% 9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222 47% 9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 43 65% 52%;
-    --primary-foreground: 220 25% 10%;
-
-    --secondary: 217 33% 17%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217 33% 15%;
-    --muted-foreground: 215 20% 65%;
-
-    --accent: 217 33% 17%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62% 30%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217 33% 18%;
-    --input: 217 33% 18%;
-    --ring: 43 65% 52%;
+    --sidebar-bg: #FFFEFA;
+    --sidebar-fg: #18332B;
+    --sidebar-border: #E5E2D9;
+    --sidebar-active: #285943;
+    --sidebar-hover: #DDE9E1;
   }
 }
 
 * {
-  border-color: hsl(var(--border));
+  border-color: #E5E2D9;
 }
 
 body {
-  background-color: #020617;
-  color: #f8fafc;
+  background-color: #F7F4EC;
+  color: #18332B;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Enterprise Custom Scrollbars */
+/* Luxury Hotel Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #020617;
+  background: #F7F4EC;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
+  background: #A8C3B2;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #285943;
 }
 
 /* Design System Utility Classes */
 @layer components {
   .crm-card {
-    background-color: #0f172a;
-    border: 1px solid #1e293b;
+    background-color: #FFFFFF;
+    border: 1px solid #E5E2D9;
     border-radius: 0.75rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 8px rgba(24, 51, 43, 0.04);
   }
 
   .crm-header-title {
     font-size: 1.5rem;
     font-weight: 700;
     letter-spacing: -0.025em;
-    color: #f8fafc;
+    color: #18332B;
   }
 
   .crm-btn-primary {
-    background-color: #d97706;
-    color: #020617;
-    font-weight: 800;
-    font-size: 0.75rem;
-    padding: 0.5rem 1rem;
-    border-radius: 0.75rem;
-    transition: all 0.15s ease-in-out;
-  }
-  .crm-btn-primary:hover {
-    background-color: #f59e0b;
-    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.25);
-  }
-
-  .crm-btn-secondary {
-    background-color: #0f172a;
-    border: 1px solid #1e293b;
-    color: #cbd5e1;
+    background-color: #285943;
+    color: #FFFFFF;
     font-weight: 700;
     font-size: 0.75rem;
     padding: 0.5rem 1rem;
-    border-radius: 0.75rem;
+    border-radius: 0.5rem;
+    transition: all 0.15s ease-in-out;
+    border: none;
+  }
+  .crm-btn-primary:hover {
+    background-color: #173F32;
+    box-shadow: 0 2px 8px rgba(40, 89, 67, 0.2);
+  }
+
+  .crm-btn-secondary {
+    background-color: #FFFFFF;
+    border: 1px solid #E5E2D9;
+    color: #285943;
+    font-weight: 700;
+    font-size: 0.75rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
     transition: all 0.15s ease-in-out;
   }
   .crm-btn-secondary:hover {
-    background-color: #1e293b;
-    color: #f8fafc;
+    background-color: #DDE9E1;
+    color: #173F32;
   }
 
   .crm-badge-success {
-    background-color: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: #34d399;
+    background-color: #DDE9E1;
+    border: 1px solid #A8C3B2;
+    color: #173F32;
     font-size: 0.625rem;
     font-weight: 800;
     padding: 0.125rem 0.5rem;
@@ -152,9 +129,9 @@ body {
   }
 
   .crm-badge-warning {
-    background-color: rgba(245, 158, 11, 0.1);
-    border: 1px solid rgba(245, 158, 11, 0.3);
-    color: #fbbf24;
+    background-color: #E9D7AE;
+    border: 1px solid #C9A15B;
+    color: #18332B;
     font-size: 0.625rem;
     font-weight: 800;
     padding: 0.125rem 0.5rem;

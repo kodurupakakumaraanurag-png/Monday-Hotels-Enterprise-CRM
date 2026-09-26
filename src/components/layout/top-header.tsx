@@ -64,16 +64,16 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
   };
 
   return (
-    <header className="sticky top-0 z-30 h-16 bg-slate-950/90 backdrop-blur-md border-b border-slate-800/80 px-4 lg:px-6 flex items-center justify-between gap-4 transition-all">
+    <header className="sticky top-0 z-30 h-16 bg-[#FFFEFA]/95 backdrop-blur-md border-b border-[#E5E2D9] px-4 lg:px-6 flex items-center justify-between gap-4 transition-all">
       {/* Left: Mobile Toggle & Property Switcher */}
       <div className="flex items-center gap-3">
         <button
           type="button"
           onClick={onToggleMobileSidebar}
-          className="lg:hidden p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition-colors"
+          className="lg:hidden p-2 rounded-lg bg-[#F7F4EC] border border-[#E5E2D9] text-[#18332B] hover:bg-[#DDE9E1] transition-colors"
           aria-label="Toggle Navigation Menu"
         >
-          {isMobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          {isMobileOpen ? <X className="w-5 h-5 text-[#285943]" /> : <Menu className="w-5 h-5 text-[#285943]" />}
         </button>
 
         <PropertySelector />
@@ -83,11 +83,11 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
       <div className="hidden md:flex items-center flex-1 max-w-md mx-4">
         <button
           onClick={() => setIsSearchModalOpen(true)}
-          className="relative w-full text-left pl-9 pr-4 py-1.5 bg-slate-900/90 border border-slate-800 hover:border-amber-500/40 rounded-lg text-xs text-slate-400 focus:outline-none transition-all flex items-center justify-between group"
+          className="relative w-full text-left pl-9 pr-4 py-1.5 bg-[#F7F4EC] border border-[#E5E2D9] hover:border-[#285943]/40 rounded-lg text-xs text-[#6B766F] focus:outline-none transition-all flex items-center justify-between group"
         >
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-hover:text-amber-400 transition-colors" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[#285943] transition-colors" />
           <span className="truncate">Search leads, corporate, guests, reservations...</span>
-          <kbd className="hidden lg:inline-flex items-center gap-1 rounded border border-slate-700 bg-slate-800 px-1.5 font-mono text-[10px] font-medium text-slate-400">
+          <kbd className="hidden lg:inline-flex items-center gap-1 rounded border border-[#E5E2D9] bg-white px-1.5 font-mono text-[10px] font-medium text-[#6B766F]">
             ⌘K
           </kbd>
         </button>
@@ -99,9 +99,9 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
         <button
           type="button"
           onClick={() => router.push("/leads")}
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-semibold text-xs rounded-lg shadow-sm transition-all active:scale-[0.98]"
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 bg-[#285943] hover:bg-[#173F32] text-white font-semibold text-xs rounded-lg shadow-sm transition-all active:scale-[0.98]"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-4 h-4 text-white" />
           <span>New Lead</span>
         </button>
 
@@ -110,11 +110,11 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
           <button
             type="button"
             onClick={() => setShowNotifications(!showNotifications)}
-            className="relative p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-300 hover:text-slate-100 hover:bg-slate-800 transition-colors"
+            className="relative p-2 rounded-lg bg-[#F7F4EC] border border-[#E5E2D9] text-[#18332B] hover:bg-[#DDE9E1] transition-colors"
             aria-label="View Notifications"
           >
-            <Bell className="w-4 h-4" />
-            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-amber-500 text-[10px] font-bold text-slate-950">
+            <Bell className="w-4 h-4 text-[#285943]" />
+            <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#C9A15B] text-[10px] font-bold text-[#18332B]">
               3
             </span>
           </button>
@@ -122,21 +122,21 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
           {showNotifications && (
             <>
               <div className="fixed inset-0 z-30" onClick={() => setShowNotifications(false)} />
-              <div className="absolute right-0 mt-2 w-80 z-40 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl p-3 animate-in fade-in zoom-in-95 duration-150">
-                <div className="flex items-center justify-between pb-2 border-b border-slate-800">
-                  <span className="text-xs font-semibold text-slate-200">System Notifications</span>
-                  <span className="text-[10px] text-amber-400 hover:underline cursor-pointer">Mark all read</span>
+              <div className="absolute right-0 mt-2 w-80 z-40 bg-white border border-[#E5E2D9] rounded-xl shadow-xl p-3 animate-in fade-in zoom-in-95 duration-150">
+                <div className="flex items-center justify-between pb-2 border-b border-[#E5E2D9]">
+                  <span className="text-xs font-semibold text-[#18332B]">System Notifications</span>
+                  <span className="text-[10px] text-[#285943] hover:underline cursor-pointer font-semibold">Mark all read</span>
                 </div>
-                <div className="divide-y divide-slate-800/60 text-xs py-1">
+                <div className="divide-y divide-[#E5E2D9] text-xs py-1">
                   <div className="py-2.5">
-                    <p className="text-slate-200 font-medium">VIP Reservation Confirmed</p>
-                    <p className="text-[11px] text-slate-400">Monday Grand Luxe • Suite 804</p>
-                    <span className="text-[10px] text-slate-500">2 mins ago</span>
+                    <p className="text-[#18332B] font-medium">VIP Reservation Confirmed</p>
+                    <p className="text-[11px] text-[#6B766F]">Monday Grand Luxe • Suite 804</p>
+                    <span className="text-[10px] text-[#6B766F]">2 mins ago</span>
                   </div>
                   <div className="py-2.5">
-                    <p className="text-slate-200 font-medium">New Corporate Lead ($45k)</p>
-                    <p className="text-[11px] text-slate-400">Deloitte Annual Leadership Summit</p>
-                    <span className="text-[10px] text-slate-500">18 mins ago</span>
+                    <p className="text-[#18332B] font-medium">New Corporate Lead ($45k)</p>
+                    <p className="text-[11px] text-[#6B766F]">Deloitte Annual Leadership Summit</p>
+                    <span className="text-[10px] text-[#6B766F]">18 mins ago</span>
                   </div>
                 </div>
               </div>
@@ -149,29 +149,29 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
           <button
             type="button"
             onClick={() => setShowUserMenu(!showUserMenu)}
-            className="flex items-center gap-2 pl-2 pr-2 sm:pr-3 py-1 rounded-lg bg-slate-900/60 border border-slate-800 hover:bg-slate-800/80 transition-all"
+            className="flex items-center gap-2 pl-2 pr-2 sm:pr-3 py-1 rounded-lg bg-[#F7F4EC] border border-[#E5E2D9] hover:bg-[#DDE9E1] transition-all"
           >
-            <div className="w-8 h-8 rounded-full bg-gradient-to-tr from-amber-500 to-amber-300 text-slate-950 font-bold text-xs flex items-center justify-center shadow-inner shrink-0">
+            <div className="w-8 h-8 rounded-full bg-[#285943] text-white font-bold text-xs flex items-center justify-center shadow-inner shrink-0">
               {user ? getInitials(user.fullName) : "EX"}
             </div>
             <div className="text-left hidden md:block">
-              <div className="text-xs font-semibold text-slate-200 leading-tight">
+              <div className="text-xs font-semibold text-[#18332B] leading-tight">
                 {user ? user.fullName : "Guest User"}
               </div>
-              <div className="text-[10px] text-amber-400/90 font-semibold leading-none flex items-center gap-1 mt-0.5">
+              <div className="text-[10px] text-[#C9A15B] font-semibold leading-none flex items-center gap-1 mt-0.5">
                 <span>{roleBadge.label}</span>
               </div>
             </div>
-            <ChevronDown className="w-3.5 h-3.5 text-slate-400 hidden sm:block" />
+            <ChevronDown className="w-3.5 h-3.5 text-[#6B766F] hidden sm:block" />
           </button>
 
           {showUserMenu && (
             <>
               <div className="fixed inset-0 z-30" onClick={() => setShowUserMenu(false)} />
-              <div className="absolute right-0 mt-2 w-64 z-40 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl p-2 text-xs divide-y divide-slate-800/80 animate-in fade-in zoom-in-95 duration-150">
+              <div className="absolute right-0 mt-2 w-64 z-40 bg-white border border-[#E5E2D9] rounded-xl shadow-xl p-2 text-xs divide-y divide-[#E5E2D9] animate-in fade-in zoom-in-95 duration-150">
                 <div className="px-3 py-2 space-y-1">
-                  <div className="font-semibold text-slate-100">{user?.fullName}</div>
-                  <div className="text-slate-400 text-[11px] truncate">{user?.email}</div>
+                  <div className="font-semibold text-[#18332B]">{user?.fullName}</div>
+                  <div className="text-[#6B766F] text-[11px] truncate">{user?.email}</div>
                   <div className="pt-1">
                     <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded border font-bold ${roleBadge.badgeClass}`}>
                       <Shield className="w-3 h-3" /> {roleBadge.label}
@@ -181,8 +181,8 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
 
                 {/* Switch Role Quick Test Options */}
                 <div className="py-2 px-3 space-y-1.5">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                    <Sparkles className="w-3 h-3 text-amber-400" /> Switch Active Role Profile:
+                  <div className="text-[10px] font-bold text-[#6B766F] uppercase tracking-wider flex items-center gap-1">
+                    <Sparkles className="w-3 h-3 text-[#C9A15B]" /> Switch Active Role Profile:
                   </div>
                   <div className="space-y-1 max-h-36 overflow-y-auto">
                     {DEMO_ACCOUNTS.map((acc) => (
@@ -194,12 +194,12 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
                         }}
                         className={`w-full text-left px-2 py-1 rounded text-[11px] flex items-center justify-between ${
                           role === acc.role
-                            ? "bg-amber-500/20 text-amber-300 font-bold"
-                            : "text-slate-300 hover:bg-slate-800"
+                            ? "bg-[#DDE9E1] text-[#173F32] font-bold"
+                            : "text-[#18332B] hover:bg-[#F7F4EC]"
                         }`}
                       >
                         <span className="truncate">{acc.role}</span>
-                        <span className="text-[9px] text-slate-500">{acc.name.split(" ")[0]}</span>
+                        <span className="text-[9px] text-[#6B766F]">{acc.name.split(" ")[0]}</span>
                       </button>
                     ))}
                   </div>
@@ -208,7 +208,7 @@ export function TopHeader({ onToggleMobileSidebar, isMobileOpen }: TopHeaderProp
                 <div className="pt-1">
                   <button
                     onClick={handleSignOut}
-                    className="w-full text-left px-3 py-2 text-rose-400 hover:bg-rose-500/10 rounded flex items-center gap-2 font-medium transition-colors"
+                    className="w-full text-left px-3 py-2 text-[#C95C5C] hover:bg-rose-50 rounded flex items-center gap-2 font-medium transition-colors"
                   >
                     <LogOut className="w-3.5 h-3.5" /> Sign Out of Enterprise CRM
                   </button>

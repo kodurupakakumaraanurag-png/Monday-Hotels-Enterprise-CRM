@@ -21,11 +21,11 @@ export function SimpleBarChart({
   const maxValue = Math.max(...data.map((d) => d.value), 1);
 
   return (
-    <div className="bg-stone-900 border border-stone-800 rounded-xl p-5 space-y-4 shadow-xl">
+    <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 space-y-4 shadow-sm">
       {(title || subtitle) && (
         <div>
-          {title && <h3 className="text-sm font-bold text-stone-100">{title}</h3>}
-          {subtitle && <p className="text-xs text-stone-400 mt-0.5">{subtitle}</p>}
+          {title && <h3 className="text-sm font-bold text-[#18332B]">{title}</h3>}
+          {subtitle && <p className="text-xs text-[#6B766F] mt-0.5">{subtitle}</p>}
         </div>
       )}
 
@@ -35,15 +35,15 @@ export function SimpleBarChart({
           return (
             <div key={i} className="space-y-1">
               <div className="flex justify-between items-center text-xs">
-                <span className="font-semibold text-stone-300">{item.label}</span>
-                <span className="font-bold text-amber-300">
+                <span className="font-semibold text-[#18332B]">{item.label}</span>
+                <span className="font-bold text-[#285943]">
                   {item.formattedValue || item.value.toLocaleString()}
                 </span>
               </div>
-              <div className="w-full bg-stone-950 h-3 rounded-full overflow-hidden border border-stone-800">
+              <div className="w-full bg-[#F7F4EC] h-3 rounded-full overflow-hidden border border-[#E5E2D9]">
                 <div
                   className={`h-full rounded-full transition-all duration-500 ${
-                    item.color || "bg-gradient-to-r from-amber-600 to-amber-400"
+                    item.color || "bg-[#285943]"
                   }`}
                   style={{ width: `${Math.max(4, pct)}%` }}
                 />
@@ -66,19 +66,19 @@ export function FunnelVisualizationChart({
   const maxCount = Math.max(...steps.map((s) => s.count), 1);
 
   return (
-    <div className="bg-stone-900 border border-stone-800 rounded-xl p-5 space-y-4 shadow-xl">
-      {title && <h3 className="text-sm font-bold text-stone-100">{title}</h3>}
+    <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 space-y-4 shadow-sm">
+      {title && <h3 className="text-sm font-bold text-[#18332B]">{title}</h3>}
       <div className="space-y-2 pt-2">
-        {steps.map((step, idx) => {
+        {steps.map((step) => {
           const widthPct = Math.max(15, Math.round((step.count / maxCount) * 100));
           return (
             <div key={step.stage} className="flex items-center space-x-3 text-xs">
-              <span className="w-28 shrink-0 font-semibold text-stone-400 text-right truncate">
+              <span className="w-28 shrink-0 font-semibold text-[#6B766F] text-right truncate">
                 {step.stage}
               </span>
-              <div className="flex-1 bg-stone-950/60 p-1.5 rounded-lg border border-stone-800">
+              <div className="flex-1 bg-[#F7F4EC] p-1.5 rounded-lg border border-[#E5E2D9]">
                 <div
-                  className="bg-gradient-to-r from-amber-500/80 to-amber-300 text-stone-950 font-bold px-3 py-1.5 rounded flex justify-between items-center transition-all duration-500"
+                  className="bg-[#285943] text-white font-bold px-3 py-1.5 rounded flex justify-between items-center transition-all duration-500 shadow-sm"
                   style={{ width: `${widthPct}%` }}
                 >
                   <span>{step.count} Deals</span>
@@ -96,7 +96,6 @@ export function FunnelVisualizationChart({
 export function SimpleLineAreaChart({
   title,
   points,
-  yUnit = "$",
 }: {
   title: string;
   points: { label: string; val: number }[];
@@ -125,10 +124,10 @@ export function SimpleLineAreaChart({
   },${svgHeight - 10} Z`;
 
   return (
-    <div className="bg-stone-900 border border-stone-800 rounded-xl p-5 space-y-4 shadow-xl">
+    <div className="bg-white border border-[#E5E2D9] rounded-xl p-5 space-y-4 shadow-sm">
       <div className="flex items-center justify-between">
-        <h3 className="text-sm font-bold text-stone-100">{title}</h3>
-        <span className="text-[10px] bg-amber-500/10 text-amber-300 px-2 py-0.5 rounded border border-amber-500/20">
+        <h3 className="text-sm font-bold text-[#18332B]">{title}</h3>
+        <span className="text-[10px] bg-[#DDE9E1] text-[#173F32] px-2 py-0.5 rounded border border-[#A8C3B2] font-semibold">
           Historical Trend
         </span>
       </div>
@@ -137,31 +136,31 @@ export function SimpleLineAreaChart({
         <svg viewBox={`0 0 ${svgWidth} ${svgHeight}`} className="w-full h-36 overflow-visible">
           <defs>
             <linearGradient id="areaGlow" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#f59e0b" stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#f59e0b" stopOpacity="0.0" />
+              <stop offset="0%" stopColor="#285943" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#285943" stopOpacity="0.0" />
             </linearGradient>
           </defs>
 
           {/* Grid lines */}
-          <line x1="10" y1="20" x2={svgWidth - 10} y2="20" stroke="#27272a" strokeDasharray="3 3" />
-          <line x1="10" y1="60" x2={svgWidth - 10} y2="60" stroke="#27272a" strokeDasharray="3 3" />
-          <line x1="10" y1="100" x2={svgWidth - 10} y2="100" stroke="#27272a" strokeDasharray="3 3" />
+          <line x1="10" y1="20" x2={svgWidth - 10} y2="20" stroke="#E5E2D9" strokeDasharray="3 3" />
+          <line x1="10" y1="60" x2={svgWidth - 10} y2="60" stroke="#E5E2D9" strokeDasharray="3 3" />
+          <line x1="10" y1="100" x2={svgWidth - 10} y2="100" stroke="#E5E2D9" strokeDasharray="3 3" />
 
           {/* Area fill */}
           <path d={areaD} fill="url(#areaGlow)" />
 
           {/* Line path */}
-          <path d={pathD} fill="none" stroke="#f59e0b" strokeWidth="3" strokeLinecap="round" />
+          <path d={pathD} fill="none" stroke="#285943" strokeWidth="3" strokeLinecap="round" />
 
           {/* Data Points */}
           {coords.map((c, i) => (
             <g key={i}>
-              <circle cx={c.x} cy={c.y} r="4" fill="#fbbf24" stroke="#18181b" strokeWidth="2" />
+              <circle cx={c.x} cy={c.y} r="4" fill="#C9A15B" stroke="#18332B" strokeWidth="2" />
               <text
                 x={c.x}
                 y={svgHeight}
                 textAnchor="middle"
-                fill="#a1a1aa"
+                fill="#6B766F"
                 fontSize="9"
                 fontWeight="bold"
               >
