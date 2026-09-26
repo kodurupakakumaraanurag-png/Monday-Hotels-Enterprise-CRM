@@ -26,6 +26,9 @@ import {
   ChevronRight,
   Sparkles,
   Search,
+  Printer,
+  Mail,
+  FileCode,
 } from "lucide-react";
 import {
   ReportTab,
@@ -39,12 +42,22 @@ import {
   getSalesExecutiveAnalytics,
   exportToCSV,
 } from "@/lib/services/analytics-service";
+import {
+  exportToExcel,
+  ReportMetricSummary,
+} from "@/lib/services/report-export-service";
 import { getRetentionDashboardOverview } from "@/lib/services/guest-retention-service";
 import { getUsers } from "@/lib/services/user-service";
 import { SimpleBarChart, FunnelVisualizationChart, SimpleLineAreaChart } from "@/components/analytics/report-charts";
+import { PDFReportPreviewModal } from "@/components/analytics/pdf-report-preview-modal";
+import { EmailDigestModal } from "@/components/analytics/email-digest-modal";
 
 export default function ReportsPage() {
   const [activeTab, setActiveTab] = useState<ReportTab>("LEAD_PERFORMANCE");
+
+  // Export Modals State
+  const [isPDFModalOpen, setIsPDFModalOpen] = useState<boolean>(false);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState<boolean>(false);
 
   // Global Filter State
   const [filters, setFilters] = useState<AnalyticsFilterOptions>({
@@ -81,6 +94,148 @@ export default function ReportsPage() {
   const retentionOverview = useMemo(() => getRetentionDashboardOverview(), []);
   const propertyAnalytics = useMemo(() => getPropertyPerformanceAnalytics(filters), [filters]);
   const execAnalytics = useMemo(() => getSalesExecutiveAnalytics(filters), [filters]);
+
+  // Dynamic Metrics Summary & Table Payload for PDF / Excel / Email Digest
+  const activeReportExportData = useMemo(() => {
+    let title = "Lead Performance Report";
+    let metrics: ReportMetricSummary[] = [];
+    let headers: string[] = [];
+    let rows: (string | number)[][] = [];
+
+    if (activeTab === "LEAD_PERFORMANCE") {
+      title = "Lead Acquisition & Qualification Report";
+      metrics = [
+        { label: "Total Leads", value: leadAnalytics.totalLeads, subtext: "Acquired leads" },
+        { label: "Qualified Leads", value: leadAnalytics.qualifiedCount, subtext: "Passed SLA scoring" },
+        { label: "Qualification Rate", value: leadAnalytics.qualificationRate },
+        { label: "Conversion Rate", value: leadAnalytics.conversionRate, subtext: "Won confirmed deals" },
+      ];
+      headers = ["ID", "Lead / Poc Name", "Company", "Target Property", "Source", "Status", "Est Value (₹)", "Created"];
+      rows = leadAnalytics.leads.map((l) => [
+        l.id,
+        l.contactPocName,
+        l.companyName || "-",
+        l.targetProperty || l.placementOpportunity || "-",
+        l.leadSource,
+        l.pipelineStatus,
+        `₹${(l.estimatedValue || 0).toLocaleString()}`,
+        l.dateAdded || "-",
+      ]);
+    } else if (activeTab === "SALES_PIPELINE") {
+      title = "8-Stage Sales Pipeline Analytics";
+      metrics = [
+        { label: "Active Deals", value: pipelineAnalytics.totalCount },
+        { label: "Total Pipeline Value", value: `₹${pipelineAnalytics.totalPipelineValue.toLocaleString()}` },
+        { label: "Weighted Value", value: `₹${pipelineAnalytics.weightedPipelineValue.toLocaleString()}` },
+        { label: "Win Rate", value: pipelineAnalytics.conversionRate },
+      ];
+      headers = ["Stage", "Opportunity Count", "Pipeline Value (₹)", "Share (%)"];
+      rows = pipelineAnalytics.stageBreakdown.map((s) => [
+        s.stage,
+        s.count,
+        `₹${s.value.toLocaleString()}`,
+        s.percentage,
+      ]);
+    } else if (activeTab === "BOOKING_CONVERSION") {
+      title = "Booking Enquiry Conversion Intelligence";
+      metrics = [
+        { label: "Total Enquiries", value: conversionAnalytics.totalEnquiries },
+        { label: "Converted Bookings", value: conversionAnalytics.convertedEnquiries },
+        { label: "Overall Conversion Rate", value: conversionAnalytics.conversionRate },
+        { label: "Lost / Expired", value: conversionAnalytics.lostEnquiries },
+      ];
+      headers = ["Property", "Total Enquiries", "Converted", "Conversion Rate"];
+      rows = conversionAnalytics.propertyBreakdown.map((p) => [p.property, p.total, p.converted, p.rate]);
+    } else if (activeTab === "RESERVATION_PERFORMANCE") {
+      const confirmedCount = reservationAnalytics.reservations.filter((r) => r.reservationStatus === "CONFIRMED").length;
+      const checkedInCount = reservationAnalytics.reservations.filter((r) => r.reservationStatus === "CHECKED_IN").length;
+      title = "Reservation Yield & Room Night Analysis";
+      metrics = [
+        { label: "Total Reservations", value: reservationAnalytics.totalReservations },
+        { label: "Confirmed Bookings", value: confirmedCount },
+        { label: "Checked-In", value: checkedInCount },
+        { label: "Gross Value", value: `₹${reservationAnalytics.totalRevenue.toLocaleString()}` },
+      ];
+      headers = ["Reservation #", "Guest Name", "Property", "Room", "Check-In", "Check-Out", "Status", "Amount (₹)"];
+      rows = reservationAnalytics.reservations.map((r) => [
+        r.reservationNumber,
+        r.guest,
+        r.property,
+        r.room,
+        r.checkIn,
+        r.checkOut,
+        r.reservationStatus,
+        `₹${r.totalAmount.toLocaleString()}`,
+      ]);
+    } else if (activeTab === "REVENUE") {
+      title = "Enterprise Revenue Intelligence & Yield";
+      metrics = [
+        { label: "Total Portfolio Revenue", value: `₹${revenueAnalytics.netRevenue.toLocaleString()}` },
+        { label: "Gross Revenue", value: `₹${revenueAnalytics.grossRevenue.toLocaleString()}` },
+        { label: "Avg Daily Rate (ADR)", value: `₹${reservationAnalytics.adr.toLocaleString()}` },
+        { label: "Portfolio RevPAR", value: `₹${reservationAnalytics.revPar.toLocaleString()}` },
+      ];
+      headers = ["Property", "Net Revenue (₹)", "Portfolio Share (%)"];
+      rows = revenueAnalytics.propertyRevenue.map((pr) => [pr.property, `₹${pr.revenue.toLocaleString()}`, pr.percentage]);
+    } else if (activeTab === "GUEST_RETENTION") {
+      const vipCount = retentionOverview.segmentCards.find((c) => c.label.includes("VIP") || c.segment === "HIGH_VALUE")?.count || 0;
+      title = "Guest 360 Lifetime Value & Retention Report";
+      metrics = [
+        { label: "Total Tracked Profiles", value: retentionOverview.totalGuests },
+        { label: "VIP High Value Guests", value: vipCount },
+        { label: "Repeat Guest Ratio", value: retentionOverview.repeatBookingRate },
+        { label: "Avg LTV", value: `₹${retentionOverview.estimatedLTV.toLocaleString()}` },
+      ];
+      headers = ["Guest Name", "Email", "Total Stays", "Nights", "Total Spend (₹)", "Avg Booking (₹)", "Segments"];
+      rows = (retentionOverview.intelligence || []).map((g) => [
+        g.guestName,
+        g.email,
+        g.totalStays,
+        g.totalNights,
+        `₹${g.totalSpending.toLocaleString()}`,
+        `₹${g.averageBookingValue.toLocaleString()}`,
+        g.segments.join(", "),
+      ]);
+    } else if (activeTab === "PROPERTY_PERFORMANCE") {
+      title = "Hotel Property Yield & Performance Benchmark";
+      metrics = [
+        { label: "Properties Monitored", value: propertyAnalytics.length },
+        { label: "Total Room Nights", value: propertyAnalytics.reduce((acc, p) => acc + p.roomNights, 0) },
+        { label: "Portfolio Gross Revenue", value: `₹${propertyAnalytics.reduce((acc, p) => acc + p.revenue, 0).toLocaleString()}` },
+      ];
+      headers = ["Property Name", "Leads", "Enquiries", "Bookings", "Room Nights", "Revenue (₹)", "ADR (₹)", "RevPAR (₹)"];
+      rows = propertyAnalytics.map((p) => [
+        p.propertyName,
+        p.leadCount,
+        p.enquiryCount,
+        p.reservationCount,
+        p.roomNights,
+        `₹${p.revenue.toLocaleString()}`,
+        `₹${p.adr.toLocaleString()}`,
+        `₹${p.revpar.toLocaleString()}`,
+      ]);
+    } else if (activeTab === "SALES_EXEC_PERFORMANCE") {
+      title = "Sales Executive Deal Pipeline & Performance Leaderboard";
+      metrics = [
+        { label: "Sales Executives", value: execAnalytics.length },
+        { label: "Closed Revenue", value: `₹${execAnalytics.reduce((acc: number, e: any) => acc + e.closedRevenue, 0).toLocaleString()}` },
+        { label: "Weighted Pipeline", value: `₹${execAnalytics.reduce((acc: number, e: any) => acc + e.weightedPipeline, 0).toLocaleString()}` },
+      ];
+      headers = ["Executive Name", "Role", "Leads", "Opps", "Won Deals", "Win Rate", "Closed Revenue (₹)", "Weighted Pipeline (₹)"];
+      rows = execAnalytics.map((e: any) => [
+        e.name,
+        e.role,
+        e.totalLeads,
+        e.totalOpps,
+        e.wonDeals,
+        e.winRate,
+        `₹${e.closedRevenue.toLocaleString()}`,
+        `₹${e.weightedPipeline.toLocaleString()}`,
+      ]);
+    }
+
+    return { title, metrics, headers, rows };
+  }, [activeTab, leadAnalytics, pipelineAnalytics, conversionAnalytics, reservationAnalytics, revenueAnalytics, retentionOverview, propertyAnalytics, execAnalytics]);
 
   // Handle Export CSV based on active tab
   const handleExportTabCSV = () => {
@@ -173,6 +328,16 @@ export default function ReportsPage() {
     }
   };
 
+  // Handle Export Excel (.xls)
+  const handleExportTabExcel = () => {
+    try {
+      const { title, headers, rows } = activeReportExportData;
+      exportToExcel(`monday-hotels-${activeTab.toLowerCase()}-${filters.dateRange}`, title, headers, rows);
+    } catch (err) {
+      setErrorMsg("Failed to generate Excel export.");
+    }
+  };
+
   const reportTabs: { id: ReportTab; label: string }[] = [
     { id: "LEAD_PERFORMANCE", label: "1. Lead Performance" },
     { id: "SALES_PIPELINE", label: "2. Sales Pipeline" },
@@ -187,7 +352,7 @@ export default function ReportsPage() {
   return (
     <div className="p-6 space-y-6 max-w-[1600px] mx-auto text-stone-100">
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-stone-800 pb-5">
+      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 border-b border-stone-800 pb-5">
         <div>
           <div className="flex items-center space-x-3 mb-1">
             <div className="p-2 bg-amber-500/10 border border-amber-500/30 rounded-lg text-amber-400">
@@ -202,13 +367,40 @@ export default function ReportsPage() {
           </p>
         </div>
 
-        <button
-          onClick={handleExportTabCSV}
-          className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-500 text-stone-950 font-semibold rounded-lg text-sm shadow-lg shadow-amber-500/20 transition"
-        >
-          <FileSpreadsheet className="w-4 h-4" />
-          <span>Export Active Report (CSV)</span>
-        </button>
+        {/* Enhanced Export Controls Toolbar */}
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={() => setIsPDFModalOpen(true)}
+            className="flex items-center space-x-1.5 px-3.5 py-2 bg-stone-900 border border-stone-800 hover:bg-stone-800 text-amber-400 font-bold rounded-xl text-xs transition shadow"
+          >
+            <Printer className="w-4 h-4" />
+            <span>Print / PDF</span>
+          </button>
+
+          <button
+            onClick={handleExportTabExcel}
+            className="flex items-center space-x-1.5 px-3.5 py-2 bg-stone-900 border border-stone-800 hover:bg-stone-800 text-emerald-400 font-bold rounded-xl text-xs transition shadow"
+          >
+            <FileCode className="w-4 h-4" />
+            <span>Excel (.xls)</span>
+          </button>
+
+          <button
+            onClick={handleExportTabCSV}
+            className="flex items-center space-x-1.5 px-3.5 py-2 bg-stone-900 border border-stone-800 hover:bg-stone-800 text-cyan-400 font-bold rounded-xl text-xs transition shadow"
+          >
+            <FileSpreadsheet className="w-4 h-4" />
+            <span>CSV</span>
+          </button>
+
+          <button
+            onClick={() => setIsEmailModalOpen(true)}
+            className="flex items-center space-x-2 px-4 py-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-extrabold rounded-xl text-xs shadow-lg shadow-amber-500/20 transition"
+          >
+            <Mail className="w-4 h-4" />
+            <span>Email Digest Scheduler</span>
+          </button>
+        </div>
       </div>
 
       {/* Report Type Selector Tabs */}
@@ -784,6 +976,31 @@ export default function ReportsPage() {
           )}
         </>
       )}
+
+      {/* Print & PDF Preview Customizer Modal */}
+      <PDFReportPreviewModal
+        isOpen={isPDFModalOpen}
+        onClose={() => setIsPDFModalOpen(false)}
+        reportData={{
+          title: activeReportExportData.title,
+          subtitle: `Monday Hotels Enterprise CRM - Filter Range: ${filters.dateRange}`,
+          dateRange: filters.dateRange,
+          generatedBy: "System Executive Administrator",
+          metrics: activeReportExportData.metrics,
+          tableHeaders: activeReportExportData.headers,
+          tableRows: activeReportExportData.rows,
+        }}
+      />
+
+      {/* Automated Email Digest Scheduler Modal */}
+      <EmailDigestModal
+        isOpen={isEmailModalOpen}
+        onClose={() => setIsEmailModalOpen(false)}
+        activeTabTitle={activeReportExportData.title}
+        metrics={activeReportExportData.metrics}
+        tableHeaders={activeReportExportData.headers}
+        tableRows={activeReportExportData.rows}
+      />
     </div>
   );
 }
